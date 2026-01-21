@@ -1,5 +1,5 @@
 import { STUDENTS, ATTENDANCE, TASKS, FLAGGED_STUDENTS } from '@/data/mockData';
-import { FlaggedStudent, Task, AttendanceRecord } from '@/types';
+import type { FlaggedStudent, Task, AttendanceRecord } from '@/types';
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

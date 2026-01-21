@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Environment files
+.env
+.env.local
+.env.*.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,24 +27,18 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.agent
-.cursor
-.windsurfrules
-.windsurf
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
-AGENT.md
-GEMINI.md
-CURSOR.md
-CODE.md
-
-pnpm-lock.yaml
-pnpm-workspace.yaml
+# lock files
 package-lock.json
 yarn.lock
+pnpm-lock.yaml
+pnpm-workspace.yaml
 
-commit-message.txt
+# build output
+/build
+/.next
+/out
+/.nuxt
+/.vuepress/dist
+/.serverless
+/.vercel/output

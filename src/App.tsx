@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from '@/pages/login/LoginPage';
-import RegistrationPage from '@/pages/registration/RegistrationPage';
-import StudentDashboard from '@/pages/student/StudentDashboard';
-import AdminDashboard from '@/pages/admin/overview/AdminDashboard';
-import AdminStudents from '@/pages/admin/student/AdminStudents';
-import AdminAnalytics from '@/pages/admin/analytic/AdminAnalytics';
-import AdminTasks from '@/pages/admin/task/AdminTasks';
-import AdminSettingsGeneral from '@/pages/admin/settings/AdminSettingsGeneral';
-import AdminSettingsAuth from '@/pages/admin/settings/AdminSettingsAuth';
-import AdminSettingsAttendance from '@/pages/admin/settings/AdminSettingsAttendance';
-import AdminSettingsTeam from '@/pages/admin/settings/AdminSettingsTeam';
-import { ToastProvider, useToast } from '@/context/ToastContext';
-import { ToastContainer } from '@/components/shared/ToastContainer';
+import LoginPage from '@/features/auth/pages/LoginPage';
+import RegistrationPage from '@/features/auth/pages/RegistrationPage';
+import StudentDashboard from '@/features/student/pages/StudentDashboard';
+import AdminDashboard from '@/features/admin/pages/AdminDashboard';
+import AdminStudents from '@/features/admin/pages/AdminStudents';
+import AdminAnalytics from '@/features/admin/pages/AdminAnalytics';
+import AdminTasks from '@/features/admin/pages/AdminTasks';
+import AdminSettingsGeneral from '@/features/admin/pages/AdminSettingsGeneral';
+import AdminSettingsAuth from '@/features/admin/pages/AdminSettingsAuth';
+import AdminSettingsAttendance from '@/features/admin/pages/AdminSettingsAttendance';
+import AdminSettingsTeam from '@/features/admin/pages/AdminSettingsTeam';
+import { useToast } from '@/components/ui/use-toast';
+import { Toaster } from '@/components/ui/sonner';
 
 const MainContent: React.FC = () => {
   const { addToast } = useToast();
@@ -69,10 +69,10 @@ const MainContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <ToastProvider>
+    <>
       <MainContent />
-      <ToastContainer />
-    </ToastProvider>
+      <Toaster />
+    </>
   );
 };
 

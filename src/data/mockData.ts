@@ -1,5 +1,5 @@
 
-import { FlaggedStudent, Task, AttendanceRecord } from '@/types';
+import type { FlaggedStudent, Task, AttendanceRecord } from '@/types';
 
 export const STUDENTS: unknown[] = [
   { 

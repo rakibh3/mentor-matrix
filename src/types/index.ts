@@ -1,14 +1,10 @@
+// Re-export all types from feature folders for backward compatibility
+
+// Admin types
+export type { BaseStudent, Student, FlaggedStudent, AdminStudent, RiskLevel } from '@/features/admin/types/student';
+export type { CallOutcome, CallRecord } from '@/features/admin/types/call';
+export type { Task } from '@/features/admin/types/task';
+export type { AnalyticsData } from '@/features/admin/types/analytics';
+
 // Student types
-export type { Student, FlaggedStudent, RiskLevel } from './student';
-
-// Call types
-export type { CallOutcome, CallRecord } from './call';
-
-// Attendance types
-export type { AttendanceRecord } from './attendance';
-
-// Task types
-export type { Task } from './task';
-
-// Analytics types
-export type { AnalyticsData } from './analytics';
+export type { AttendanceRecord } from '@/features/student/types/attendance';

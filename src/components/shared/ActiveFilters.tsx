@@ -1,5 +1,7 @@
 import React from 'react';
 import { Icon } from '@/constants';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 export interface FilterItem {
   key: string;
@@ -31,32 +33,32 @@ export const ActiveFilters: React.FC<ActiveFiltersProps> = ({
       {activeFilters.map((filter) => {
         const isPrimary = filter.variant === 'primary';
         return (
-          <div 
+          <Badge 
             key={filter.key}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-full group ${
-              isPrimary 
-                ? 'bg-primary/10 border border-primary/20 text-primary' 
-                : 'bg-white/5 border border-white/10 text-text-secondary'
-            }`}
+            variant={isPrimary ? 'primary' : 'default'}
+            className="py-1.5 group"
           >
             <span className="text-xs font-black uppercase tracking-tight">
               {filter.label}
             </span>
-            <button 
+            <Button 
+              variant="ghost"
+              size="icon"
               onClick={() => onRemoveFilter(filter.key)} 
-              className="hover:text-white transition-colors"
+              className="size-5 p-0 hover:text-white"
             >
               <Icon name="close" className="text-sm" />
-            </button>
-          </div>
+            </Button>
+          </Badge>
         );
       })}
-      <button 
+      <Button 
+        variant="link"
         onClick={onClearAll}
-        className="text-xs font-black text-red-500/70 hover:text-red-500 uppercase tracking-widest ml-auto underline underline-offset-4 transition-colors"
+        className="text-xs font-black text-red-500/70 hover:text-red-500 uppercase tracking-widest ml-auto underline underline-offset-4 p-0 h-auto"
       >
         Clear All
-      </button>
+      </Button>
     </div>
   );
 };
