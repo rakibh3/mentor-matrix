@@ -7,8 +7,11 @@ import '@fontsource/inter/900.css';
 import 'material-symbols/outlined.css';
 import './index.css';
 import ReactDOM from 'react-dom/client';
-import App from '@/App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RouterProvider } from 'react-router-dom';
+import { Toaster } from '@/components/ui';
+import { AuthProvider } from '@/context/AuthProvider';
+import { router } from '@/routes';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +31,10 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <AuthProvider>
+        <RouterProvider router={router} />
+        <Toaster />
+      </AuthProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

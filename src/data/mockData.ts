@@ -1,5 +1,5 @@
 
-import type { FlaggedStudent, Task, AttendanceRecord } from '@/types';
+import type { FlaggedStudent, Task } from '@/types';
 
 export const STUDENTS: unknown[] = [
   { 
@@ -72,28 +72,6 @@ export const STUDENTS: unknown[] = [
   }
 ];
 
-export const ATTENDANCE: AttendanceRecord[] = [
-  { "date": "Oct 24, 2023", "module": "React Basics", "topic": "Vid 12: Components", "status": "Present" },
-  { "date": "Oct 23, 2023", "module": "React Basics", "topic": "Vid 11: JSX", "status": "Present" },
-  { "date": "Oct 22, 2023", "module": "JS Advanced", "topic": "Vid 09: Async/Await", "status": "Absent" },
-  { "date": "Oct 21, 2023", "module": "JS Advanced", "topic": "Vid 08: Promises", "status": "Present" },
-  { "date": "Oct 20, 2023", "module": "JS Advanced", "topic": "Vid 07: ES6 Classes", "status": "Present" },
-  { "date": "Oct 19, 2023", "module": "Web Fund.", "topic": "Vid 06: Flexbox", "status": "Present" },
-  { "date": "Oct 18, 2023", "module": "Web Fund.", "topic": "Vid 05: CSS Grid", "status": "Absent" },
-  { "date": "Oct 17, 2023", "module": "Web Fund.", "topic": "Vid 04: HTML5 Semantic", "status": "Present" },
-  { "date": "Oct 16, 2023", "module": "Web Fund.", "topic": "Vid 03: Selectors", "status": "Present" },
-  { "date": "Oct 15, 2023", "module": "Intro", "topic": "Vid 02: Dev Environment", "status": "Present" },
-  { "date": "Oct 14, 2023", "module": "Intro", "topic": "Vid 01: Onboarding", "status": "Present" },
-  { "date": "Oct 13, 2023", "module": "Setup", "topic": "Vid 00: Software Install", "status": "Present" },
-  { "date": "Oct 12, 2023", "module": "Planning", "topic": "Roadmap Review", "status": "Present" },
-  { "date": "Oct 11, 2023", "module": "Planning", "topic": "Agile Basics", "status": "Absent" },
-  { "date": "Oct 10, 2023", "module": "Planning", "topic": "Git Workflow", "status": "Present" },
-  { "date": "Oct 09, 2023", "module": "Design", "topic": "Figma for Devs", "status": "Present" },
-  { "date": "Oct 08, 2023", "module": "Design", "topic": "UI/UX Principles", "status": "Present" },
-  { "date": "Oct 07, 2023", "module": "Design", "topic": "Color Theory", "status": "Present" },
-  { "date": "Oct 06, 2023", "module": "Soft Skills", "topic": "Communication", "status": "Present" },
-  { "date": "Oct 05, 2023", "module": "Soft Skills", "topic": "Time Management", "status": "Present" }
-];
 
 export const TASKS: Task[] = [
   { "id": "10", "mission": 8, "moduleNumber": 5, "guideline": "Advanced Redux Toolkit and Query patterns", "dueDate": "2023-10-29" },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '@/constants';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Badge, Button } from '@/components/ui';
+
 
 export interface FilterItem {
   key: string;

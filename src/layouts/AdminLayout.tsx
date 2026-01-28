@@ -2,15 +2,10 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Icon } from '@/constants';
-import { Button } from '@/components/ui/button';
-import { IconAvatar } from '@/components/ui/icon-avatar';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { tabsNavStyles } from '@/components/ui/tabs';
+import { Button, IconAvatar, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, tabsNavStyles } from '@/components/ui';
+
+
+
 
 interface AdminSidebarProps {
   onLogout: () => void;

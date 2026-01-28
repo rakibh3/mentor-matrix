@@ -34,7 +34,7 @@ function SelectTrigger({
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       className={cn(
-        "flex w-full items-center justify-between gap-3 rounded-xl border border-card-border/60 bg-surface-dark/40 h-14 px-5 text-sm font-bold uppercase tracking-widest text-white transition-all outline-none",
+        "flex w-full items-center justify-between gap-3 rounded-xl border border-card-border/60 bg-surface-dark/40 min-h-[3.5rem] h-auto py-3 px-5 text-sm font-bold uppercase tracking-widest text-white transition-all outline-none",
         "hover:border-primary/50",
         "focus:border-primary focus:ring-1 focus:ring-primary/30",
         "data-[placeholder]:text-gray-600",
@@ -44,8 +44,8 @@ function SelectTrigger({
       )}
       {...props}
     >
-      <div className="flex items-center gap-3">
-        {icon && <Icon name={icon} className="text-xl text-gray-500 group-data-[state=open]:text-primary" />}
+      <div className="flex items-center gap-3 text-left leading-tight whitespace-normal break-words">
+        {icon && <Icon name={icon} className="text-xl text-gray-500 group-data-[state=open]:text-primary shrink-0" />}
         {children}
       </div>
       <SelectPrimitive.Icon asChild>
