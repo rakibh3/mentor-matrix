@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Icon } from '@/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -47,15 +48,26 @@ export const AttendanceForm: React.FC<AttendanceFormProps> = ({ isLoaded, userId
     const moduleMatch = data.selectedModule.match(/Module (\d+)/);
     const moduleNumber = moduleMatch ? parseInt(moduleMatch[1]) : 4;
 
+    if (!userId) {
+      addToast({
+        type: 'error',
+        title: 'Authentication Error',
+        message: 'Your student identity could not be verified. Please log in again.',
+      });
+      return;
+    }
+
     // Prepare the request payload based on API spec
     const attendanceData = {
-      student: userId,
+      studentID: userId,
       status: 'ATTENDED' as const,
       mission: 1, // Default mission, adjust as needed
       module: moduleNumber,
       moduleVideo: parseInt(data.videoNumber),
       note: data.note,
     };
+
+    console.log(attendanceData);
 
     markAttendance(attendanceData, {
       onSuccess: (response) => {

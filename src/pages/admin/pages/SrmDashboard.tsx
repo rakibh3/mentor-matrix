@@ -30,6 +30,10 @@ const SrmDashboard: React.FC = () => {
     queryFn: getSrmAttendance,
   });
 
+  // Debug logging
+  console.log('SRM Dashboard - Attendance Response:', attendanceResponse);
+  console.log('SRM Dashboard - User:', user);
+
   // Filters and Searching State
   const [searchQuery, setSearchQuery] = useState('');
   const [assignmentFilter, setAssignmentFilter] = useState('Assignments');
@@ -117,6 +121,13 @@ const SrmDashboard: React.FC = () => {
     setSelectedIds([]);
   };
 
+  const handleBulkAssignToCampaign = () => {
+    // Use the active campaign as the default allocation
+    if (activeCampaign !== 'all') {
+      handleAllocateToCampaign(activeCampaign);
+    }
+  };
+
   const handleBulkEmail = () => {
     const studentsToEmail = assignedStudents.filter((s: any) =>
       selectedIds.includes(s.email || s._id)
@@ -152,23 +163,10 @@ const SrmDashboard: React.FC = () => {
   const assignedStudents = useMemo(() => {
     const data = (attendanceResponse?.data as any) || [];
     if (!user) return [];
-    const userId = (user as any)._id || (user as any)._id || (user as any).email;
 
-    // Use the authenticated user's ID as the target SRM ID
-    const targetSrmId = userId;
-
-    // robustly filter students assigned to this SRM (handling both populated objects and ID strings)
-    const filtered = data.filter((s: any) => {
-      const assignedId = s.assignedSrmId?._id || s.assignedSrmId;
-      return String(assignedId) === String(targetSrmId);
-    });
-
-    // If no data from API
-    if (filtered.length === 0 && data.length === 0) {
-      return [];
-    }
-
-    return filtered.map((s: any) => {
+    // Backend already filters students by assignedSrmId, so we don't need to filter again
+    // Just map the data to the format we need
+    return data.map((s: any) => {
       const userInfo = s.userId || {};
       const name = s.name || userInfo.name || 'Unknown';
       const email = s.email || userInfo.email || '';
@@ -402,10 +400,11 @@ const SrmDashboard: React.FC = () => {
       {(selectedIds.length > 0 || hasActiveFilters) && (
         <BulkActionBar
           selectedCount={selectedIds.length}
-          onAllocate={handleAllocateToCampaign}
-          onBulkEmail={handleBulkEmail}
+          onAssignSRM={handleBulkAssignToCampaign}
+          onSendEmail={handleBulkEmail}
           onExport={handleExport}
-          onClear={() => setSelectedIds([])}
+          onClearSelection={() => setSelectedIds([])}
+          isVisible={selectedIds.length > 0 || hasActiveFilters}
         />
       )}
 

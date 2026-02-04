@@ -13,7 +13,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (savedUser && token) {
       try {
-        return JSON.parse(savedUser);
+        const parsedUser = JSON.parse(savedUser);
+        // Ensure both _id and id are present for compatibility
+        if (parsedUser.id && !parsedUser._id) parsedUser._id = parsedUser.id;
+        if (parsedUser._id && !parsedUser.id) parsedUser.id = parsedUser._id;
+        return parsedUser;
       } catch (error) {
         console.error('Failed to parse saved user data', error);
         Cookies.remove('user_data', { path: '/' });
@@ -26,9 +30,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isLoading = false;
 
   const login = useCallback((token: string, userData: User) => {
+    // Ensure both _id and id are present
+    const normalizedUser = { ...userData };
+    if (normalizedUser.id && !normalizedUser._id) normalizedUser._id = normalizedUser.id;
+    if (normalizedUser._id && !normalizedUser.id) normalizedUser.id = normalizedUser._id;
+
     Cookies.set('token', token, { expires: 7, path: '/' });
-    Cookies.set('user_data', JSON.stringify(userData), { expires: 7, path: '/' });
-    setUser(userData);
+    Cookies.set('user_data', JSON.stringify(normalizedUser), { expires: 7, path: '/' });
+    setUser(normalizedUser);
   }, []);
 
   const logout = useCallback(() => {

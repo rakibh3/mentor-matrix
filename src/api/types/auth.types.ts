@@ -10,6 +10,7 @@ export interface User {
   discordUsername?: string;
   phone?: string;
   _id?: string;
+  id?: string;
   smtpConfig?: {
     appPassword?: string;
   };

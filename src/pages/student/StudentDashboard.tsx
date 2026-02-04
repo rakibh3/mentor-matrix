@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useMemo, useState } from 'react';
 import { Icon } from '@/constants';
 
@@ -31,11 +32,15 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ user, onLogout }) =
   const { data: upcomingTasksData, isLoading: isUpcomingTaskLoading } = useUpcomingTask();
   const { data: dueTasksData, isLoading: isDueTaskLoading } = useDueTasks();
 
-  const yesterdayTasks = Array.isArray(dueTasksData?.data)
-    ? dueTasksData.data
-    : dueTasksData?.data
-      ? [dueTasksData.data]
-      : [];
+  const yesterdayTasks = useMemo(
+    () =>
+      Array.isArray(dueTasksData?.data)
+        ? dueTasksData.data
+        : dueTasksData?.data
+          ? [dueTasksData.data]
+          : [],
+    [dueTasksData]
+  );
 
   const todayTasks = Array.isArray(currentTasksData?.data)
     ? currentTasksData.data
@@ -235,7 +240,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ user, onLogout }) =
 
           <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
             <div className="flex flex-col items-stretch lg:col-span-8">
-              <AttendanceForm userId={user.id || ''} isLoaded={isLoaded} className="flex-1" />
+              <AttendanceForm userId={user._id || user.id || ''} isLoaded={isLoaded} className="flex-1" />
             </div>
 
             <div

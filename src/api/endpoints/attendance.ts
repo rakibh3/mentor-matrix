@@ -12,7 +12,6 @@ import type {
 export const markAttendance = async (
   data: MarkAttendanceRequest
 ): Promise<MarkAttendanceResponse> => {
-  console.log(data);
   const response = await apiClient.post<MarkAttendanceResponse>('/create-attendance', data);
   return response.data;
 };

@@ -70,7 +70,13 @@ const AdminStudents: React.FC = () => {
             'Dec',
           ];
           const dateStr = `${d.getDate()}${months[d.getMonth()]}`;
-          return { present: a.status === 'ATTENDED', date: dateStr };
+          return {
+            present: a.status === 'ATTENDED',
+            date: dateStr,
+            module: a.module,
+            moduleVideo: a.moduleVideo,
+            note: a.note,
+          };
         })
         .reverse(); // Left to right: oldest to newest (last 6)
 
@@ -94,6 +100,7 @@ const AdminStudents: React.FC = () => {
         callCount: 0,
         callHistory: [],
         isBlocked: false,
+        assignedSrmId: user.assignedSrmId, // Include SRM assignment info
       } as AdminStudent;
     });
   }, [attendanceResponse]);

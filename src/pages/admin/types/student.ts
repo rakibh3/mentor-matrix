@@ -55,4 +55,5 @@ export interface AdminStudent {
   callHistory: CallRecord[];
   isBlocked?: boolean;
   reason?: string; // Optional reason field for flagged students
+  assignedSrmId?: string | { _id: string; name: string; email: string }; // SRM assignment (can be populated or just ID)
 }

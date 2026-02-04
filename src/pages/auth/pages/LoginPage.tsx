@@ -98,15 +98,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         // Decode token to extract role
         const decoded: any = jwtDecode(accessToken);
         const userRole = (decoded.role || 'student').toLowerCase() as any;
-        console.log('User Role', userRole);
-        console.log('User Data', userData);
 
         login(accessToken, {
-          id: userData._id,
+          _id: userData._id,
           name: userData.name,
           email: userData.email,
           discord: userData.discordUsername,
-          role: userRole,
+          role: userData.role || userRole,
         });
 
         addToast({
@@ -149,7 +147,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     // Set demo cookie for development/testing if needed
     if (import.meta.env.DEV) {
       login('demo-token', {
-        id: type === 'admin' ? 'admin-id' : type === 'srm' ? 'srm-id' : 'student-id',
+        _id: type === 'admin' ? 'admin-id' : type === 'srm' ? 'srm-id' : 'student-id',
         name: type === 'admin' ? 'Admin User' : type === 'srm' ? 'SRM Manager' : 'Alex Johnson',
         email: demoEmail,
         role: type,

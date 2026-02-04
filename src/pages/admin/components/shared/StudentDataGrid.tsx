@@ -159,6 +159,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                   )}
                 </TableHead>
                 <TableHead className="py-5 tracking-widest">Contact Details</TableHead>
+                <TableHead className="py-5 tracking-widest">Assigned To</TableHead>
                 <TableHead className="py-5 tracking-widest">Assignments</TableHead>
                 <TableHead className="py-5 tracking-widest">Attendance</TableHead>
                 <TableHead className="py-5 tracking-widest">Status</TableHead>
@@ -226,7 +227,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                                   : 'bg-background-dark/60 text-text-secondary group-hover/student:text-primary group-hover/student:bg-primary/5'
                             }`}
                           >
-                            {s.name[0]}
+                            {(s.name || 'U')[0]}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col">
@@ -293,6 +294,42 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                       </div>
                     </TableCell>
 
+                    {/* Assigned To Column */}
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        {s.assignedSrmId ? (
+                          <>
+                            <Icon
+                              name="person"
+                              className="text-primary text-sm"
+                            />
+                            <div className="flex flex-col">
+                              <span className="text-sm font-bold text-white">
+                                {typeof s.assignedSrmId === 'object' && s.assignedSrmId?.name
+                                  ? s.assignedSrmId.name
+                                  : 'SRM'}
+                              </span>
+                              {typeof s.assignedSrmId === 'object' && s.assignedSrmId?.email && (
+                                <span className="text-[10px] text-text-secondary/70">
+                                  {s.assignedSrmId.email}
+                                </span>
+                              )}
+                            </div>
+                          </>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <Icon
+                              name="person_off"
+                              className="text-gray-500 text-sm"
+                            />
+                            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Unassigned
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </TableCell>
+
                     {/* Submissions Column */}
                     <TableCell>
                       <div className="w-fit rounded-xl border border-white/[0.05] bg-white/[0.03] p-1.5 shadow-inner">
@@ -329,7 +366,16 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                       <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-1.5 px-0.5">
                           {s.recentAttendance?.map(
-                            (record: { present: boolean; date: string }, idx: number) => (
+                            (
+                              record: {
+                                present: boolean;
+                                date: string;
+                                module?: number | string;
+                                moduleVideo?: number;
+                                note?: string;
+                              },
+                              idx: number
+                            ) => (
                               <Tooltip key={idx}>
                                 <TooltipTrigger asChild>
                                   <div
@@ -339,12 +385,36 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                                     )}
                                   />
                                 </TooltipTrigger>
-                                <TooltipContent
-                                  side="top"
-                                  className="px-2 py-1 text-[10px] font-bold"
-                                >
-                                  {record.date} • {record.present ? 'Attended' : 'Missed'}
-                                </TooltipContent>
+                                  <TooltipContent
+                                    side="top"
+                                    className="flex flex-col gap-1 px-3 py-2 text-[10px] font-bold"
+                                  >
+                                    <div className="flex items-center justify-between gap-4">
+                                      <span className="text-gray-400 uppercase">Session</span>
+                                      <span>{record.date}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between gap-4">
+                                      <span className="text-gray-400 uppercase">Status</span>
+                                      <span className={record.present ? 'text-primary' : 'text-red-400'}>
+                                        {record.present ? 'Attended' : 'Missed'}
+                                      </span>
+                                    </div>
+                                    {record.module !== undefined && (
+                                      <div className="flex items-center justify-between gap-4">
+                                        <span className="text-gray-400 uppercase">Module</span>
+                                        <span>
+                                          {record.module} (V-{record.moduleVideo || 0})
+                                        </span>
+                                      </div>
+                                    )}
+                                    {record.note && (
+                                      <div className="mt-1 max-w-[150px] border-t border-white/10 pt-1">
+                                        <p className="line-clamp-2 text-[9px] font-medium italic text-gray-300">
+                                          "{record.note}"
+                                        </p>
+                                      </div>
+                                    )}
+                                  </TooltipContent>
                               </Tooltip>
                             )
                           )}
@@ -383,7 +453,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                                 : 'border-white/10 bg-white/5 text-gray-400'
                           )}
                         >
-                          {s.status.toUpperCase()}
+                          {(s.status || 'Active').toUpperCase()}
                         </Badge>
                       )}
                     </TableCell>

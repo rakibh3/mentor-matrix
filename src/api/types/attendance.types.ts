@@ -20,7 +20,7 @@ export interface BackendAttendanceRecord {
 }
 
 export interface MarkAttendanceRequest {
-  student?: string;
+  studentID?: string;
   status: 'ATTENDED' | 'ABSENT';
   mission: number;
   module: number;
