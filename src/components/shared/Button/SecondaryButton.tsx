@@ -1,11 +1,13 @@
 import React from 'react';
-import { Button } from '@/components/ui';
+
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { Button } from '@/components/ui';
+
 import type { SecondaryButtonProps } from './types';
 
 /**
  * SecondaryButton - Pre-configured secondary/outline button
- * 
+ *
  * @example
  * <SecondaryButton onClick={handleCancel}>
  *   Cancel

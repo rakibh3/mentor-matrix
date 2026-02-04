@@ -1,9 +1,10 @@
 import { toast as sonnerToast } from 'sonner';
+
 import type { ToastOptions } from './types';
 
 /**
  * Enhanced toast utilities with simplified API
- * 
+ *
  * @example
  * toast.success('Operation completed successfully');
  * toast.error('An error occurred', 'Error');

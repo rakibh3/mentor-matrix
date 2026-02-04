@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { StudentDataGrid } from '@/pages/admin/components/shared/StudentDataGrid';
 
 interface StudentTableProps {
@@ -12,14 +13,28 @@ interface StudentTableProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onViewDetails: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onEditClick: (student: any) => void;
+  onEditClick?: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onDeleteClick: (student: any) => void;
+  onDeleteClick?: (student: any) => void;
   onToggleBlock: (email: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onLogCall: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onViewHistory: (student: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSendEmail?: (student: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onDiscordKick?: (student: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onDiscordBan?: (student: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSort?: (key: string) => void;
+  sortConfig?: any;
+  showSrmColumn?: boolean;
+  showSelection?: boolean;
+  selectedIds?: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSelectionChange?: (ids: string[]) => void;
 }
 
 export const StudentTable: React.FC<StudentTableProps> = ({
@@ -30,11 +45,16 @@ export const StudentTable: React.FC<StudentTableProps> = ({
   onPageChange,
   onToggleAssignment,
   onViewDetails,
-  onEditClick,
-  onDeleteClick,
   onToggleBlock,
   onLogCall,
   onViewHistory,
+  onSendEmail,
+  onDiscordKick,
+  onDiscordBan,
+  onSort,
+  sortConfig,
+  selectedIds,
+  onSelectionChange,
 }) => {
   return (
     <StudentDataGrid
@@ -45,11 +65,18 @@ export const StudentTable: React.FC<StudentTableProps> = ({
       onPageChange={onPageChange}
       onToggleAssignment={onToggleAssignment}
       onViewDetails={onViewDetails}
-      onEditClick={onEditClick}
-      onDeleteClick={onDeleteClick}
       onToggleBlock={onToggleBlock}
       onLogCall={onLogCall}
       onViewHistory={onViewHistory}
+      onSendEmail={onSendEmail}
+      onDiscordAction={(student, type) => {
+        if (type === 'kick') onDiscordKick?.(student);
+        if (type === 'ban') onDiscordBan?.(student);
+      }}
+      onSort={onSort}
+      sortConfig={sortConfig}
+      selectedIds={selectedIds}
+      onSelectionChange={onSelectionChange}
       idField="email"
     />
   );

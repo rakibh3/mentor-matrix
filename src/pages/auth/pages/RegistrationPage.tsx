@@ -1,20 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { Icon } from '@/constants';
-import { BackgroundGlow, Card, IconAvatar, Progress, StatusDot, useToast } from '@/components/ui';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-
-
-
-import { Form, FormInput, useZodForm } from '@/components/shared/Form';
-import { PrimaryButton } from '@/components/shared/Button';
 import * as auth from '@/api/endpoints/auth';
-import {
-  studentRegistrationSchema,
-  type StudentRegistrationInput,
-} from '@/lib/validations';
+import { PrimaryButton } from '@/components/shared/Button';
+import { Form, FormInput, useZodForm } from '@/components/shared/Form';
+import { BackgroundGlow, Card, IconAvatar, Progress, StatusDot, useToast } from '@/components/ui';
+import { studentRegistrationSchema, type StudentRegistrationInput } from '@/lib/validations';
 
 const RegistrationPage: React.FC = () => {
   const navigate = useNavigate();
@@ -67,27 +60,22 @@ const RegistrationPage: React.FC = () => {
 
   if (isSuccess) {
     return (
-      <div className="relative flex min-h-screen w-full flex-col overflow-hidden bg-background-dark font-display antialiased text-white items-center justify-center p-4">
-        <Card className="relative z-10 w-full max-w-[480px] rounded-[2.5rem] bg-surface-dark shadow-2xl border-gray-800 p-6 md:p-12 flex flex-col items-center text-center animate-fade-in-up">
-          <IconAvatar
-            size="2xl"
-            className="mb-8 shadow-[0_0_30px_rgba(19,236,106,0.15)]"
-          >
+      <div className="bg-background-dark font-display relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden p-4 text-white antialiased">
+        <Card className="bg-surface-dark animate-fade-in-up relative z-10 flex w-full max-w-[480px] flex-col items-center rounded-[2.5rem] border-gray-800 p-6 text-center shadow-2xl md:p-12">
+          <IconAvatar size="2xl" className="mb-8 shadow-[0_0_30px_rgba(19,236,106,0.15)]">
             <Icon name="check_circle" className="text-6xl" />
           </IconAvatar>
-          <h1 className="text-3xl font-black text-white uppercase tracking-tight mb-4">
+          <h1 className="mb-4 text-3xl font-black tracking-tight text-white uppercase">
             Registration Sent
           </h1>
-          <p className="text-text-secondary text-base font-medium mb-10 leading-relaxed">
-            Your application for{' '}
-            <span className="text-white font-bold">Cohort 12</span> has been
-            received. Our admins will review your details and send a login code
-            to <span className="text-primary font-bold">{submittedEmail}</span>{' '}
-            soon.
+          <p className="text-text-secondary mb-10 text-base leading-relaxed font-medium">
+            Your application for <span className="font-bold text-white">Cohort 12</span> has been
+            received. Our admins will review your details and send a login code to{' '}
+            <span className="text-primary font-bold">{submittedEmail}</span> soon.
           </p>
           <PrimaryButton
             onClick={() => navigate('/')}
-            className="w-full h-16 rounded-2xl bg-primary text-background-dark text-sm font-bold uppercase tracking-[0.2em] hover:bg-primary-hover shadow-xl shadow-primary/20 active:scale-95"
+            className="bg-primary text-background-dark hover:bg-primary-hover shadow-primary/20 h-16 w-full rounded-2xl text-sm font-bold tracking-[0.2em] uppercase shadow-xl active:scale-95"
           >
             Go to Login
           </PrimaryButton>
@@ -97,44 +85,44 @@ const RegistrationPage: React.FC = () => {
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-background-dark font-display antialiased text-white transition-colors duration-200">
-      <header className="flex items-center justify-between whitespace-nowrap px-4 py-3 md:px-6 md:py-4 lg:px-10 lg:py-6 w-full absolute top-0 z-10">
-        <Link to="/" className="flex items-center gap-2 md:gap-3 group">
+    <div className="bg-background-dark font-display relative flex min-h-screen w-full flex-col overflow-x-hidden text-white antialiased transition-colors duration-200">
+      <header className="absolute top-0 z-10 flex w-full items-center justify-between px-4 py-3 whitespace-nowrap md:px-6 md:py-4 lg:px-10 lg:py-6">
+        <Link to="/" className="group flex items-center gap-2 md:gap-3">
           <IconAvatar
             variant="primary"
             size="sm"
             bordered={false}
-            className="rounded-lg group-hover:rotate-12 transition-transform"
+            className="rounded-lg transition-transform group-hover:rotate-12"
           >
             <Icon name="school" className="text-2xl" />
           </IconAvatar>
-          <h2 className="text-white text-lg font-bold leading-tight tracking-tight">
+          <h2 className="text-lg leading-tight font-bold tracking-tight text-white">
             Bootcamp Portal
           </h2>
         </Link>
         <div className="hidden sm:block">
           <Link
             to="/"
-            className="text-sm font-bold uppercase tracking-widest text-gray-500 hover:text-primary transition-colors"
+            className="hover:text-primary text-sm font-bold tracking-widest text-gray-500 uppercase transition-colors"
           >
             Already registered? Log in
           </Link>
         </div>
       </header>
 
-      <main className="flex flex-1 flex-col items-center justify-center p-4 pt-24 pb-24 lg:py-0 w-full relative">
-        <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+      <main className="relative flex w-full flex-1 flex-col items-center justify-center p-4 pt-24 pb-24 lg:py-0">
+        <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
           <BackgroundGlow position="top-left" size="md" blur="xl" />
           <BackgroundGlow
             variant="primary-strong"
             position="center-right"
             size="sm"
             blur="lg"
-            className="w-[40%] h-[60%]"
+            className="h-[60%] w-[40%]"
           />
         </div>
 
-        <Card className="relative z-10 w-full max-w-[900px] rounded-3xl bg-surface-dark shadow-[0_35px_100px_-15px_rgba(0,0,0,0.6)] border-gray-800 overflow-hidden animate-fade-in-up mb-8">
+        <Card className="bg-surface-dark animate-fade-in-up relative z-10 mb-8 w-full max-w-[900px] overflow-hidden rounded-3xl border-gray-800 shadow-[0_35px_100px_-15px_rgba(0,0,0,0.6)]">
           <Progress
             value={isSubmitting ? 100 : 33}
             className="h-1.5 rounded-none border-0 bg-gray-800"
@@ -142,24 +130,24 @@ const RegistrationPage: React.FC = () => {
           />
 
           <div className="px-5 py-8 sm:px-14 sm:py-16">
-            <div className="mb-8 sm:mb-12 text-center">
+            <div className="mb-8 text-center sm:mb-12">
               <IconAvatar
                 variant="primary"
                 size="lg"
-                className="mx-auto mb-4 sm:mb-6 rounded-[1.5rem] bg-primary/20"
+                className="bg-primary/20 mx-auto mb-4 rounded-[1.5rem] sm:mb-6"
               >
                 <Icon name="assignment_ind" className="text-[32px]" />
               </IconAvatar>
-              <h1 className="text-3xl font-black leading-tight text-white mb-3 uppercase tracking-tight">
+              <h1 className="mb-3 text-3xl leading-tight font-black tracking-tight text-white uppercase">
                 Join DevCamp
               </h1>
-              <p className="text-sm text-gray-500 font-medium tracking-wide">
+              <p className="text-sm font-medium tracking-wide text-gray-500">
                 Enter your details to register for the next cohort.
               </p>
             </div>
 
             <Form form={form} onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <FormInput
                   label="Full Name"
                   placeholder="e.g. Alex Johnson"
@@ -209,7 +197,7 @@ const RegistrationPage: React.FC = () => {
               <div className="pt-4">
                 <PrimaryButton
                   loading={isSubmitting}
-                  className="group w-full h-auto py-5 rounded-2xl text-sm font-bold uppercase tracking-[0.2em] text-background-dark shadow-[0_10px_40px_rgba(19,236,106,0.2)]"
+                  className="group text-background-dark h-auto w-full rounded-2xl py-5 text-sm font-bold tracking-[0.2em] uppercase shadow-[0_10px_40px_rgba(19,236,106,0.2)]"
                   type="submit"
                 >
                   <span>Submit Application</span>
@@ -220,10 +208,10 @@ const RegistrationPage: React.FC = () => {
                 </PrimaryButton>
               </div>
 
-              <div className="text-center mt-8">
+              <div className="mt-8 text-center">
                 <Link
                   to="/"
-                  className="text-sm font-bold uppercase tracking-widest text-gray-600 hover:text-white transition-colors"
+                  className="text-sm font-bold tracking-widest text-gray-600 uppercase transition-colors hover:text-white"
                 >
                   Return to login portal
                 </Link>
@@ -233,7 +221,7 @@ const RegistrationPage: React.FC = () => {
         </Card>
       </main>
 
-      <div className="fixed bottom-6 right-6 z-20 flex items-center gap-3 text-sm font-bold text-gray-600 uppercase tracking-widest pointer-events-none">
+      <div className="pointer-events-none fixed right-6 bottom-6 z-20 flex items-center gap-3 text-sm font-bold tracking-widest text-gray-600 uppercase">
         <StatusDot variant="primary" pulse />
         Applications Open
       </div>

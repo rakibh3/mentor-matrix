@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { Icon } from '@/constants';
-import { IconAvatar, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SettingToggleCard } from '@/components/ui';
-import { SettingsPageLayout } from '@/pages/admin/components/settings/SettingsPageLayout';
 
+import {
+  IconAvatar,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SettingToggleCard,
+} from '@/components/ui';
+import { SettingsPageLayout } from '@/pages/admin/components/settings/SettingsPageLayout';
 
 interface AdminSettingsAuthProps {}
 
@@ -11,15 +21,15 @@ const AdminSettingsAuth: React.FC<AdminSettingsAuthProps> = () => {
     requireOtp: true,
     restrictIps: false,
     autoLogout: true,
-    otpExpiry: '5 Minutes'
+    otpExpiry: '5 Minutes',
   });
 
   const toggleSetting = (key: keyof typeof settings) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+    setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const handleExpiryChange = (val: string) => {
-    setSettings(prev => ({ ...prev, otpExpiry: val }));
+    setSettings((prev) => ({ ...prev, otpExpiry: val }));
   };
 
   return (
@@ -30,13 +40,17 @@ const AdminSettingsAuth: React.FC<AdminSettingsAuthProps> = () => {
             <Icon name="key" className="text-2xl" />
           </IconAvatar>
           <div>
-            <h3 className="text-2xl font-black text-white uppercase tracking-tight">OTP Configuration</h3>
-            <p className="text-sm text-text-secondary font-medium">Control the security of student and admin logins.</p>
+            <h3 className="text-2xl font-black tracking-tight text-white uppercase">
+              OTP Configuration
+            </h3>
+            <p className="text-text-secondary text-sm font-medium">
+              Control the security of student and admin logins.
+            </p>
           </div>
         </div>
-        
+
         <div className="grid gap-8 md:grid-cols-2">
-          <div className="space-y-3 flex flex-col">
+          <div className="flex flex-col space-y-3">
             <Label htmlFor="otp-expiry">OTP Expiry Duration</Label>
             <Select name="otp-expiry" value={settings.otpExpiry} onValueChange={handleExpiryChange}>
               <SelectTrigger id="otp-expiry" icon="timer">
@@ -49,12 +63,18 @@ const AdminSettingsAuth: React.FC<AdminSettingsAuthProps> = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-3 flex flex-col">
+          <div className="flex flex-col space-y-3">
             <Label htmlFor="max-login-attempts">Max Login Attempts</Label>
-            <Input id="max-login-attempts" name="max-login-attempts" type="number" className="rounded-xl" defaultValue="3"/>
+            <Input
+              id="max-login-attempts"
+              name="max-login-attempts"
+              type="number"
+              className="rounded-xl"
+              defaultValue="3"
+            />
           </div>
 
-          <div className="md:col-span-2 space-y-4">
+          <div className="space-y-4 md:col-span-2">
             <SettingToggleCard
               icon={<Icon name="verified_user" />}
               title="Require OTP for every login"

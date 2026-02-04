@@ -1,7 +1,7 @@
-
 import React from 'react';
-import { ConfirmationModal } from './ConfirmationModal';
 import type { Task } from '@/types';
+
+import { ConfirmationModal } from './ConfirmationModal';
 
 interface DeleteTaskModalProps {
   isOpen: boolean;
@@ -10,11 +10,11 @@ interface DeleteTaskModalProps {
   onConfirm: () => void;
 }
 
-export const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  task, 
-  onConfirm 
+export const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({
+  isOpen,
+  onClose,
+  task,
+  onConfirm,
 }) => {
   if (!task) return null;
 
@@ -27,7 +27,9 @@ export const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({
       title="Delete Task"
       description={
         <>
-          Are you sure you want to delete <span className="text-white font-bold">Mission {task.mission}</span>? This action cannot be undone.
+          Are you sure you want to delete{' '}
+          <span className="font-bold text-white">Mission {task.mission}</span>? This action cannot
+          be undone.
         </>
       }
       confirmText="Confirm Delete"

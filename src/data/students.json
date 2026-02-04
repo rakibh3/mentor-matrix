@@ -1,6 +1,46 @@
 [
-  { "name": "Alex Johnson", "email": "alex.j@example.com", "cohort": "12", "status": "Active", "module": "Module 4: React Patterns", "rate": 98, "color": "purple", "progress": 75, "completedAssignments": ["A1", "A2"] },
-  { "name": "Casey Smith", "email": "casey.s@example.com", "cohort": "12", "status": "Probation", "module": "Module 3: Advanced JS", "rate": 72, "color": "blue", "progress": 45, "completedAssignments": ["A1"] },
-  { "name": "Jordan Lee", "email": "jordan.l@example.com", "cohort": "12", "status": "Active", "module": "Module 5: Backend API", "rate": 92, "color": "orange", "progress": 90, "completedAssignments": ["A1", "A2", "A3"] },
-  { "name": "Taylor Reed", "email": "taylor.r@example.com", "cohort": "11", "status": "Active", "module": "Module 8: Final Project", "rate": 85, "color": "emerald", "progress": 95, "completedAssignments": [] }
+  {
+    "name": "Alex Johnson",
+    "email": "alex.j@example.com",
+    "cohort": "12",
+    "status": "Active",
+    "module": "Module 4: React Patterns",
+    "rate": 98,
+    "color": "purple",
+    "progress": 75,
+    "completedAssignments": ["A1", "A2"]
+  },
+  {
+    "name": "Casey Smith",
+    "email": "casey.s@example.com",
+    "cohort": "12",
+    "status": "Probation",
+    "module": "Module 3: Advanced JS",
+    "rate": 72,
+    "color": "blue",
+    "progress": 45,
+    "completedAssignments": ["A1"]
+  },
+  {
+    "name": "Jordan Lee",
+    "email": "jordan.l@example.com",
+    "cohort": "12",
+    "status": "Active",
+    "module": "Module 5: Backend API",
+    "rate": 92,
+    "color": "orange",
+    "progress": 90,
+    "completedAssignments": ["A1", "A2", "A3"]
+  },
+  {
+    "name": "Taylor Reed",
+    "email": "taylor.r@example.com",
+    "cohort": "11",
+    "status": "Active",
+    "module": "Module 8: Final Project",
+    "rate": 85,
+    "color": "emerald",
+    "progress": 95,
+    "completedAssignments": []
+  }
 ]

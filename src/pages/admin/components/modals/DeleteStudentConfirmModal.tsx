@@ -1,5 +1,5 @@
-
 import React from 'react';
+
 import { ConfirmationModal } from './ConfirmationModal';
 
 interface DeleteStudentConfirmModalProps {
@@ -10,11 +10,11 @@ interface DeleteStudentConfirmModalProps {
   onConfirm: () => void;
 }
 
-export const DeleteStudentConfirmModal: React.FC<DeleteStudentConfirmModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  student, 
-  onConfirm 
+export const DeleteStudentConfirmModal: React.FC<DeleteStudentConfirmModalProps> = ({
+  isOpen,
+  onClose,
+  student,
+  onConfirm,
 }) => {
   if (!student) return null;
 
@@ -27,7 +27,9 @@ export const DeleteStudentConfirmModal: React.FC<DeleteStudentConfirmModalProps>
       title="Delete Student"
       description={
         <>
-          Are you sure you want to remove <span className="text-white font-bold">{student.name}</span> from the system? This action is permanent and all progress data will be lost.
+          Are you sure you want to remove{' '}
+          <span className="font-bold text-white">{student.name}</span> from the system? This action
+          is permanent and all progress data will be lost.
         </>
       }
       confirmText="Confirm Removal"

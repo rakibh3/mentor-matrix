@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle, IconAvatar, VisuallyHidden } from '@/components/ui';
-
-import { Form, FormInput, FormSelect, useZodForm } from '@/components/shared/Form';
-import { PrimaryButton, SecondaryButton } from '@/components/shared/Button';
-import { editStudentSchema, STUDENT_STATUSES, type EditStudentInput, type StudentStatus } from '@/lib/validations';
-
 import { Icon } from '@/constants';
+
+import { PrimaryButton, SecondaryButton } from '@/components/shared/Button';
+import { Form, FormInput, FormSelect, useZodForm } from '@/components/shared/Form';
+import { Dialog, DialogContent, DialogTitle, IconAvatar, VisuallyHidden } from '@/components/ui';
+import {
+  editStudentSchema,
+  STUDENT_STATUSES,
+  type EditStudentInput,
+  type StudentStatus,
+} from '@/lib/validations';
 
 // Base type for editable student fields
 interface EditableStudent {
@@ -28,11 +32,11 @@ const statusOptions = STUDENT_STATUSES.map((status) => ({
   label: status,
 }));
 
-export const EditStudentModal = <T extends EditableStudent>({ 
-  isOpen, 
-  onClose, 
-  student, 
-  onSave 
+export const EditStudentModal = <T extends EditableStudent>({
+  isOpen,
+  onClose,
+  student,
+  onSave,
 }: EditStudentModalProps<T>) => {
   const form = useZodForm<EditStudentInput>({
     schema: editStudentSchema,
@@ -44,7 +48,11 @@ export const EditStudentModal = <T extends EditableStudent>({
     },
   });
 
-  const { register, control, formState: { errors, isSubmitting } } = form;
+  const {
+    register,
+    control,
+    formState: { errors, isSubmitting },
+  } = form;
 
   // Reset form when student changes
   useEffect(() => {
@@ -81,14 +89,16 @@ export const EditStudentModal = <T extends EditableStudent>({
         <VisuallyHidden>
           <DialogTitle>Edit Student</DialogTitle>
         </VisuallyHidden>
-        
-        <div className="p-10 flex flex-col">
-          <div className="flex items-center gap-6 mb-10">
+
+        <div className="flex flex-col p-10">
+          <div className="mb-10 flex items-center gap-6">
             <IconAvatar size="xl">
               <Icon name="person_edit" className="text-4xl" />
             </IconAvatar>
             <div>
-              <h3 className="text-3xl font-black text-white uppercase tracking-tight">Edit Student</h3>
+              <h3 className="text-3xl font-black tracking-tight text-white uppercase">
+                Edit Student
+              </h3>
               <p className="text-text-secondary text-base">Modifying profile for {student.name}</p>
             </div>
           </div>
@@ -100,21 +110,17 @@ export const EditStudentModal = <T extends EditableStudent>({
               required
               {...register('name')}
             />
-            
+
             <FormInput
               label="Email Address"
               type="email"
               disabled
-              className="bg-background-dark/30 border-card-border/50 text-gray-500 cursor-not-allowed"
+              className="bg-background-dark/30 border-card-border/50 cursor-not-allowed text-gray-500"
               {...register('email')}
             />
-            
-            <FormInput
-              label="Cohort"
-              error={errors.cohort?.message}
-              {...register('cohort')}
-            />
-            
+
+            <FormInput label="Cohort" error={errors.cohort?.message} {...register('cohort')} />
+
             <FormSelect
               name="status"
               control={control}
@@ -124,19 +130,11 @@ export const EditStudentModal = <T extends EditableStudent>({
               error={errors.status?.message}
             />
 
-            <div className="flex gap-4 mt-6">
-              <PrimaryButton 
-                type="submit" 
-                loading={isSubmitting}
-                className="flex-1"
-              >
+            <div className="mt-6 flex gap-4">
+              <PrimaryButton type="submit" loading={isSubmitting} className="flex-1">
                 Save Changes
               </PrimaryButton>
-              <SecondaryButton 
-                type="button" 
-                onClick={handleClose} 
-                className="flex-1"
-              >
+              <SecondaryButton type="button" onClick={handleClose} className="flex-1">
                 Cancel
               </SecondaryButton>
             </div>

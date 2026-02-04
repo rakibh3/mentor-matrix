@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import { Icon } from '@/constants';
-import { IconAvatar, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, StatusDot, Textarea, UploadCard } from '@/components/ui';
+
+import {
+  IconAvatar,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  StatusDot,
+  Textarea,
+  UploadCard,
+} from '@/components/ui';
 import { SettingsPageLayout } from '@/pages/admin/components/settings/SettingsPageLayout';
 
 interface AdminSettingsGeneralProps {}
@@ -16,65 +29,95 @@ const AdminSettingsGeneral: React.FC<AdminSettingsGeneralProps> = () => {
             <Icon name="info" className="text-2xl" />
           </IconAvatar>
           <div>
-            <h3 className="text-2xl font-black text-white uppercase tracking-tight">General Information</h3>
-            <p className="text-sm text-text-secondary font-medium">Basic details about this bootcamp instance.</p>
+            <h3 className="text-2xl font-black tracking-tight text-white uppercase">
+              General Information
+            </h3>
+            <p className="text-text-secondary text-sm font-medium">
+              Basic details about this bootcamp instance.
+            </p>
           </div>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">
-          <div className="space-y-3 flex flex-col">
+          <div className="flex flex-col space-y-3">
             <Label htmlFor="bootcamp-name">Bootcamp Name</Label>
-            <Input id="bootcamp-name" name="bootcamp-name" className="rounded-xl" defaultValue="Full Stack Web Dev (Cohort 12)"/>
+            <Input
+              id="bootcamp-name"
+              name="bootcamp-name"
+              className="rounded-xl"
+              defaultValue="Full Stack Web Dev (Cohort 12)"
+            />
           </div>
-          <div className="space-y-3 flex flex-col">
+          <div className="flex flex-col space-y-3">
             <Label htmlFor="system-timezone">System Timezone</Label>
             <Select name="timezone" value={timezone} onValueChange={setTimezone}>
               <SelectTrigger id="system-timezone">
                 <SelectValue placeholder="Select timezone" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="(GMT-05:00) Eastern Time (US & Canada)">(GMT-05:00) Eastern Time (US & Canada)</SelectItem>
-                <SelectItem value="(GMT-08:00) Pacific Time (US & Canada)">(GMT-08:00) Pacific Time (US & Canada)</SelectItem>
+                <SelectItem value="(GMT-05:00) Eastern Time (US & Canada)">
+                  (GMT-05:00) Eastern Time (US & Canada)
+                </SelectItem>
+                <SelectItem value="(GMT-08:00) Pacific Time (US & Canada)">
+                  (GMT-08:00) Pacific Time (US & Canada)
+                </SelectItem>
                 <SelectItem value="(GMT+00:00) London">(GMT+00:00) London</SelectItem>
                 <SelectItem value="(GMT+05:30) Mumbai">(GMT+05:30) Mumbai</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          <div className="md:col-span-2 space-y-3 flex flex-col">
+          <div className="flex flex-col space-y-3 md:col-span-2">
             <Label htmlFor="portal-description">Portal Description</Label>
-            <Textarea id="portal-description" name="portal-description" className="h-32" defaultValue="Official portal for tracking student progress, managing attendance, and delivering daily curriculum content across all cohorts."/>
+            <Textarea
+              id="portal-description"
+              name="portal-description"
+              className="h-32"
+              defaultValue="Official portal for tracking student progress, managing attendance, and delivering daily curriculum content across all cohorts."
+            />
           </div>
         </div>
       </div>
 
-      <div className="grid gap-8 pt-4 border-t border-card-border/30">
+      <div className="border-card-border/30 grid gap-8 border-t pt-4">
         <div className="flex items-center gap-4">
           <IconAvatar size="md" bordered={false}>
             <Icon name="branding_watermark" className="text-2xl" />
           </IconAvatar>
           <div>
-            <h3 className="text-2xl font-black text-white uppercase tracking-tight">Branding</h3>
-            <p className="text-sm text-text-secondary font-medium">Customize the visual appearance of the portal.</p>
+            <h3 className="text-2xl font-black tracking-tight text-white uppercase">Branding</h3>
+            <p className="text-text-secondary text-sm font-medium">
+              Customize the visual appearance of the portal.
+            </p>
           </div>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
-          <UploadCard 
+          <UploadCard
             icon={
-              <IconAvatar size="md" variant="default" bordered={false} className="rounded-full group-hover:text-primary transition-colors">
+              <IconAvatar
+                size="md"
+                variant="default"
+                bordered={false}
+                className="group-hover:text-primary rounded-full transition-colors"
+              >
                 <Icon name="upload" className="text-2xl" />
               </IconAvatar>
             }
             label="Upload Logo"
           />
-          <UploadCard 
+          <UploadCard
             icon={
-              <IconAvatar size="md" variant="default" bordered={false} className="rounded-full group-hover:text-primary transition-colors">
+              <IconAvatar
+                size="md"
+                variant="default"
+                bordered={false}
+                className="group-hover:text-primary rounded-full transition-colors"
+              >
                 <Icon name="favicon" className="text-2xl" />
               </IconAvatar>
             }
             label="Upload Favicon"
           />
-          <UploadCard 
+          <UploadCard
             icon={
               <div className="flex gap-2">
                 <StatusDot variant="primary" size="lg" />

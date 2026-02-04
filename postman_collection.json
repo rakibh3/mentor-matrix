@@ -1,0 +1,999 @@
+{
+	"info": {
+		"_postman_id": "c6a2b8e3-0c4a-4e4b-8d7b-4b1a2c3d4e5f",
+		"name": "Bootcamp Tracker API",
+		"description": "API collection for the Bootcamp Tracker project, including Auth, User management, Student management, Attendance tracking, and Task management.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Request OTP",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/request-otp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"request-otp"
+							]
+						},
+						"description": "Request a 6-digit OTP for login/verification."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify OTP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.success && response.data && response.data.accessToken) {",
+									"    pm.environment.set(\"accessToken\", response.data.accessToken);",
+									"    pm.collectionVariables.set(\"accessToken\", response.data.accessToken);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\",\n    \"otp\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/verify-otp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"verify-otp"
+							]
+						},
+						"description": "Verify the OTP and receive a JWT access token. Updates lastLoginAt on success."
+					},
+					"response": []
+				},
+				{
+					"name": "Register Student",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"user@example.com\",\n    \"phone\": \"01700000000\",\n    \"discordUsername\": \"johndoe#1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a new student. Creates both user and student records."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Get all users. Requires ADMIN or SUPER_ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All SRMs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/srms",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"srms"
+							]
+						},
+						"description": "Get all users with SRM role. Requires ADMIN or SUPER_ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Get a single user by ID. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Role",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"ADMIN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/:userId/role",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								":userId",
+								"role"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Update user role. Valid roles: STUDENT, ADMIN, SUPER_ADMIN, SRM. Requires SUPER_ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Data",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Updated\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/:userId/data",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								":userId",
+								"data"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Update user data (name, email). Phone/discordUsername are now in student record. Requires ADMIN or SUPER_ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Soft delete a user. Requires ADMIN or SUPER_ADMIN role."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Get All Students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/students",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"students"
+							]
+						},
+						"description": "Get all students with their user info. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Student by User ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/:userId/student",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								":userId",
+								"student"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Get student record by user ID. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign SRM to Student",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"srmId\": \"srm_user_id_here\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/:userId/assign-srm",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								":userId",
+								"assign-srm"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Assign an SRM to a student. Requires ADMIN or SUPER_ADMIN role."
+					},
+					"response": []
+				},
+				{
+					"name": "Block/Unblock Student",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"isBlocked\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/:userId/block",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								":userId",
+								"block"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "user_id_here"
+								}
+							]
+						},
+						"description": "Block or unblock a student. Requires ADMIN or SUPER_ADMIN role."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attendance",
+			"item": [
+				{
+					"name": "Mark Attendance",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"studentId\": \"student_id_here\",\n    \"status\": \"ATTENDED\",\n    \"mission\": 1,\n    \"module\": 1,\n    \"moduleVideo\": 1,\n    \"note\": \"Optional note about attendance\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/create-attendance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"create-attendance"
+							]
+						},
+						"description": "Mark attendance for a student. Uses studentId (from students collection). Includes optional note field."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Attendance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/get-attendance?absentFilter=today&searchTerm=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"get-attendance"
+							],
+							"query": [
+								{
+									"key": "absentFilter",
+									"value": "today",
+									"description": "Filter by absent status: today, last2days, last3days",
+									"disabled": true
+								},
+								{
+									"key": "searchTerm",
+									"value": "",
+									"description": "Search by student name or email",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Own Attendance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/get-attendance/student",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"get-attendance",
+								"student"
+							]
+						},
+						"description": "Get attendance for the currently logged-in student."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Student Attendance By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/get-attendance/student/:studentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"get-attendance",
+								"student",
+								":studentId"
+							],
+							"variable": [
+								{
+									"key": "studentId",
+									"value": "student_id_here"
+								}
+							]
+						},
+						"description": "Get attendance for a specific student. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Attendance",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"ABSENT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/update-attendance/:attendanceId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"update-attendance",
+								":attendanceId"
+							],
+							"variable": [
+								{
+									"key": "attendanceId",
+									"value": "attendance_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Attendance",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/delete-attendance/:attendanceId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"delete-attendance",
+								":attendanceId"
+							],
+							"variable": [
+								{
+									"key": "attendanceId",
+									"value": "attendance_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Open Attendance Window",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/open-window",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"open-window"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Close Attendance Window",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/close-window",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"close-window"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Window Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/window-status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"window-status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Absent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"date\": \"2024-05-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/mark-absent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mark-absent"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mission\": 1,\n    \"moduleNumber\": 1,\n    \"videoNumber\": \"1\",\n    \"guideline\": \"Complete the assigned video and exercises.\",\n    \"dueDate\": \"2024-12-31\",\n    \"createdBy\": \"admin_id_here\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/task",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"task"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"guideline\": \"Updated guideline for the task.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/task/:taskId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"task",
+								":taskId"
+							],
+							"variable": [
+								{
+									"key": "taskId",
+									"value": "task_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current Task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/task/current",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"task",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Upcoming Task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/task/upcoming",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"task",
+								"upcoming"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Due Tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/task/due",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"task",
+								"due"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Task",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/task/:taskId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"task",
+								":taskId"
+							],
+							"variable": [
+								{
+									"key": "taskId",
+									"value": "task_id_here"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Call History",
+			"item": [
+				{
+					"name": "Log Outreach Call",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"studentId\": \"student_id_here\",\n    \"outcome\": \"Received\",\n    \"note\": \"Student confirmed attendance for tomorrow\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/calls",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calls"
+							]
+						},
+						"description": "Log an outreach call. SRM role only. Outcomes: Received, Not Received, Busy, Left Voicemail, Wrong Number, Discord Action."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Student Call History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calls/student/:studentId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calls",
+								"student",
+								":studentId"
+							],
+							"variable": [
+								{
+									"key": "studentId",
+									"value": "student_id_here"
+								}
+							]
+						},
+						"description": "Get call history for a specific student. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get SRM Call History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/calls/srm/:srmId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"calls",
+								"srm",
+								":srmId"
+							],
+							"variable": [
+								{
+									"key": "srmId",
+									"value": "srm_id_here"
+								}
+							]
+						},
+						"description": "Get call history for a specific SRM. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "Get Dashboard Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/analytics/dashboard",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"analytics",
+								"dashboard"
+							]
+						},
+						"description": "Get dashboard overview stats including total students, SRMs, attendance rate, risk distribution, and recent calls. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get SRM Performance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/analytics/srm/:srmId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"analytics",
+								"srm",
+								":srmId"
+							],
+							"variable": [
+								{
+									"key": "srmId",
+									"value": "srm_id_here"
+								}
+							]
+						},
+						"description": "Get SRM performance metrics including total calls, calls today/this week, assigned students, and calls by outcome. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Attendance Trends",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/analytics/attendance/trends?days=7",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"analytics",
+								"attendance",
+								"trends"
+							],
+							"query": [
+								{
+									"key": "days",
+									"value": "7",
+									"description": "Number of days to include (default: 7)"
+								}
+							]
+						},
+						"description": "Get attendance trends showing daily attendance rates. Requires ADMIN, SUPER_ADMIN, or SRM role."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+					"});",
+					"",
+					"pm.test(\"Response is successful\", function () {",
+					"    const jsonData = pm.response.json();",
+					"    pm.expect(jsonData.success).to.eql(true);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

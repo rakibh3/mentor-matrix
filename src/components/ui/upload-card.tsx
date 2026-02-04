@@ -1,30 +1,25 @@
-import * as React from "react"
+import * as React from 'react';
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
 export interface UploadCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  icon: React.ReactNode
-  label: string
+  icon: React.ReactNode;
+  label: string;
 }
 
-function UploadCard({ 
-  className, 
-  icon,
-  label,
-  ...props 
-}: UploadCardProps) {
+function UploadCard({ className, icon, label, ...props }: UploadCardProps) {
   return (
-    <div 
+    <div
       className={cn(
-        "p-6 rounded-2xl bg-background-dark/50 border border-card-border flex flex-col items-center gap-4 group cursor-pointer hover:border-primary/40 transition-all",
+        'bg-background-dark/50 border-card-border group hover:border-primary/40 flex cursor-pointer flex-col items-center gap-4 rounded-2xl border p-6 transition-all',
         className
-      )} 
+      )}
       {...props}
     >
       {icon}
-      <span className="text-xs font-black uppercase tracking-widest">{label}</span>
+      <span className="text-xs font-black tracking-widest uppercase">{label}</span>
     </div>
-  )
+  );
 }
 
-export { UploadCard }
+export { UploadCard };

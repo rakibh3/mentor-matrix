@@ -1,11 +1,18 @@
 import React, { useMemo } from 'react';
 import { Icon } from '@/constants';
-import { Button, IconAvatar, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
-
+import type { FlaggedStudent } from '@/types';
 
 import { ActiveFilters, type FilterItem } from '@/components/shared/ActiveFilters';
-
-import type { FlaggedStudent } from '@/types';
+import {
+  Button,
+  IconAvatar,
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui';
 import { StudentDataGrid } from '@/pages/admin/components/shared/StudentDataGrid';
 
 interface FlaggedStudentsListProps {
@@ -53,19 +60,22 @@ export const FlaggedStudentsList: React.FC<FlaggedStudentsListProps> = ({
   copiedText,
   onClearFilters,
 }) => {
-  const filters: FilterItem[] = useMemo(() => [
-    { 
-      key: 'search', 
-      label: `"${searchQuery}"`, 
-      value: searchQuery 
-    },
-    { 
-      key: 'assignment', 
-      label: `Missing ${assignmentFilter}`, 
-      value: assignmentFilter !== 'Assignments' ? assignmentFilter : '',
-      variant: 'primary' as const
-    },
-  ], [searchQuery, assignmentFilter]);
+  const filters: FilterItem[] = useMemo(
+    () => [
+      {
+        key: 'search',
+        label: `"${searchQuery}"`,
+        value: searchQuery,
+      },
+      {
+        key: 'assignment',
+        label: `Missing ${assignmentFilter}`,
+        value: assignmentFilter !== 'Assignments' ? assignmentFilter : '',
+        variant: 'primary' as const,
+      },
+    ],
+    [searchQuery, assignmentFilter]
+  );
 
   const handleRemoveFilter = (key: string) => {
     if (key === 'search') onSearchChange('');
@@ -75,33 +85,37 @@ export const FlaggedStudentsList: React.FC<FlaggedStudentsListProps> = ({
   return (
     <div className="flex flex-col gap-8">
       {/* Header & Filter Section */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 px-2">
+      <div className="flex flex-col justify-between gap-6 px-2 lg:flex-row lg:items-center">
         <div className="flex items-center gap-5">
           <IconAvatar variant="danger" size="md" className="shadow-lg">
             <Icon name="warning" className="text-2xl" />
           </IconAvatar>
           <div className="flex flex-col">
-            <h4 className="text-white text-2xl font-black uppercase tracking-tight">Urgent Attention Required</h4>
-            <p className="text-text-secondary text-sm font-medium">Outreach tracking for at-risk students.</p>
+            <h4 className="text-2xl font-black tracking-tight text-white uppercase">
+              Urgent Attention Required
+            </h4>
+            <p className="text-text-secondary text-sm font-medium">
+              Outreach tracking for at-risk students.
+            </p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-3">
-          <div className="relative group w-full lg:w-72">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors">
+          <div className="group relative w-full lg:w-72">
+            <div className="group-focus-within:text-primary absolute top-1/2 left-4 -translate-y-1/2 text-gray-500 transition-colors">
               <Icon name="search" className="text-xl" />
             </div>
-            <Input 
+            <Input
               type="text"
               placeholder="Search name..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               variant="search"
               hasIcon="left"
-              className="w-full h-14 bg-surface-dark/40 border border-card-border/60 rounded-xl pl-12 pr-4 shadow-md"
+              className="bg-surface-dark/40 border-card-border/60 h-14 w-full rounded-xl border pr-4 pl-12 shadow-md"
             />
           </div>
-          <div className="w-52 h-14">
+          <div className="h-14 w-52">
             <Select value={assignmentFilter} onValueChange={onAssignmentChange}>
               <SelectTrigger icon="assignment">
                 <SelectValue placeholder="Assignments" />
@@ -119,10 +133,10 @@ export const FlaggedStudentsList: React.FC<FlaggedStudentsListProps> = ({
               </SelectContent>
             </Select>
           </div>
-          <Button 
+          <Button
             onClick={onExport}
             variant="outline"
-            className="px-5 h-14 rounded-xl bg-surface-dark/40 border-card-border/60 shadow-md"
+            className="bg-surface-dark/40 border-card-border/60 h-14 rounded-xl px-5 shadow-md"
           >
             <Icon name="download" className="text-lg" />
             <span>Export</span>
@@ -130,8 +144,8 @@ export const FlaggedStudentsList: React.FC<FlaggedStudentsListProps> = ({
         </div>
       </div>
 
-      <div className="px-2 -mt-4">
-        <ActiveFilters 
+      <div className="-mt-4 px-2">
+        <ActiveFilters
           filters={filters}
           onRemoveFilter={handleRemoveFilter}
           onClearAll={onClearFilters}

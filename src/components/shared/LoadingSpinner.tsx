@@ -19,16 +19,14 @@ const variantClasses = {
   dark: 'border-background-dark border-t-transparent',
 };
 
-export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
-  size = 'md', 
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = 'md',
   fullHeight = true,
   variant = 'primary',
   inline = false,
 }) => {
   const spinner = (
-    <div 
-      className={`${sizeClasses[size]} ${variantClasses[variant]} rounded-full animate-spin`}
-    />
+    <div className={`${sizeClasses[size]} ${variantClasses[variant]} animate-spin rounded-full`} />
   );
 
   if (inline) {
@@ -36,7 +34,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   }
 
   return (
-    <div className={`w-full flex items-center justify-center ${fullHeight ? 'h-64' : ''}`}>
+    <div className={`flex w-full items-center justify-center ${fullHeight ? 'h-64' : ''}`}>
       {spinner}
     </div>
   );

@@ -1,7 +1,7 @@
-import * as React from "react"
-import * as SliderPrimitive from "@radix-ui/react-slider"
+import * as React from 'react';
+import * as SliderPrimitive from '@radix-ui/react-slider';
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
 const Slider = React.forwardRef<
   React.ComponentRef<typeof SliderPrimitive.Root>,
@@ -9,18 +9,15 @@ const Slider = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SliderPrimitive.Root
     ref={ref}
-    className={cn(
-      "relative flex w-full touch-none select-none items-center",
-      className
-    )}
+    className={cn('relative flex w-full touch-none items-center select-none', className)}
     {...props}
   >
-    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-background-dark border border-card-border/30">
-      <SliderPrimitive.Range className="absolute h-full bg-primary rounded-full" />
+    <SliderPrimitive.Track className="bg-background-dark border-card-border/30 relative h-2 w-full grow overflow-hidden rounded-full border">
+      <SliderPrimitive.Range className="bg-primary absolute h-full rounded-full" />
     </SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background-dark ring-offset-background-dark transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer hover:bg-primary/20 shadow-lg" />
+    <SliderPrimitive.Thumb className="border-primary bg-background-dark ring-offset-background-dark focus-visible:ring-primary hover:bg-primary/20 block h-5 w-5 cursor-pointer rounded-full border-2 shadow-lg transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50" />
   </SliderPrimitive.Root>
-))
-Slider.displayName = SliderPrimitive.Root.displayName
+));
+Slider.displayName = SliderPrimitive.Root.displayName;
 
-export { Slider }
+export { Slider };

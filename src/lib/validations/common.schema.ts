@@ -13,18 +13,12 @@ export const emailSchema = z
 export const phoneSchema = z
   .string()
   .min(1, 'Phone number is required')
-  .regex(
-    /^01\d{9}$/,
-    'Phone number must start with 01 and be 11 digits',
-  );
+  .regex(/^01\d{9}$/, 'Phone number must start with 01 and be 11 digits');
 
 // Optional phone (for forms where it's not required)
 export const optionalPhoneSchema = z
   .string()
-  .regex(
-    /^01\d{9}$/,
-    'Phone number must start with 01 and be 11 digits',
-  )
+  .regex(/^01\d{9}$/, 'Phone number must start with 01 and be 11 digits')
   .optional()
   .or(z.literal(''));
 
@@ -51,11 +45,7 @@ export const simplePasswordSchema = z
   .min(6, 'Password must be at least 6 characters');
 
 // URL validation
-export const urlSchema = z
-  .string()
-  .url('Please enter a valid URL')
-  .optional()
-  .or(z.literal(''));
+export const urlSchema = z.string().url('Please enter a valid URL').optional().or(z.literal(''));
 
 // Discord tag validation
 export const discordTagSchema = z
@@ -63,5 +53,5 @@ export const discordTagSchema = z
   .min(1, 'Discord tag is required')
   .regex(
     /^.{2,32}(#\d{4})?$/,
-    'Please enter a valid Discord tag (e.g., username or username#1234)',
+    'Please enter a valid Discord tag (e.g., username or username#1234)'
   );

@@ -3,6 +3,6 @@ interface IconProps {
   className?: string;
 }
 
-export const Icon = ({ name, className = "" }: IconProps) => (
+export const Icon = ({ name, className = '' }: IconProps) => (
   <span className={`material-symbols-outlined ${className}`}>{name}</span>
 );

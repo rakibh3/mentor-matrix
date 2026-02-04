@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from '@/constants';
+
 import { IconAvatar, Label, SettingToggleCard, Slider } from '@/components/ui';
 import { SettingsPageLayout } from '@/pages/admin/components/settings/SettingsPageLayout';
 
@@ -17,8 +18,12 @@ const AdminSettingsAttendance: React.FC<AdminSettingsAttendanceProps> = () => {
             <Icon name="event_repeat" className="text-2xl" />
           </IconAvatar>
           <div>
-            <h3 className="text-2xl font-black text-white uppercase tracking-tight">Attendance Rules</h3>
-            <p className="text-sm text-text-secondary font-medium">Define how and when student attendance is recorded.</p>
+            <h3 className="text-2xl font-black tracking-tight text-white uppercase">
+              Attendance Rules
+            </h3>
+            <p className="text-text-secondary text-sm font-medium">
+              Define how and when student attendance is recorded.
+            </p>
           </div>
         </div>
 
@@ -27,19 +32,23 @@ const AdminSettingsAttendance: React.FC<AdminSettingsAttendanceProps> = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="attendance-window">Attendance Window (Hours)</Label>
               <div className="flex items-center gap-4">
-                <Slider 
+                <Slider
                   id="attendance-window"
                   name="attendance-window"
-                  min={1} 
-                  max={12} 
+                  min={1}
+                  max={12}
                   step={1}
-                  value={[attendanceWindow]} 
-                  onValueChange={(val) => setAttendanceWindow(val[0])} 
+                  value={[attendanceWindow]}
+                  onValueChange={(val) => setAttendanceWindow(val[0])}
                   className="flex-1"
                 />
-                <span className="text-xl font-black text-primary w-12 text-center">{attendanceWindow}h</span>
+                <span className="text-primary w-12 text-center text-xl font-black">
+                  {attendanceWindow}h
+                </span>
               </div>
-              <p className="text-xs text-text-secondary italic">Maximum time after session start for check-in.</p>
+              <p className="text-text-secondary text-xs italic">
+                Maximum time after session start for check-in.
+              </p>
             </div>
           </div>
 
@@ -47,23 +56,27 @@ const AdminSettingsAttendance: React.FC<AdminSettingsAttendanceProps> = () => {
             <div className="flex flex-col gap-2">
               <Label htmlFor="grace-period">Grace Period (Minutes)</Label>
               <div className="flex items-center gap-4">
-                <Slider 
+                <Slider
                   id="grace-period"
                   name="grace-period"
-                  min={0} 
-                  max={60} 
+                  min={0}
+                  max={60}
                   step={5}
-                  value={[gracePeriod]} 
-                  onValueChange={(val) => setGracePeriod(val[0])} 
+                  value={[gracePeriod]}
+                  onValueChange={(val) => setGracePeriod(val[0])}
                   className="flex-1"
                 />
-                <span className="text-xl font-black text-primary w-12 text-center">{gracePeriod}m</span>
+                <span className="text-primary w-12 text-center text-xl font-black">
+                  {gracePeriod}m
+                </span>
               </div>
-              <p className="text-xs text-text-secondary italic">Time allowed for check-in before being marked 'Late'.</p>
+              <p className="text-text-secondary text-xs italic">
+                Time allowed for check-in before being marked 'Late'.
+              </p>
             </div>
           </div>
 
-          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+          <div className="grid grid-cols-1 gap-6 pt-4 sm:grid-cols-2 md:col-span-2">
             <SettingToggleCard
               layout="vertical"
               icon={<Icon name="notifications_active" />}

@@ -1,6 +1,6 @@
 // User Types
 
-import type { UserRole, User as AuthUser } from './auth.types';
+import type { User as AuthUser, UserRole } from './auth.types';
 
 export type { AuthUser as User };
 
@@ -22,6 +22,9 @@ export interface UpdateUserDataRequest {
   name?: string;
   phone?: string;
   discordUsername?: string;
+  smtpConfig?: {
+    appPassword?: string;
+  };
 }
 
 export interface UpdateUserResponse {

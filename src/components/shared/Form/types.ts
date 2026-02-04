@@ -1,5 +1,6 @@
-import type { InputProps } from '@/components/ui/input';
 import type { Control, FieldValues, Path } from 'react-hook-form';
+
+import type { InputProps } from '@/components/ui/input';
 
 export interface BaseFormFieldProps {
   label?: string;
@@ -29,6 +30,7 @@ export interface FormSelectProps<T extends FieldValues> extends BaseFormFieldPro
   className?: string;
 }
 
-export interface FormTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>, BaseFormFieldProps {
+export interface FormTextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>, BaseFormFieldProps {
   icon?: string;
 }

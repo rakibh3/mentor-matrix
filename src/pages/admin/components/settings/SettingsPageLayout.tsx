@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { SettingsNav } from '@/layouts/AdminLayout';
-import { Button, Card, useToast } from '@/components/ui';
 
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
-
+import { Button, Card, useToast } from '@/components/ui';
 
 interface SettingsPageLayoutProps {
   children: React.ReactNode;
@@ -44,9 +43,9 @@ export const SettingsPageLayout: React.FC<SettingsPageLayoutProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-8 animate-fade-in-up">
-      <div className="flex flex-col gap-2 border-b border-card-border pb-8">
-        <h2 className="text-white text-4xl font-black leading-tight tracking-tighter uppercase">
+    <div className="animate-fade-in-up flex w-full flex-col gap-8">
+      <div className="border-card-border flex flex-col gap-2 border-b pb-8">
+        <h2 className="text-4xl leading-tight font-black tracking-tighter text-white uppercase">
           System Settings
         </h2>
         <p className="text-text-secondary text-base font-medium">
@@ -55,11 +54,11 @@ export const SettingsPageLayout: React.FC<SettingsPageLayoutProps> = ({
       </div>
       <div className="flex flex-col">
         <SettingsNav />
-        <Card className="grid gap-10 rounded-3xl p-10 md:p-12 shadow-2xl">
+        <Card className="grid gap-10 rounded-3xl p-10 shadow-2xl md:p-12">
           {children}
 
           {showFooter && (
-            <div className="flex items-center justify-end gap-6 pt-10 border-t border-card-border/50">
+            <div className="border-card-border/50 flex items-center justify-end gap-6 border-t pt-10">
               <Button variant="outline" size="lg">
                 Cancel
               </Button>

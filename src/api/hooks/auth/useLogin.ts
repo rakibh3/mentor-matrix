@@ -1,8 +1,9 @@
 // useLogin - Hook for login (OTP verification)
 import { useMutation } from '@tanstack/react-query';
-import { verifyOtp } from '../../endpoints/auth';
-import type { VerifyOtpRequest, VerifyOtpResponse } from '../../types/auth.types';
 import Cookies from 'js-cookie';
+
+import { verifyOtp } from '@/api/endpoints/auth';
+import type { VerifyOtpRequest, VerifyOtpResponse } from '@/api/types/auth.types';
 
 export const useLogin = () => {
   return useMutation<VerifyOtpResponse, Error, VerifyOtpRequest>({

@@ -9,3 +9,5 @@ export * from './EditTaskModal';
 export * from './LogCallModal';
 export * from './OutreachEmailModal';
 export * from './StudentDetailModal';
+export * from './DiscordActionModal';
+export * from './BulkAssignSrmModal';

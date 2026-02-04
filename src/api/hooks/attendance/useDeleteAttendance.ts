@@ -1,7 +1,8 @@
 // useDeleteAttendance - Hook for deleting attendance
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteAttendance } from '../../endpoints/attendance';
-import type { DeleteAttendanceResponse } from '../../types/attendance.types';
+
+import { deleteAttendance } from '@/api/endpoints/attendance';
+import type { DeleteAttendanceResponse } from '@/api/types/attendance.types';
 
 export const useDeleteAttendance = () => {
   const queryClient = useQueryClient();

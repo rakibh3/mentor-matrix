@@ -1,7 +1,8 @@
 // useUpdateAttendance - Hook for updating attendance
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateAttendance } from '../../endpoints/attendance';
-import type { MarkAttendanceResponse, UpdateAttendanceRequest } from '../../types/attendance.types';
+
+import { updateAttendance } from '@/api/endpoints/attendance';
+import type { MarkAttendanceResponse, UpdateAttendanceRequest } from '@/api/types/attendance.types';
 
 interface UpdateAttendanceParams {
   attendanceId: string;

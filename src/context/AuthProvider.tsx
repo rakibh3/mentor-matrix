@@ -1,12 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Cookies from 'js-cookie';
+
 import * as auth from '@/api/endpoints/auth';
-import { AuthContext } from './auth-context';
 import type { User } from '@/types/auth';
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+import { AuthContext } from './auth-context';
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
     const savedUser = Cookies.get('user_data');
     const token = Cookies.get('token');
@@ -46,9 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ user, isLoading, login, logout, updateUser }}
-    >
+    <AuthContext.Provider value={{ user, isLoading, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

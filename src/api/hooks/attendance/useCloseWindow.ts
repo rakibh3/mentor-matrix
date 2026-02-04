@@ -1,5 +1,6 @@
 // useCloseWindow - Hook for closing attendance window
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { closeAttendanceWindow } from '@/api/endpoints/attendance';
 
 export const useCloseWindow = () => {

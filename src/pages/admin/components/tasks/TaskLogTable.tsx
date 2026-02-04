@@ -1,13 +1,12 @@
-
 import React, { useMemo } from 'react';
 import { Icon } from '@/constants';
-import { IconAvatar } from '@/components/ui';
-
 import type { Task } from '@/types';
-import { formatDisplayDate } from '@/utils/dateUtils';
+
+import { IconButton } from '@/components/shared/Button';
 import { DataTable } from '@/components/shared/Table';
 import type { ColumnDef } from '@/components/shared/Table/types';
-import { IconButton } from '@/components/shared/Button';
+import { IconAvatar } from '@/components/ui';
+import { formatDisplayDate } from '@/utils/dateUtils';
 
 interface TaskLogTableProps {
   tasks: Task[];
@@ -26,75 +25,78 @@ export const TaskLogTable: React.FC<TaskLogTableProps> = ({
   totalPages,
   onPageChange,
   onEdit,
-  onDelete
+  onDelete,
 }) => {
-  const columns = useMemo<ColumnDef<Task>[]>(() => [
-    {
-      key: 'mission',
-      header: 'Mission',
-      accessor: (task) => (
-        <div className="flex items-center gap-3">
-          <IconAvatar variant="primary" size="xs">
-            <span className="font-black">{task.mission}</span>
-          </IconAvatar>
-          <span className="text-white font-bold">Mission {task.mission}</span>
-        </div>
-      ),
-    },
-    {
-      key: 'module',
-      header: 'Module #',
-      accessor: (task) => (
-        <span className="text-text-secondary font-black uppercase tracking-tighter">
-          Module {task.moduleNumber}
-        </span>
-      ),
-    },
-    {
-      key: 'guideline',
-      header: 'Guideline',
-      accessor: (task) => (
-        <div className="max-w-xs whitespace-normal">
-          <p className="text-sm text-text-secondary line-clamp-1 group-hover:line-clamp-none transition-all duration-300">
-            {task.guideline}
-          </p>
-        </div>
-      ),
-    },
-    {
-      key: 'dueDate',
-      header: 'Due Date',
-      accessor: (task) => (
-        <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-gray-500 whitespace-nowrap">
-          <Icon name="calendar_month" className="text-base" />
-          {formatDisplayDate(task.dueDate)}
-        </div>
-      ),
-    },
-  ], []);
+  const columns = useMemo<ColumnDef<Task>[]>(
+    () => [
+      {
+        key: 'mission',
+        header: 'Mission',
+        accessor: (task) => (
+          <div className="flex items-center gap-3">
+            <IconAvatar variant="primary" size="xs">
+              <span className="font-black">{task.mission}</span>
+            </IconAvatar>
+            <span className="font-bold text-white">Mission {task.mission}</span>
+          </div>
+        ),
+      },
+      {
+        key: 'module',
+        header: 'Module #',
+        accessor: (task) => (
+          <span className="text-text-secondary font-black tracking-tighter uppercase">
+            Module {task.moduleNumber}
+          </span>
+        ),
+      },
+      {
+        key: 'guideline',
+        header: 'Guideline',
+        accessor: (task) => (
+          <div className="max-w-xs whitespace-normal">
+            <p className="text-text-secondary line-clamp-1 text-sm transition-all duration-300 group-hover:line-clamp-none">
+              {task.guideline}
+            </p>
+          </div>
+        ),
+      },
+      {
+        key: 'dueDate',
+        header: 'Due Date',
+        accessor: (task) => (
+          <div className="flex items-center gap-2 text-sm font-black tracking-widest whitespace-nowrap text-gray-500 uppercase">
+            <Icon name="calendar_month" className="text-base" />
+            {formatDisplayDate(task.dueDate)}
+          </div>
+        ),
+      },
+    ],
+    []
+  );
 
   const renderActions = (task: Task) => (
-    <div className="flex justify-end items-center gap-3">
+    <div className="flex items-center justify-end gap-3">
       <IconButton
         icon="edit"
         tooltip="Edit Task"
         onClick={() => onEdit(task)}
-        className="rounded-lg border border-card-border bg-background-dark/30 hover:text-primary hover:border-primary/30"
+        className="border-card-border bg-background-dark/30 hover:text-primary hover:border-primary/30 rounded-lg border"
       />
       <IconButton
         icon="delete"
         tooltip="Delete Task"
         onClick={() => onDelete(task)}
-        className="rounded-lg border border-card-border bg-background-dark/30 hover:text-red-500 hover:border-red-500/30"
+        className="border-card-border bg-background-dark/30 rounded-lg border hover:border-red-500/30 hover:text-red-500"
       />
     </div>
   );
 
   const headerContent = (
     <div className="flex items-center justify-between p-6">
-      <h3 className="text-white text-2xl font-black uppercase tracking-tight">Assignment Log</h3>
-      <div className="hidden sm:flex items-center gap-3">
-        <span className="text-text-secondary text-xs font-black uppercase tracking-widest opacity-40">
+      <h3 className="text-2xl font-black tracking-tight text-white uppercase">Assignment Log</h3>
+      <div className="hidden items-center gap-3 sm:flex">
+        <span className="text-text-secondary text-xs font-black tracking-widest uppercase opacity-40">
           Tracking {totalCount} Broadcasted Tasks
         </span>
       </div>
@@ -102,7 +104,7 @@ export const TaskLogTable: React.FC<TaskLogTableProps> = ({
   );
 
   return (
-    <div className="flex flex-col gap-6 mt-4 pb-20">
+    <div className="mt-4 flex flex-col gap-6 pb-20">
       <DataTable
         data={tasks}
         columns={columns}
@@ -110,7 +112,7 @@ export const TaskLogTable: React.FC<TaskLogTableProps> = ({
           currentPage,
           totalPages,
           pageSize: 10,
-          onPageChange
+          onPageChange,
         }}
         actions={renderActions}
         headerContent={headerContent}

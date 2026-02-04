@@ -1,4 +1,5 @@
 import { useFormContext, type FieldPath, type FieldValues } from 'react-hook-form';
+
 import { cn } from '@/lib/utils';
 
 interface FormMessageProps<TFieldValues extends FieldValues> {
@@ -9,7 +10,7 @@ interface FormMessageProps<TFieldValues extends FieldValues> {
 /**
  * Standalone form error message component
  * Use this when you need to display errors separately from the input
- * 
+ *
  * @example
  * ```tsx
  * <Input {...register('email')} />
@@ -20,7 +21,9 @@ export function FormMessage<TFieldValues extends FieldValues = FieldValues>({
   name,
   className,
 }: FormMessageProps<TFieldValues>) {
-  const { formState: { errors } } = useFormContext<TFieldValues>();
+  const {
+    formState: { errors },
+  } = useFormContext<TFieldValues>();
   const error = errors[name];
   const errorMessage = error?.message as string | undefined;
 

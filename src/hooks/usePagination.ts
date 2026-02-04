@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 interface UsePaginationResult<T> {
   currentPage: number;
@@ -12,10 +12,7 @@ interface UsePaginationResult<T> {
  * @param data - Array of data to paginate
  * @param rowsPerPage - Number of items per page
  */
-export const usePagination = <T,>(
-  data: T[],
-  rowsPerPage: number
-): UsePaginationResult<T> => {
+export const usePagination = <T>(data: T[], rowsPerPage: number): UsePaginationResult<T> => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(data.length / rowsPerPage);

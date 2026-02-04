@@ -1,7 +1,8 @@
 // useWindowStatus - Hook for fetching window status
 import { useQuery } from '@tanstack/react-query';
-import { getWindowStatus } from '../../endpoints/attendance';
-import type { WindowStatusResponse } from '../../types/attendance.types';
+
+import { getWindowStatus } from '@/api/endpoints/attendance';
+import type { WindowStatusResponse } from '@/api/types/attendance.types';
 
 export const useWindowStatus = () => {
   return useQuery<WindowStatusResponse, Error>({

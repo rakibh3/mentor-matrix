@@ -1,8 +1,9 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
-import type { UserRole, User } from '@/types/auth'; // Updated import
+
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { useAuth } from '@/hooks/useAuth';
+import type { User, UserRole } from '@/types/auth'; // Updated import
 
 interface ProtectedRouteProps {
   children?: React.ReactNode;
@@ -10,17 +11,17 @@ interface ProtectedRouteProps {
   element?: React.ComponentType<{ user: User; onLogout: () => void }>;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
-  children, 
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
   allowedRoles,
-  element: Component
+  element: Component,
 }) => {
   const { user, logout, isLoading } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background-dark">
+      <div className="bg-background-dark flex h-screen items-center justify-center">
         <LoadingSpinner size="lg" />
       </div>
     );

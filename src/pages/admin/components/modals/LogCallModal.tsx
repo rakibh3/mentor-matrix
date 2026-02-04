@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { Button, Dialog, DialogContent, DialogDescription, DialogTitle, VisuallyHidden } from '@/components/ui';
-
 import { Icon } from '@/constants';
-
-import { FormTextarea } from '@/components/shared/Form';
-import { PrimaryButton } from '@/components/shared/Button';
 import type { CallOutcome } from '@/types';
+
+import { PrimaryButton } from '@/components/shared/Button';
+import { FormTextarea } from '@/components/shared/Form';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  VisuallyHidden,
+} from '@/components/ui';
 
 // Base type for students that can have calls logged
 interface LogCallStudent {
@@ -17,9 +23,16 @@ interface LogCallModalProps<T extends LogCallStudent> {
   isOpen: boolean;
   onClose: () => void;
   onLog: (outcome: CallOutcome, note?: string) => void;
+  isPending?: boolean;
 }
 
-export const LogCallModal = <T extends LogCallStudent>({ student, isOpen, onClose, onLog }: LogCallModalProps<T>) => {
+export const LogCallModal = <T extends LogCallStudent>({
+  student,
+  isOpen,
+  onClose,
+  onLog,
+  isPending,
+}: LogCallModalProps<T>) => {
   const [selectedOutcome, setSelectedOutcome] = useState<CallOutcome | null>(null);
   const [feedback, setFeedback] = useState('');
 
@@ -31,7 +44,13 @@ export const LogCallModal = <T extends LogCallStudent>({ student, isOpen, onClos
 
   if (!student) return null;
 
-  const outcomes: CallOutcome[] = ['Received', 'Not Received', 'Busy', 'Left Voicemail', 'Wrong Number'];
+  const outcomes: CallOutcome[] = [
+    'Received',
+    'Not Received',
+    'Busy',
+    'Left Voicemail',
+    'Wrong Number',
+  ];
 
   const handleOutcomeClick = (outcome: CallOutcome) => {
     if (outcome === 'Received') {
@@ -54,73 +73,88 @@ export const LogCallModal = <T extends LogCallStudent>({ student, isOpen, onClos
           <DialogTitle>Log Outreach: {student.name}</DialogTitle>
           <DialogDescription>Record the outcome of an outreach attempt</DialogDescription>
         </VisuallyHidden>
-        <div className="p-10 flex flex-col">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-lg shadow-primary/5">
-              <Icon name="phone_callback" className="text-2xl text-primary" />
+        <div className="flex flex-col p-10">
+          <div className="mb-8 flex items-center gap-4">
+            <div className="bg-primary/10 border-primary/20 shadow-primary/5 flex size-12 items-center justify-center rounded-2xl border shadow-lg">
+              <Icon name="phone_callback" className="text-primary text-2xl" />
             </div>
             <div>
-              <h3 className="text-2xl font-black text-white uppercase tracking-tight leading-none mb-1">Log Outreach</h3>
-              <p className="text-text-secondary text-xs font-bold uppercase tracking-widest">{student.name}</p>
+              <h3 className="mb-1 text-2xl leading-none font-black tracking-tight text-white uppercase">
+                Log Outreach
+              </h3>
+              <p className="text-text-secondary text-xs font-bold tracking-widest uppercase">
+                {student.name}
+              </p>
             </div>
           </div>
-          
+
           {!selectedOutcome ? (
             <div className="grid grid-cols-1 gap-3">
-              <p className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] mb-2 ml-1">Select Outcome</p>
-              {outcomes.map(outcome => (
-                <Button 
-                  key={outcome} 
-                  onClick={() => handleOutcomeClick(outcome)} 
+              <p className="mb-2 ml-1 text-[10px] font-black tracking-[0.2em] text-gray-500 uppercase">
+                Select Outcome
+              </p>
+              {outcomes.map((outcome) => (
+                <Button
+                  key={outcome}
+                  onClick={() => handleOutcomeClick(outcome)}
                   variant="outline"
-                  className={`w-full h-16 rounded-2xl bg-background-dark/50 text-white flex items-center justify-between px-6 group transition-all duration-300 ${
-                    outcome === 'Received' 
-                      ? 'border-primary/30 hover:bg-primary/10 hover:border-primary' 
+                  className={`bg-background-dark/50 group flex h-16 w-full items-center justify-between rounded-2xl px-6 text-white transition-all duration-300 ${
+                    outcome === 'Received'
+                      ? 'border-primary/30 hover:bg-primary/10 hover:border-primary'
                       : 'border-border-dark hover:border-white/40 hover:bg-white/5'
                   }`}
                 >
                   <span className="font-bold tracking-tight">{outcome}</span>
-                  <div className={`size-8 rounded-xl flex items-center justify-center transition-all ${
-                    outcome === 'Received' ? 'bg-primary/20 text-primary' : 'bg-white/5 text-gray-500 group-hover:text-white'
-                  }`}>
-                    <Icon name={outcome === 'Received' ? "check_circle" : "arrow_forward"} className="text-lg" />
+                  <div
+                    className={`flex size-8 items-center justify-center rounded-xl transition-all ${
+                      outcome === 'Received'
+                        ? 'bg-primary/20 text-primary'
+                        : 'bg-white/5 text-gray-500 group-hover:text-white'
+                    }`}
+                  >
+                    <Icon
+                      name={outcome === 'Received' ? 'check_circle' : 'arrow_forward'}
+                      className="text-lg"
+                    />
                   </div>
                 </Button>
               ))}
             </div>
           ) : (
             <div className="flex flex-col gap-6">
-              <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20 flex items-center justify-between">
+              <div className="bg-primary/5 border-primary/20 flex items-center justify-between rounded-2xl border p-4">
                 <div className="flex items-center gap-3">
-                  <div className="size-8 rounded-lg bg-primary text-background-dark flex items-center justify-center">
+                  <div className="bg-primary text-background-dark flex size-8 items-center justify-center rounded-lg">
                     <Icon name="check" className="font-black" />
                   </div>
-                  <span className="text-primary font-black uppercase tracking-widest text-xs">Call Received</span>
+                  <span className="text-primary text-xs font-black tracking-widest uppercase">
+                    Call Received
+                  </span>
                 </div>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => setSelectedOutcome(null)}
-                  className="text-gray-500 hover:text-white text-[10px] font-black uppercase tracking-widest p-0 h-auto"
+                  className="h-auto p-0 text-[10px] font-black tracking-widest text-gray-500 uppercase hover:text-white"
                 >
                   Change
                 </Button>
               </div>
-              
-                <FormTextarea
-                  label="Conversation Details"
-                  value={feedback}
-                  onChange={(e) => setFeedback(e.target.value)}
-                  placeholder="What did you discuss? Any follow-up needed?"
-                  helpText="Optional but recommended"
-                  className="min-h-[160px] bg-background-dark/80 border-border-dark text-white rounded-2xl focus:ring-primary/20 p-5 text-sm leading-relaxed"
-                />
 
-              <div className="flex gap-3 mt-4">
-                <PrimaryButton 
+              <FormTextarea
+                label="Conversation Details"
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                placeholder="What did you discuss? Any follow-up needed?"
+                helpText="Optional but recommended"
+                className="bg-background-dark/80 border-border-dark focus:ring-primary/20 min-h-[160px] rounded-2xl p-5 text-sm leading-relaxed text-white"
+              />
+
+              <div className="mt-4 flex gap-3">
+                <PrimaryButton
                   onClick={handleSubmitFeedback}
-                  loading={false}
-                  className="w-full h-16 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-primary/10"
+                  loading={isPending}
+                  className="shadow-primary/10 h-16 w-full rounded-2xl font-black tracking-widest uppercase shadow-xl"
                 >
                   Complete Log Entry
                 </PrimaryButton>

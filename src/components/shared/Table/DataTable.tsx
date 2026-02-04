@@ -1,13 +1,23 @@
-import { Button, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableHeader, TableRow } from '@/components/ui';
-
-
 import { Icon } from '@/constants';
+
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import {
+  Button,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui';
+
 import type { DataTableProps } from './types';
 
 /**
  * DataTable - Reusable data table with pagination and sorting
- * 
+ *
  * @example
  * <DataTable
  *   data={students}
@@ -43,21 +53,19 @@ export function DataTable<T>({
 
   if (loading) {
     return (
-      <Card className="rounded-3xl p-20 flex items-center justify-center">
+      <Card className="flex items-center justify-center rounded-3xl p-20">
         <LoadingSpinner size="lg" />
       </Card>
     );
   }
 
   return (
-    <Card className="rounded-3xl shadow-2xl overflow-hidden">
+    <Card className="overflow-hidden rounded-3xl shadow-2xl">
       {headerContent && (
-        <div className="border-b border-card-border bg-card-dark/60">
-          {headerContent}
-        </div>
+        <div className="border-card-border bg-card-dark/60 border-b">{headerContent}</div>
       )}
       <TableContainer>
-        <Table className="text-left border-collapse min-w-full">
+        <Table className="min-w-full border-collapse text-left">
           <TableHeader className="bg-background-dark/30">
             <TableRow className="text-gray-500 hover:bg-transparent">
               {columns.map((column) => (
@@ -66,13 +74,13 @@ export function DataTable<T>({
                     <Button
                       variant="ghost"
                       onClick={() => handleSort(column.key)}
-                      className="group/sort flex items-center gap-2 hover:text-primary h-auto p-0 hover:bg-transparent"
+                      className="group/sort hover:text-primary flex h-auto items-center gap-2 p-0 hover:bg-transparent"
                     >
                       {column.header}
                       {sortColumn === column.key && (
                         <Icon
                           name={sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward'}
-                          className="text-sm text-primary"
+                          className="text-primary text-sm"
                         />
                       )}
                     </Button>
@@ -84,10 +92,13 @@ export function DataTable<T>({
               {actions && <TableHead className="text-center">Actions</TableHead>}
             </TableRow>
           </TableHeader>
-          <TableBody className="divide-y divide-card-border/30 text-sm text-white">
+          <TableBody className="divide-card-border/30 divide-y text-sm text-white">
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length + (actions ? 1 : 0)} className="text-center py-12">
+                <TableCell
+                  colSpan={columns.length + (actions ? 1 : 0)}
+                  className="py-12 text-center"
+                >
                   <p className="text-text-secondary">{emptyMessage}</p>
                 </TableCell>
               </TableRow>
@@ -99,11 +110,7 @@ export function DataTable<T>({
                       {column.accessor(row)}
                     </TableCell>
                   ))}
-                  {actions && (
-                    <TableCell className="text-center">
-                      {actions(row)}
-                    </TableCell>
-                  )}
+                  {actions && <TableCell className="text-center">{actions(row)}</TableCell>}
                 </TableRow>
               ))
             )}
@@ -112,14 +119,14 @@ export function DataTable<T>({
       </TableContainer>
 
       {pagination && pagination.totalPages > 1 && (
-        <div className="px-12 py-10 border-t border-card-border bg-card-dark/30 flex flex-col sm:flex-row items-center justify-between gap-8">
+        <div className="border-card-border bg-card-dark/30 flex flex-col items-center justify-between gap-8 border-t px-12 py-10 sm:flex-row">
           <Button
             variant="outline"
             onClick={() => pagination.onPageChange(pagination.currentPage - 1)}
             disabled={pagination.currentPage === 1}
-            className={`flex items-center gap-2 px-6 py-3 h-auto rounded-xl text-xs font-black uppercase tracking-[0.2em] border active:scale-95 ${
+            className={`flex h-auto items-center gap-2 rounded-xl border px-6 py-3 text-xs font-black tracking-[0.2em] uppercase active:scale-95 ${
               pagination.currentPage === 1
-                ? 'text-gray-800 border-gray-800/30 cursor-not-allowed'
+                ? 'cursor-not-allowed border-gray-800/30 text-gray-800'
                 : 'text-primary border-primary/20 hover:bg-primary/10 hover:border-primary/40'
             }`}
           >
@@ -132,9 +139,9 @@ export function DataTable<T>({
                 key={p}
                 variant="ghost"
                 onClick={() => pagination.onPageChange(p)}
-                className={`w-12 h-12 p-0 rounded-xl flex items-center justify-center text-sm font-black active:scale-90 border-2 ${
+                className={`flex h-12 w-12 items-center justify-center rounded-xl border-2 p-0 text-sm font-black active:scale-90 ${
                   pagination.currentPage === p
-                    ? 'bg-primary text-background-dark border-primary shadow-lg scale-110 z-10 hover:bg-primary hover:text-background-dark'
+                    ? 'bg-primary text-background-dark border-primary hover:bg-primary hover:text-background-dark z-10 scale-110 shadow-lg'
                     : 'text-text-secondary bg-background-dark/40 border-card-border hover:bg-white/5 hover:text-white'
                 }`}
               >
@@ -147,9 +154,9 @@ export function DataTable<T>({
             variant="outline"
             onClick={() => pagination.onPageChange(pagination.currentPage + 1)}
             disabled={pagination.currentPage === pagination.totalPages}
-            className={`flex items-center gap-2 px-6 py-3 h-auto rounded-xl text-xs font-black uppercase tracking-[0.2em] border active:scale-95 ${
+            className={`flex h-auto items-center gap-2 rounded-xl border px-6 py-3 text-xs font-black tracking-[0.2em] uppercase active:scale-95 ${
               pagination.currentPage === pagination.totalPages
-                ? 'text-gray-800 border-gray-800/30 cursor-not-allowed'
+                ? 'cursor-not-allowed border-gray-800/30 text-gray-800'
                 : 'text-primary border-primary/20 hover:bg-primary/10 hover:border-primary/40'
             }`}
           >

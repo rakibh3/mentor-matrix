@@ -1,6 +1,6 @@
 // Auth Types based on postman_collection.json
 
-export type UserRole = 'admin' | 'student' | 'superadmin' | 'ADMIN' | 'STUDENT';
+export type UserRole = 'ADMIN' | 'STUDENT' | 'SUPER_ADMIN' | 'SRM' | 'admin' | 'student' | 'superadmin';
 
 export interface User {
   email: string;
@@ -10,6 +10,9 @@ export interface User {
   discordUsername?: string;
   phone?: string;
   _id?: string;
+  smtpConfig?: {
+    appPassword?: string;
+  };
 }
 
 export interface RequestOtpRequest {

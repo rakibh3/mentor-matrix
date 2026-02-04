@@ -1,12 +1,18 @@
 import { useEffect } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogTitle, IconAvatar, VisuallyHidden } from '@/components/ui';
-
 import { Icon } from '@/constants';
-
 import type { AdminStudent } from '@/types';
-import { createStudentSchema, type CreateStudentInput } from '@/lib/validations';
-import { Form, FormInput, FormSelect, useZodForm } from '@/components/shared/Form';
+
 import { PrimaryButton, SecondaryButton } from '@/components/shared/Button';
+import { Form, FormInput, FormSelect, useZodForm } from '@/components/shared/Form';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  IconAvatar,
+  VisuallyHidden,
+} from '@/components/ui';
+import { createStudentSchema, type CreateStudentInput } from '@/lib/validations';
 
 interface AddStudentModalProps {
   isOpen: boolean;
@@ -32,8 +38,12 @@ export const AddStudentModal: React.FC<AddStudentModalProps> = ({ isOpen, onClos
       status: 'Active',
     },
   });
-  
-  const { register, control, formState: { errors, isSubmitting } } = form;
+
+  const {
+    register,
+    control,
+    formState: { errors, isSubmitting },
+  } = form;
 
   // Reset form when modal closes
   useEffect(() => {
@@ -62,18 +72,26 @@ export const AddStudentModal: React.FC<AddStudentModalProps> = ({ isOpen, onClos
           <DialogTitle>Add New Student</DialogTitle>
           <DialogDescription>Register a new student into the portal</DialogDescription>
         </VisuallyHidden>
-        <div className="p-10 flex flex-col">
-          <div className="flex items-center gap-6 mb-10">
+        <div className="flex flex-col p-10">
+          <div className="mb-10 flex items-center gap-6">
             <IconAvatar size="xl">
               <Icon name="person_add" className="text-4xl" />
             </IconAvatar>
             <div>
-              <h3 className="text-3xl font-black text-white uppercase tracking-tight">Add New Student</h3>
-              <p className="text-text-secondary text-base">Register a new student into the portal</p>
+              <h3 className="text-3xl font-black tracking-tight text-white uppercase">
+                Add New Student
+              </h3>
+              <p className="text-text-secondary text-base">
+                Register a new student into the portal
+              </p>
             </div>
           </div>
 
-          <Form form={form} onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Form
+            form={form}
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 gap-6 md:grid-cols-2"
+          >
             <FormInput
               label="Full Name"
               placeholder="e.g. John Doe"
@@ -82,7 +100,7 @@ export const AddStudentModal: React.FC<AddStudentModalProps> = ({ isOpen, onClos
               className="md:col-span-2"
               {...register('name')}
             />
-            
+
             <FormInput
               label="Email Address"
               type="email"
@@ -91,7 +109,7 @@ export const AddStudentModal: React.FC<AddStudentModalProps> = ({ isOpen, onClos
               required
               {...register('email')}
             />
-            
+
             <FormInput
               label="Phone Number"
               type="tel"
@@ -100,7 +118,7 @@ export const AddStudentModal: React.FC<AddStudentModalProps> = ({ isOpen, onClos
               required
               {...register('phone')}
             />
-            
+
             <FormSelect
               name="cohort"
               control={control}
@@ -109,7 +127,7 @@ export const AddStudentModal: React.FC<AddStudentModalProps> = ({ isOpen, onClos
               error={errors.cohort?.message}
               placeholder="Select cohort"
             />
-            
+
             <FormInput
               label="Discord Username"
               placeholder="e.g. user#1234"
@@ -118,19 +136,11 @@ export const AddStudentModal: React.FC<AddStudentModalProps> = ({ isOpen, onClos
               {...register('discord')}
             />
 
-            <div className="md:col-span-2 flex gap-4 mt-6">
-              <PrimaryButton 
-                type="submit" 
-                loading={isSubmitting}
-                className="flex-1"
-              >
+            <div className="mt-6 flex gap-4 md:col-span-2">
+              <PrimaryButton type="submit" loading={isSubmitting} className="flex-1">
                 Confirm Registration
               </PrimaryButton>
-              <SecondaryButton 
-                type="button" 
-                onClick={handleClose} 
-                className="flex-1"
-              >
+              <SecondaryButton type="button" onClick={handleClose} className="flex-1">
                 Cancel
               </SecondaryButton>
             </div>

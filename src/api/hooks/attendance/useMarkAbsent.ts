@@ -1,5 +1,6 @@
 // useMarkAbsent - Hook for marking students as absent
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { markAbsent } from '@/api/endpoints/attendance';
 
 export const useMarkAbsent = () => {

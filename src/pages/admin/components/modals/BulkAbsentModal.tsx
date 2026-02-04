@@ -1,5 +1,5 @@
-
 import React from 'react';
+
 import { ConfirmationModal } from './ConfirmationModal';
 
 interface BulkAbsentModalProps {
@@ -9,11 +9,11 @@ interface BulkAbsentModalProps {
   isLoading?: boolean;
 }
 
-export const BulkAbsentModal: React.FC<BulkAbsentModalProps> = ({ 
-  isOpen, 
-  onClose, 
+export const BulkAbsentModal: React.FC<BulkAbsentModalProps> = ({
+  isOpen,
+  onClose,
   onConfirm,
-  isLoading = false
+  isLoading = false,
 }) => {
   return (
     <ConfirmationModal
@@ -25,7 +25,8 @@ export const BulkAbsentModal: React.FC<BulkAbsentModalProps> = ({
       title="Bulk Absent Action"
       description={
         <>
-          Mark <span className="text-white font-bold italic">all students</span> as absent for today's session?
+          Mark <span className="font-bold text-white italic">all students</span> as absent for
+          today's session?
         </>
       }
       confirmText="Confirm"

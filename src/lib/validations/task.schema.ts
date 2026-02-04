@@ -4,13 +4,13 @@ import { z } from 'zod';
  * Module numbers available
  */
 export const MODULE_NUMBERS = [1, 2, 3, 4, 5, 6] as const;
-export type ModuleNumber = typeof MODULE_NUMBERS[number];
+export type ModuleNumber = (typeof MODULE_NUMBERS)[number];
 
 /**
  * Mission numbers available
  */
 export const MISSION_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8] as const;
-export type MissionNumber = typeof MISSION_NUMBERS[number];
+export type MissionNumber = (typeof MISSION_NUMBERS)[number];
 
 /**
  * Schema for editing a task/assignment

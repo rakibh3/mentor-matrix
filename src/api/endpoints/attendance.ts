@@ -1,22 +1,19 @@
 // Attendance API Endpoints
 import apiClient from '@/api/client/axios';
 import type {
+  DeleteAttendanceResponse,
+  GetAttendanceResponse,
   MarkAttendanceRequest,
   MarkAttendanceResponse,
-  GetAttendanceResponse,
   UpdateAttendanceRequest,
-  DeleteAttendanceResponse,
   WindowStatusResponse,
 } from '@/api/types/attendance.types';
 
 export const markAttendance = async (
   data: MarkAttendanceRequest
 ): Promise<MarkAttendanceResponse> => {
-  console.log(data) 
-  const response = await apiClient.post<MarkAttendanceResponse>(
-    '/create-attendance',
-    data
-  );
+  console.log(data);
+  const response = await apiClient.post<MarkAttendanceResponse>('/create-attendance', data);
   return response.data;
 };
 
@@ -30,13 +27,19 @@ export const getAttendance = async (): Promise<GetAttendanceResponse> => {
 };
 
 /**
+ * Get SRM assigned students attendance (GET /get-attendance/srm)
+ */
+export const getSrmAttendance = async (): Promise<GetAttendanceResponse> => {
+  const response = await apiClient.get<GetAttendanceResponse>('/get-attendance/srm');
+  return response.data;
+};
+
+/**
  * Get student attendance (GET /get-attendance/student)
  * Based on postman_collection.json line 282-297
  */
 export const getStudentAttendance = async (): Promise<GetAttendanceResponse> => {
-  const response = await apiClient.get<GetAttendanceResponse>(
-    '/get-attendance/student'
-  );
+  const response = await apiClient.get<GetAttendanceResponse>('/get-attendance/student');
   return response.data;
 };
 
@@ -59,9 +62,7 @@ export const updateAttendance = async (
  * Delete attendance (DELETE /delete-attendance/:attendanceId)
  * Based on postman_collection.json line 333-355
  */
-export const deleteAttendance = async (
-  attendanceId: string
-): Promise<DeleteAttendanceResponse> => {
+export const deleteAttendance = async (attendanceId: string): Promise<DeleteAttendanceResponse> => {
   const response = await apiClient.delete<DeleteAttendanceResponse>(
     `/delete-attendance/${attendanceId}`
   );
@@ -73,9 +74,7 @@ export const deleteAttendance = async (
  * Based on postman_collection.json line 357-371
  */
 export const openAttendanceWindow = async (): Promise<{ success: boolean; message: string }> => {
-  const response = await apiClient.post<{ success: boolean; message: string }>(
-    '/open-window'
-  );
+  const response = await apiClient.post<{ success: boolean; message: string }>('/open-window');
   return response.data;
 };
 
@@ -84,9 +83,7 @@ export const openAttendanceWindow = async (): Promise<{ success: boolean; messag
  * Based on postman_collection.json line 374-388
  */
 export const closeAttendanceWindow = async (): Promise<{ success: boolean; message: string }> => {
-  const response = await apiClient.post<{ success: boolean; message: string }>(
-    '/close-window'
-  );
+  const response = await apiClient.post<{ success: boolean; message: string }>('/close-window');
   return response.data;
 };
 
@@ -103,7 +100,9 @@ export const getWindowStatus = async (): Promise<WindowStatusResponse> => {
  * Mark absent (POST /mark-absent)
  * Based on postman_collection.json line 408-432
  */
-export const markAbsent = async (data: { date: string }): Promise<{ success: boolean; message: string }> => {
+export const markAbsent = async (data: {
+  date: string;
+}): Promise<{ success: boolean; message: string }> => {
   const response = await apiClient.post<{ success: boolean; message: string }>(
     '/mark-absent',
     data

@@ -1,10 +1,58 @@
 [
-  { "id": "10", "mission": 8, "moduleNumber": 5, "guideline": "Advanced Redux Toolkit and Query patterns", "dueDate": "2023-10-29" },
-  { "id": "9", "mission": 7, "moduleNumber": 5, "guideline": "Middleware and side-effects in React", "dueDate": "2023-10-28" },
-  { "id": "8", "mission": 6, "moduleNumber": 5, "guideline": "State management architecture review", "dueDate": "2023-10-27" },
-  { "id": "7", "mission": 5, "moduleNumber": 4, "guideline": "Watch video carefully and complete hooks exercise", "dueDate": "2023-10-24" },
-  { "id": "6", "mission": 4, "moduleNumber": 4, "guideline": "Focus on JSX patterns and props drilling", "dueDate": "2023-10-23" },
-  { "id": "5", "mission": 3, "moduleNumber": 3, "guideline": "Async/Await syntax mastery", "dueDate": "2023-10-22" },
-  { "id": "4", "mission": 2, "moduleNumber": 3, "guideline": "Promises and error handling in JS", "dueDate": "2023-10-21" },
-  { "id": "3", "mission": 1, "moduleNumber": 3, "guideline": "ES6 Classes and OOP principles", "dueDate": "2023-10-20" }
+  {
+    "id": "10",
+    "mission": 8,
+    "moduleNumber": 5,
+    "guideline": "Advanced Redux Toolkit and Query patterns",
+    "dueDate": "2023-10-29"
+  },
+  {
+    "id": "9",
+    "mission": 7,
+    "moduleNumber": 5,
+    "guideline": "Middleware and side-effects in React",
+    "dueDate": "2023-10-28"
+  },
+  {
+    "id": "8",
+    "mission": 6,
+    "moduleNumber": 5,
+    "guideline": "State management architecture review",
+    "dueDate": "2023-10-27"
+  },
+  {
+    "id": "7",
+    "mission": 5,
+    "moduleNumber": 4,
+    "guideline": "Watch video carefully and complete hooks exercise",
+    "dueDate": "2023-10-24"
+  },
+  {
+    "id": "6",
+    "mission": 4,
+    "moduleNumber": 4,
+    "guideline": "Focus on JSX patterns and props drilling",
+    "dueDate": "2023-10-23"
+  },
+  {
+    "id": "5",
+    "mission": 3,
+    "moduleNumber": 3,
+    "guideline": "Async/Await syntax mastery",
+    "dueDate": "2023-10-22"
+  },
+  {
+    "id": "4",
+    "mission": 2,
+    "moduleNumber": 3,
+    "guideline": "Promises and error handling in JS",
+    "dueDate": "2023-10-21"
+  },
+  {
+    "id": "3",
+    "mission": 1,
+    "moduleNumber": 3,
+    "guideline": "ES6 Classes and OOP principles",
+    "dueDate": "2023-10-20"
+  }
 ]

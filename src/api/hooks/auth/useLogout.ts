@@ -1,5 +1,5 @@
 // useLogout - Hook for logout
-import { logout } from '../../endpoints/auth';
+import { logout } from '@/api/endpoints/auth';
 
 export const useLogout = () => {
   const handleLogout = () => {

@@ -1,11 +1,13 @@
 import React from 'react';
-import { Button } from '@/components/ui';
+
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import { Button } from '@/components/ui';
+
 import type { PrimaryButtonProps } from './types';
 
 /**
  * PrimaryButton - Pre-configured primary action button
- * 
+ *
  * @example
  * <PrimaryButton loading={isSubmitting} onClick={handleSubmit}>
  *   Submit Form

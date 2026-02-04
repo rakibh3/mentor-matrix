@@ -2,7 +2,20 @@ export const formatDisplayDate = (dateString: string) => {
   if (!dateString) return '';
   const parts = dateString.split('-');
   if (parts.length !== 3) return dateString;
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
   return `${parseInt(parts[2], 10)} ${months[parseInt(parts[1], 10) - 1]}`;
 };
 

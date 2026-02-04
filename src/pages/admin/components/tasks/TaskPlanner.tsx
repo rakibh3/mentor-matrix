@@ -1,14 +1,12 @@
-
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Icon } from '@/constants';
-import { BackgroundGlow, Card, IconAvatar } from '@/components/ui';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-
-import { Form, FormSelect, FormTextarea } from '@/components/shared/Form';
 import { PrimaryButton, SecondaryButton } from '@/components/shared/Button';
+import { Form, FormSelect, FormTextarea } from '@/components/shared/Form';
+import { BackgroundGlow, Card, IconAvatar } from '@/components/ui';
 
 const taskSchema = z.object({
   module: z.string().min(1, 'Module is required'),
@@ -40,7 +38,11 @@ export const TaskPlanner: React.FC<TaskPlannerProps> = ({
     },
   });
 
-  const { control, reset, formState: { errors } } = form;
+  const {
+    control,
+    reset,
+    formState: { errors },
+  } = form;
 
   const onSubmit = (data: TaskFormData) => {
     onBroadcast(data);
@@ -65,22 +67,35 @@ export const TaskPlanner: React.FC<TaskPlannerProps> = ({
   }));
 
   return (
-    <Card className="flex flex-col rounded-[2.5rem] border-card-border/50 bg-[#121d16] p-10 shadow-2xl relative group overflow-visible">
-      <BackgroundGlow position="top-right" size="sm" blur="md" className="w-64 h-64 rounded-tr-[2.5rem]" />
-      <div className="flex justify-between items-start mb-10 relative z-10">
-        <div className="flex gap-5 items-center">
-          <IconAvatar variant="primary" size="lg" className="bg-[#16271e] shadow-inner group-hover:scale-105 transition-transform duration-500">
+    <Card className="border-card-border/50 group relative flex flex-col overflow-visible rounded-[2.5rem] bg-[#121d16] p-10 shadow-2xl">
+      <BackgroundGlow
+        position="top-right"
+        size="sm"
+        blur="md"
+        className="h-64 w-64 rounded-tr-[2.5rem]"
+      />
+      <div className="relative z-10 mb-10 flex items-start justify-between">
+        <div className="flex items-center gap-5">
+          <IconAvatar
+            variant="primary"
+            size="lg"
+            className="bg-[#16271e] shadow-inner transition-transform duration-500 group-hover:scale-105"
+          >
             <Icon name="event_note" className="text-4xl" />
           </IconAvatar>
           <div className="flex flex-col">
-            <p className="text-white text-2xl font-black leading-tight tracking-tight uppercase">Session Planner</p>
-            <p className="text-text-secondary text-xs font-medium opacity-60">Push next day's mission to the student dashboard.</p>
+            <p className="text-2xl leading-tight font-black tracking-tight text-white uppercase">
+              Session Planner
+            </p>
+            <p className="text-text-secondary text-xs font-medium opacity-60">
+              Push next day's mission to the student dashboard.
+            </p>
           </div>
         </div>
       </div>
 
       <Form form={form} onSubmit={onSubmit} className="contents">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 relative z-30">
+        <div className="relative z-30 mb-8 grid grid-cols-1 gap-8 md:grid-cols-2">
           <FormSelect
             name="module"
             control={control}
@@ -101,35 +116,38 @@ export const TaskPlanner: React.FC<TaskPlannerProps> = ({
           />
         </div>
 
-        <div className="mb-10 relative z-10">
+        <div className="relative z-10 mb-10">
           <FormTextarea
             label="Learning Guideline"
             placeholder="Describe the focus for tomorrow's session..."
-            className="h-40 bg-background-dark/50 border-card-border/50 focus:border-primary/50 transition-colors resize-none mb-0"
+            className="bg-background-dark/50 border-card-border/50 focus:border-primary/50 mb-0 h-40 resize-none transition-colors"
             error={errors.guideline?.message}
             {...control.register('guideline')}
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+        <div className="relative z-10 flex flex-col gap-4 sm:flex-row">
           <PrimaryButton
             type="submit"
             size="lg"
-            className="flex-[3] tracking-[0.2em] group/btn h-14 text-base"
+            className="group/btn h-14 flex-[3] text-base tracking-[0.2em]"
             loading={isSubmitting}
             loadingText="Broadcasting..."
           >
             <div className="flex items-center gap-3">
-              <Icon name="send" className="text-xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <Icon
+                name="send"
+                className="text-xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+              />
               <span>Broadcast Task</span>
             </div>
           </PrimaryButton>
-          
+
           <SecondaryButton
             type="button"
             onClick={handleClear}
             size="lg"
-            className="flex-1 tracking-[0.2em] h-14 text-base border-card-border/50 hover:bg-white/5 hover:text-white"
+            className="border-card-border/50 h-14 flex-1 text-base tracking-[0.2em] hover:bg-white/5 hover:text-white"
           >
             <div className="flex items-center gap-2">
               <Icon name="refresh" className="text-xl" />

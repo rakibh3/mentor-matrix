@@ -1,20 +1,18 @@
 // Tasks API Endpoints
-import apiClient from '../client/axios';
+import apiClient from '@/api/client/axios';
 import type {
   CreateTaskRequest,
-  UpdateTaskRequest,
+  DeleteTaskResponse,
   TaskResponse,
   TasksResponse,
-  DeleteTaskResponse,
-} from '../types/task.types';
+  UpdateTaskRequest,
+} from '@/api/types/task.types';
 
 /**
  * Create task (POST /task)
  * Based on postman_collection.json line 439-462
  */
-export const createTask = async (
-  data: CreateTaskRequest
-): Promise<TaskResponse> => {
+export const createTask = async (data: CreateTaskRequest): Promise<TaskResponse> => {
   const response = await apiClient.post<TaskResponse>('/task', data);
   return response.data;
 };
@@ -27,10 +25,7 @@ export const updateTask = async (
   taskId: string,
   data: UpdateTaskRequest
 ): Promise<TaskResponse> => {
-  const response = await apiClient.patch<TaskResponse>(
-    `/task/${taskId}`,
-    data
-  );
+  const response = await apiClient.patch<TaskResponse>(`/task/${taskId}`, data);
   return response.data;
 };
 
@@ -65,11 +60,7 @@ export const getDueTasks = async (): Promise<TasksResponse> => {
  * Delete task (DELETE /task/:taskId)
  * Based on postman_collection.json line 552-574
  */
-export const deleteTask = async (
-  taskId: string
-): Promise<DeleteTaskResponse> => {
-  const response = await apiClient.delete<DeleteTaskResponse>(
-    `/task/${taskId}`
-  );
+export const deleteTask = async (taskId: string): Promise<DeleteTaskResponse> => {
+  const response = await apiClient.delete<DeleteTaskResponse>(`/task/${taskId}`);
   return response.data;
 };

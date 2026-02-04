@@ -1,26 +1,22 @@
 // Auth API Endpoints
-import apiClient from '../client/axios';
+import Cookies from 'js-cookie';
+
+import apiClient from '@/api/client/axios';
 import type {
+  RegisterUserRequest,
+  RegisterUserResponse,
   RequestOtpRequest,
   RequestOtpResponse,
   VerifyOtpRequest,
   VerifyOtpResponse,
-  RegisterUserRequest,
-  RegisterUserResponse,
-} from '../types/auth.types';
-import Cookies from 'js-cookie';
+} from '@/api/types/auth.types';
 
 /**
  * Request OTP (POST /auth/request-otp)
  * Based on postman_collection.json line 13-41
  */
-export const requestOtp = async (
-  data: RequestOtpRequest
-): Promise<RequestOtpResponse> => {
-  const response = await apiClient.post<RequestOtpResponse>(
-    '/auth/request-otp',
-    data
-  );
+export const requestOtp = async (data: RequestOtpRequest): Promise<RequestOtpResponse> => {
+  const response = await apiClient.post<RequestOtpResponse>('/auth/request-otp', data);
   return response.data;
 };
 
@@ -28,13 +24,8 @@ export const requestOtp = async (
  * Verify OTP (POST /auth/verify-otp)
  * Based on postman_collection.json line 44-87
  */
-export const verifyOtp = async (
-  data: VerifyOtpRequest
-): Promise<VerifyOtpResponse> => {
-  const response = await apiClient.post<VerifyOtpResponse>(
-    '/auth/verify-otp',
-    data
-  );
+export const verifyOtp = async (data: VerifyOtpRequest): Promise<VerifyOtpResponse> => {
+  const response = await apiClient.post<VerifyOtpResponse>('/auth/verify-otp', data);
   return response.data;
 };
 
@@ -42,13 +33,8 @@ export const verifyOtp = async (
  * Register User (POST /auth/register)
  * Based on postman_collection.json line 90-117
  */
-export const registerUser = async (
-  data: RegisterUserRequest
-): Promise<RegisterUserResponse> => {
-  const response = await apiClient.post<RegisterUserResponse>(
-    '/auth/register',
-    data
-  );
+export const registerUser = async (data: RegisterUserRequest): Promise<RegisterUserResponse> => {
+  const response = await apiClient.post<RegisterUserResponse>('/auth/register', data);
   return response.data;
 };
 

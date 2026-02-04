@@ -1,50 +1,51 @@
-import * as React from "react"
-import { format, parse, isValid, startOfDay } from "date-fns"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Button } from "@/components/ui/button"
-import { Icon } from "@/constants"
-import { cn } from "@/lib/utils"
+import * as React from 'react';
+import { Icon } from '@/constants';
+import { format, isValid, parse, startOfDay } from 'date-fns';
+
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
 
 interface DatePickerProps {
-  value: string
-  onChange: (date: string) => void
-  placeholder?: string
-  disablePast?: boolean
-  className?: string
+  value: string;
+  onChange: (date: string) => void;
+  placeholder?: string;
+  disablePast?: boolean;
+  className?: string;
 }
 
 function DatePicker({
   value,
   onChange,
-  placeholder = "Select date",
+  placeholder = 'Select date',
   disablePast = true,
   className,
 }: DatePickerProps) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
-  const today = startOfDay(new Date())
+  const today = startOfDay(new Date());
 
   // Parse the value string to Date object
   const selectedDate = React.useMemo(() => {
-    if (!value) return undefined
-    const parsed = parse(value, "yyyy-MM-dd", new Date())
-    return isValid(parsed) ? parsed : undefined
-  }, [value])
+    if (!value) return undefined;
+    const parsed = parse(value, 'yyyy-MM-dd', new Date());
+    return isValid(parsed) ? parsed : undefined;
+  }, [value]);
 
   const handleSelect = (date: Date | undefined) => {
     if (date) {
-      onChange(format(date, "yyyy-MM-dd"))
-      setOpen(false)
+      onChange(format(date, 'yyyy-MM-dd'));
+      setOpen(false);
     }
-  }
+  };
 
   const handleTodayClick = () => {
-    onChange(format(today, "yyyy-MM-dd"))
-    setOpen(false)
-  }
+    onChange(format(today, 'yyyy-MM-dd'));
+    setOpen(false);
+  };
 
-  const disabledDays = disablePast ? { before: today } : undefined
+  const disabledDays = disablePast ? { before: today } : undefined;
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,25 +54,33 @@ function DatePicker({
           type="button"
           variant="ghost"
           className={cn(
-            "w-full flex items-center justify-between rounded-xl border h-14 px-5 text-sm font-bold transition-all outline-none bg-background-dark/50 hover:bg-background-dark/50",
-            open ? "border-primary ring-1 ring-primary/30" : "border-card-border hover:border-primary/50",
+            'bg-background-dark/50 hover:bg-background-dark/50 flex h-14 w-full items-center justify-between rounded-xl border px-5 text-sm font-bold transition-all outline-none',
+            open
+              ? 'border-primary ring-primary/30 ring-1'
+              : 'border-card-border hover:border-primary/50',
             className
           )}
         >
           <div className="flex items-center gap-3 text-white">
-            <Icon name="calendar_month" className={cn("text-xl", open ? "text-primary" : "text-gray-500")} />
-            <span className={value ? "text-white" : "text-gray-600"}>
-              {selectedDate ? format(selectedDate, "MMM d, yyyy") : placeholder}
+            <Icon
+              name="calendar_month"
+              className={cn('text-xl', open ? 'text-primary' : 'text-gray-500')}
+            />
+            <span className={value ? 'text-white' : 'text-gray-600'}>
+              {selectedDate ? format(selectedDate, 'MMM d, yyyy') : placeholder}
             </span>
           </div>
-          <Icon 
-            name="expand_more" 
-            className={cn("text-xl text-gray-500 transition-transform duration-300", open && "rotate-180 text-primary")} 
+          <Icon
+            name="expand_more"
+            className={cn(
+              'text-xl text-gray-500 transition-transform duration-300',
+              open && 'text-primary rotate-180'
+            )}
           />
         </Button>
       </PopoverTrigger>
-      <PopoverContent 
-        className="w-auto p-0 bg-surface-dark border-card-border rounded-2xl shadow-2xl overflow-hidden" 
+      <PopoverContent
+        className="bg-surface-dark border-card-border w-auto overflow-hidden rounded-2xl p-0 shadow-2xl"
         align="start"
         sideOffset={8}
       >
@@ -83,17 +92,17 @@ function DatePicker({
             disabled={disabledDays}
             defaultMonth={selectedDate || today}
           />
-          <div className="mt-4 pt-4 border-t border-card-border/50 flex justify-between items-center">
+          <div className="border-card-border/50 mt-4 flex items-center justify-between border-t pt-4">
             <Button
               type="button"
               variant="link"
               onClick={handleTodayClick}
-              className="text-xs font-black uppercase tracking-widest text-primary hover:underline p-0 h-auto"
+              className="text-primary h-auto p-0 text-xs font-black tracking-widest uppercase hover:underline"
             >
               Today
             </Button>
             {disablePast && (
-              <span className="text-xs font-bold text-gray-600 uppercase tracking-widest">
+              <span className="text-xs font-bold tracking-widest text-gray-600 uppercase">
                 Future dates only
               </span>
             )}
@@ -101,7 +110,7 @@ function DatePicker({
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
 
-export { DatePicker }
+export { DatePicker };

@@ -1,13 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Icon } from '@/constants';
-import { BackgroundGlow, Button, Card, IconAvatar, Input, Progress, StatusDot, useToast } from '@/components/ui'
-import { Form, FormInput, useZodForm } from '@/components/shared/Form';
-import { PrimaryButton } from '@/components/shared/Button';
-import * as auth from '@/api/endpoints/auth';
-import { useAuth } from '@/hooks/useAuth';
 import { jwtDecode } from 'jwt-decode';
+import { Link } from 'react-router-dom';
+
+import * as auth from '@/api/endpoints/auth';
+import { PrimaryButton } from '@/components/shared/Button';
+import { Form, FormInput, useZodForm } from '@/components/shared/Form';
+import {
+  BackgroundGlow,
+  Button,
+  Card,
+  IconAvatar,
+  Input,
+  Progress,
+  StatusDot,
+  useToast,
+} from '@/components/ui';
+import { useAuth } from '@/hooks/useAuth';
 import {
   loginEmailSchema,
   otpSchema,
@@ -77,19 +87,19 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     setIsSubmitting(true);
     try {
       const response = await auth.verifyOtp({ email: submittedEmail, otp: data.otp });
-      
+
       // Extract data from API response structure
       const resultData = response.data || response;
       const { accessToken, user: userData } = resultData;
-      console.log("Access Token", accessToken)
-      console.log("User Data", userData)
+      console.log('Access Token', accessToken);
+      console.log('User Data', userData);
 
       if (accessToken && userData) {
         // Decode token to extract role
         const decoded: any = jwtDecode(accessToken);
         const userRole = (decoded.role || 'student').toLowerCase() as any;
-        console.log("User Role", userRole)
-        console.log("User Data", userData)
+        console.log('User Role', userRole);
+        console.log('User Data', userData);
 
         login(accessToken, {
           id: userData._id,
@@ -102,8 +112,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         addToast({
           type: 'success',
           title: 'Identity Verified',
-          message:
-            'Authentication successful. Synchronizing your dashboard data...',
+          message: 'Authentication successful. Synchronizing your dashboard data...',
         });
 
         setTimeout(() => {
@@ -113,7 +122,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         throw new Error('Invalid response structure from server');
       }
     } catch (error: any) {
-
       const errorMessage =
         error.response?.data?.errorMessage ||
         error.response?.data?.message ||
@@ -131,8 +139,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   const handleQuickLogin = (type: 'admin' | 'student') => {
-    const demoEmail =
-      type === 'admin' ? 'admin@devcamp.io' : 'alex@student.com';
+    const demoEmail = type === 'admin' ? 'admin@devcamp.io' : 'alex@student.com';
 
     // Set demo cookie for development/testing if needed
     if (import.meta.env.DEV) {
@@ -175,10 +182,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     }
   };
 
-  const handleOtpKeyDown = (
-    index: number,
-    e: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
+  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     // Handle backspace to go to previous input
     if (e.key === 'Backspace' && !otpDigits[index] && index > 0) {
       const prevInput = document.getElementById(`otp-${index - 1}`);
@@ -193,42 +197,37 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-hidden bg-background-dark font-display antialiased text-white transition-colors duration-200">
-      <header className="flex items-center justify-between whitespace-nowrap px-4 py-3 md:px-6 md:py-4 lg:px-10 lg:py-6 w-full absolute top-0 z-10">
+    <div className="bg-background-dark font-display relative flex min-h-screen w-full flex-col overflow-hidden text-white antialiased transition-colors duration-200">
+      <header className="absolute top-0 z-10 flex w-full items-center justify-between px-4 py-3 whitespace-nowrap md:px-6 md:py-4 lg:px-10 lg:py-6">
         <div className="flex items-center gap-2 md:gap-3">
-          <IconAvatar
-            variant="primary"
-            size="sm"
-            bordered={false}
-            className="rounded-lg"
-          >
+          <IconAvatar variant="primary" size="sm" bordered={false} className="rounded-lg">
             <Icon name="school" className="text-2xl" />
           </IconAvatar>
-          <h2 className="text-white text-lg font-bold leading-tight tracking-tight">
+          <h2 className="text-lg leading-tight font-bold tracking-tight text-white">
             Bootcamp Portal
           </h2>
         </div>
         <div className="hidden sm:block">
           <Button
             variant="link"
-            className="text-sm font-medium text-gray-400 hover:text-primary p-0 h-auto"
+            className="hover:text-primary h-auto p-0 text-sm font-medium text-gray-400"
           >
             Help & Support
           </Button>
         </div>
       </header>
       <main className="flex flex-1 flex-col items-center justify-center p-4">
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
           <BackgroundGlow position="top-left" size="md" blur="xl" />
           <BackgroundGlow
             variant="primary-strong"
             position="center-right"
             size="sm"
             blur="lg"
-            className="w-[40%] h-[60%]"
+            className="h-[60%] w-[40%]"
           />
         </div>
-        <Card className="relative z-10 w-full max-w-[600px] rounded-3xl bg-surface-dark shadow-xl border-gray-800 overflow-hidden transition-all duration-300">
+        <Card className="bg-surface-dark relative z-10 w-full max-w-[600px] overflow-hidden rounded-3xl border-gray-800 shadow-xl transition-all duration-300">
           <Progress
             value={step === 'email' ? 50 : 100}
             className="h-1 rounded-none bg-gray-800"
@@ -237,29 +236,23 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           <div className="px-5 py-8 sm:px-10 sm:py-12">
             {step === 'email' ? (
               <div
-                className={`transition-all duration-300 transform ${isTransitioning ? 'opacity-0 -translate-x-8' : 'opacity-100 translate-x-0'}`}
+                className={`transform transition-all duration-300 ${isTransitioning ? '-translate-x-8 opacity-0' : 'translate-x-0 opacity-100'}`}
               >
                 <div className="mb-8 text-center">
                   <IconAvatar
                     variant="primary"
                     size="lg"
                     bordered={false}
-                    className="mx-auto mb-4 rounded-full bg-primary/20"
+                    className="bg-primary/20 mx-auto mb-4 rounded-full"
                   >
                     <Icon name="lock_person" className="text-4xl" />
                   </IconAvatar>
-                  <h1 className="text-2xl font-bold leading-tight text-white mb-2">
-                    Welcome Back
-                  </h1>
+                  <h1 className="mb-2 text-2xl leading-tight font-bold text-white">Welcome Back</h1>
                   <p className="text-sm font-medium text-gray-400">
                     Enter your email to access your dashboard.
                   </p>
                 </div>
-                <Form
-                  form={emailForm}
-                  onSubmit={handleEmailSubmit}
-                  className="space-y-6"
-                >
+                <Form form={emailForm} onSubmit={handleEmailSubmit} className="space-y-6">
                   <FormInput
                     label="Email Address"
                     placeholder="student@bootcamp.com"
@@ -272,7 +265,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   />
                   <PrimaryButton
                     loading={isSubmitting}
-                    className="group w-full h-14 rounded-2xl text-sm font-bold uppercase tracking-wide text-[#111814]"
+                    className="group h-14 w-full rounded-2xl text-sm font-bold tracking-wide text-[#111814] uppercase"
                     type="submit"
                   >
                     <span className="mr-2">Get Login Code</span>
@@ -281,10 +274,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                       className="text-lg transition-transform group-hover:translate-x-1"
                     />
                   </PrimaryButton>
-                  <div className="text-center mt-6">
+                  <div className="mt-6 text-center">
                     <Link
                       to="/register"
-                      className="text-sm font-bold uppercase tracking-widest text-primary hover:text-primary-hover transition-colors"
+                      className="text-primary hover:text-primary-hover text-sm font-bold tracking-widest uppercase transition-colors"
                     >
                       New student? Register for access
                     </Link>
@@ -294,34 +287,28 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 {import.meta.env.DEV && (
                   <>
                     <div className="relative my-8">
-                      <div
-                        aria-hidden="true"
-                        className="absolute inset-0 flex items-center"
-                      >
+                      <div aria-hidden="true" className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-800"></div>
                       </div>
                       <div className="relative flex justify-center">
-                        <span className="bg-surface-dark px-2 text-sm text-gray-500 uppercase tracking-widest font-bold">
+                        <span className="bg-surface-dark px-2 text-sm font-bold tracking-widest text-gray-500 uppercase">
                           Demo Access
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 mt-4">
+                    <div className="mt-4 grid grid-cols-2 gap-4">
                       <Button
                         variant="outline"
                         onClick={() => handleQuickLogin('admin')}
-                        className="flex items-center justify-center gap-2 px-4 py-2.5 h-auto rounded-lg bg-surface-dark border border-border-dark text-sm font-bold text-white hover:bg-white/5 hover:border-primary/50"
+                        className="bg-surface-dark border-border-dark hover:border-primary/50 flex h-auto items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-bold text-white hover:bg-white/5"
                       >
-                        <Icon
-                          name="admin_panel_settings"
-                          className="text-primary text-lg"
-                        />
+                        <Icon name="admin_panel_settings" className="text-primary text-lg" />
                         Admin Access
                       </Button>
                       <Button
                         variant="outline"
                         onClick={() => handleQuickLogin('student')}
-                        className="flex items-center justify-center gap-2 px-4 py-2.5 h-auto rounded-lg bg-surface-dark border border-border-dark text-sm font-bold text-white hover:bg-white/5 hover:border-primary/50"
+                        className="bg-surface-dark border-border-dark hover:border-primary/50 flex h-auto items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-bold text-white hover:bg-white/5"
                       >
                         <Icon name="person" className="text-primary text-lg" />
                         Student Access
@@ -332,32 +319,28 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               </div>
             ) : (
               <div
-                className={`transition-all duration-300 transform ${isTransitioning ? 'opacity-0 translate-x-8' : 'opacity-100 translate-x-0'}`}
+                className={`transform transition-all duration-300 ${isTransitioning ? 'translate-x-8 opacity-0' : 'translate-x-0 opacity-100'}`}
               >
                 <div className="mb-8 text-center">
                   <IconAvatar
                     variant="primary"
                     size="lg"
                     bordered={false}
-                    className="mx-auto mb-4 rounded-full bg-primary/20"
+                    className="bg-primary/20 mx-auto mb-4 rounded-full"
                   >
                     <Icon name="mark_email_unread" className="text-[32px]" />
                   </IconAvatar>
-                  <h1 className="text-2xl font-bold leading-tight text-white mb-2">
+                  <h1 className="mb-2 text-2xl leading-tight font-bold text-white">
                     Check your inbox
                   </h1>
                   <p className="text-sm text-gray-400">
                     We sent a 6-digit code to{' '}
-                    <span className="text-white font-semibold">
+                    <span className="font-semibold text-white">
                       {submittedEmail || 'student@bootcamp.com'}
                     </span>
                   </p>
                 </div>
-                <Form
-                  form={otpForm}
-                  onSubmit={handleVerify}
-                  className="space-y-8"
-                >
+                <Form form={otpForm} onSubmit={handleVerify} className="space-y-8">
                   {/* Hidden input for form validation */}
                   <input type="hidden" {...otpForm.register('otp')} />
 
@@ -378,12 +361,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                           value={digit}
                           onChange={(e) => handleOtpChange(i, e.target.value)}
                           onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                          className="w-9 h-11 text-lg sm:w-12 sm:h-14 sm:text-xl"
+                          className="h-11 w-9 text-lg sm:h-14 sm:w-12 sm:text-xl"
                         />
                       ))}
                     </div>
                     {otpForm.formState.errors.otp && (
-                      <p className="text-center text-sm text-red-500 mt-2">
+                      <p className="mt-2 text-center text-sm text-red-500">
                         {otpForm.formState.errors.otp.message}
                       </p>
                     )}
@@ -391,18 +374,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
                   <PrimaryButton
                     loading={isSubmitting}
-                    className="w-full h-14 rounded-2xl text-sm font-bold uppercase tracking-wide text-[#111814]"
+                    className="h-14 w-full rounded-2xl text-sm font-bold tracking-wide text-[#111814] uppercase"
                     type="submit"
                   >
                     Verify & Login
                   </PrimaryButton>
-                  <div className="text-center flex flex-col gap-3">
-                    <p className="text-xs sm:text-sm text-gray-400">
+                  <div className="flex flex-col gap-3 text-center">
+                    <p className="text-xs text-gray-400 sm:text-sm">
                       Didn't receive the code?
                       <Button
                         type="button"
                         variant="link"
-                        className="font-bold text-primary hover:text-primary-hover ml-1 p-0 h-auto"
+                        className="text-primary hover:text-primary-hover ml-1 h-auto p-0 font-bold"
                       >
                         Resend in 30s
                       </Button>
@@ -410,7 +393,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                     <Button
                       type="button"
                       variant="link"
-                      className="text-sm text-gray-500 hover:text-gray-400 underline p-0 h-auto"
+                      className="h-auto p-0 text-sm text-gray-500 underline hover:text-gray-400"
                       onClick={handleBackToEmail}
                     >
                       Change email address
@@ -422,7 +405,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </div>
         </Card>
       </main>
-      <div className="fixed bottom-4 left-4 z-20 flex items-center gap-2 text-sm text-gray-600 pointer-events-none">
+      <div className="pointer-events-none fixed bottom-4 left-4 z-20 flex items-center gap-2 text-sm text-gray-600">
         <StatusDot variant="primary" pulse />
         System Operational
       </div>

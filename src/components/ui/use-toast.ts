@@ -1,12 +1,12 @@
-import { toast } from "sonner"
+import { toast } from 'sonner';
 
-export type ToastType = 'success' | 'error' | 'info' | 'warning'
+export type ToastType = 'success' | 'error' | 'info' | 'warning';
 
 export interface ToastOptions {
-  type: ToastType
-  title: string
-  message: string
-  duration?: number
+  type: ToastType;
+  title: string;
+  message: string;
+  duration?: number;
 }
 
 export const useToast = () => {
@@ -16,16 +16,16 @@ export const useToast = () => {
       error: toast.error,
       warning: toast.warning,
       info: toast.info,
-    }[type]
+    }[type];
 
     toastFn(title, {
       description: message,
       duration,
-    })
-  }
+    });
+  };
 
-  return { addToast }
-}
+  return { addToast };
+};
 
 // Re-export toast for direct usage if needed
-export { toast }
+export { toast };

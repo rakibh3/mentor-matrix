@@ -1,118 +1,103 @@
-import * as React from "react"
+import * as React from 'react';
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+function Table({ className, ...props }: React.ComponentProps<'table'>) {
   return (
     <table
       data-slot="table"
-      className={cn("w-full caption-bottom text-sm", className)}
+      className={cn('w-full caption-bottom text-sm', className)}
       {...props}
     />
-  )
+  );
 }
 
-function TableContainer({ className, children, ...props }: React.ComponentProps<"div">) {
+function TableContainer({ className, children, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="table-container"
       className={cn(
-        "relative w-full overflow-x-auto scrollbar-thin scrollbar-thumb-border-dark scrollbar-track-transparent",
+        'scrollbar-thin scrollbar-thumb-border-dark scrollbar-track-transparent relative w-full overflow-x-auto',
         className
       )}
       {...props}
     >
       {children}
     </div>
-  )
+  );
 }
 
-function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
+function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
   return (
     <thead
       data-slot="table-header"
       className={cn(
-        "bg-surface-dark/90 text-gray-400 text-sm font-black uppercase tracking-[0.3em] border-b border-card-border/50",
+        'bg-surface-dark/90 border-card-border/50 border-b text-sm font-black tracking-[0.3em] text-gray-400 uppercase',
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
-function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
+function TableBody({ className, ...props }: React.ComponentProps<'tbody'>) {
   return (
     <tbody
       data-slot="table-body"
-      className={cn("divide-y divide-card-border/10", className)}
+      className={cn('divide-card-border/10 divide-y', className)}
       {...props}
     />
-  )
+  );
 }
 
-function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
+function TableFooter({ className, ...props }: React.ComponentProps<'tfoot'>) {
   return (
     <tfoot
       data-slot="table-footer"
-      className={cn(
-        "bg-card-dark/30 border-t border-card-border font-medium",
-        className
-      )}
+      className={cn('bg-card-dark/30 border-card-border border-t font-medium', className)}
       {...props}
     />
-  )
+  );
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
+function TableRow({ className, ...props }: React.ComponentProps<'tr'>) {
   return (
     <tr
       data-slot="table-row"
-      className={cn(
-        "hover:bg-white/[0.01] transition-colors group",
-        className
-      )}
+      className={cn('group transition-colors hover:bg-white/[0.01]', className)}
       {...props}
     />
-  )
+  );
 }
 
-function TableHead({ className, ...props }: React.ComponentProps<"th">) {
+function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
   return (
     <th
       data-slot="table-head"
-      className={cn(
-        "px-4 py-5 text-left align-middle font-black whitespace-nowrap",
-        className
-      )}
+      className={cn('px-4 py-5 text-left align-middle font-black whitespace-nowrap', className)}
       {...props}
     />
-  )
+  );
 }
 
-function TableCell({ className, ...props }: React.ComponentProps<"td">) {
+function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
   return (
     <td
       data-slot="table-cell"
-      className={cn(
-        "px-4 py-5 align-middle whitespace-nowrap",
-        className
-      )}
+      className={cn('px-4 py-5 align-middle whitespace-nowrap', className)}
       {...props}
     />
-  )
+  );
 }
 
-function TableCaption({
-  className,
-  ...props
-}: React.ComponentProps<"caption">) {
+function TableCaption({ className, ...props }: React.ComponentProps<'caption'>) {
   return (
     <caption
       data-slot="table-caption"
-      className={cn("text-text-secondary mt-4 text-sm", className)}
+      className={cn('text-text-secondary mt-4 text-sm', className)}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -125,4 +110,4 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-}
+};

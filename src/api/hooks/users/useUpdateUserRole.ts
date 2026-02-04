@@ -1,7 +1,8 @@
 // useUpdateUserRole - Hook for updating user role
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateUserRole } from '../../endpoints/users';
-import type { UpdateUserRoleRequest, UpdateUserResponse } from '../../types/user.types';
+
+import { updateUserRole } from '@/api/endpoints/users';
+import type { UpdateUserResponse, UpdateUserRoleRequest } from '@/api/types/user.types';
 
 interface UpdateUserRoleParams {
   userId: string;

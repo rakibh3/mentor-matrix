@@ -1,9 +1,16 @@
 import React, { useMemo } from 'react';
 import { Icon } from '@/constants';
-import { PrimaryButton } from '@/components/shared/Button';
-import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui';
-import { ActiveFilters, type FilterItem } from '@/components/shared/ActiveFilters';
 
+import { ActiveFilters, type FilterItem } from '@/components/shared/ActiveFilters';
+import { PrimaryButton } from '@/components/shared/Button';
+import {
+  Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui';
 
 interface StudentActionBarProps {
   searchQuery: string;
@@ -13,6 +20,7 @@ interface StudentActionBarProps {
   progressFilter: string;
   onProgressChange: (val: string) => void;
   onAddClick: () => void;
+  showAddButton?: boolean;
   hasActiveFilters: boolean;
   onClearFilters: () => void;
 }
@@ -25,26 +33,30 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
   progressFilter,
   onProgressChange,
   onAddClick,
+  showAddButton = true,
   onClearFilters,
 }) => {
-  const filters: FilterItem[] = useMemo(() => [
-    { 
-      key: 'assignment', 
-      label: `Missing: ${assignmentFilter}`, 
-      value: assignmentFilter !== 'Assignments' ? assignmentFilter : '',
-      variant: 'primary' as const
-    },
-    { 
-      key: 'progress', 
-      label: progressFilter, 
-      value: progressFilter !== 'All Progress' ? progressFilter : '' 
-    },
-    { 
-      key: 'search', 
-      label: `Search: ${searchQuery}`, 
-      value: searchQuery 
-    },
-  ], [assignmentFilter, progressFilter, searchQuery]);
+  const filters: FilterItem[] = useMemo(
+    () => [
+      {
+        key: 'assignment',
+        label: `Missing: ${assignmentFilter}`,
+        value: assignmentFilter !== 'Assignments' ? assignmentFilter : '',
+        variant: 'primary' as const,
+      },
+      {
+        key: 'progress',
+        label: progressFilter,
+        value: progressFilter !== 'All Progress' ? progressFilter : '',
+      },
+      {
+        key: 'search',
+        label: `Search: ${searchQuery}`,
+        value: searchQuery,
+      },
+    ],
+    [assignmentFilter, progressFilter, searchQuery]
+  );
 
   const handleRemoveFilter = (key: string) => {
     if (key === 'assignment') onAssignmentChange('Assignments');
@@ -54,19 +66,22 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center p-4 bg-background-dark/30 border border-card-border/50 rounded-2xl relative">
-        <div className="lg:col-span-6 relative group">
-          <Icon name="search" className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary text-xl group-focus-within:text-primary transition-colors" />
-          <Input 
+      <div className="bg-background-dark/30 border-card-border/50 relative grid grid-cols-1 items-center gap-4 rounded-2xl border p-4 lg:grid-cols-12">
+        <div className="group relative lg:col-span-6">
+          <Icon
+            name="search"
+            className="text-text-secondary group-focus-within:text-primary absolute top-1/2 left-4 -translate-y-1/2 text-xl transition-colors"
+          />
+          <Input
             variant="search"
             hasIcon="left"
-            className="w-full h-14 rounded-xl border border-card-border bg-card-dark placeholder:text-gray-600 focus:border-primary focus:ring-1 focus:ring-primary/40 pl-12 pr-4" 
-            placeholder="Search by name or email..." 
-            value={searchQuery} 
-            onChange={(e) => onSearchChange(e.target.value)} 
+            className="border-card-border bg-card-dark focus:border-primary focus:ring-primary/40 h-14 w-full rounded-xl border pr-4 pl-12 placeholder:text-gray-600 focus:ring-1"
+            placeholder="Search by name or email..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
-        <div className="lg:col-span-2 relative">
+        <div className="relative lg:col-span-2">
           <Select value={assignmentFilter} onValueChange={onAssignmentChange}>
             <SelectTrigger icon="pending_actions">
               <SelectValue placeholder="Assignments" />
@@ -86,25 +101,27 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
               <SelectValue placeholder="All Progress" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All Progress">All Progress</SelectItem>
+              <SelectItem value="All Progress">All Filters</SelectItem>
               <SelectItem value="At Risk (< 50%)">At Risk (&lt; 50%)</SelectItem>
               <SelectItem value="Average (50-80%)">Average (50-80%)</SelectItem>
               <SelectItem value="Excelling (> 80%)">Excelling (&gt; 80%)</SelectItem>
+              <SelectItem value="Last 2 Days Absence">Last 2 Days Absence</SelectItem>
+              <SelectItem value="Last 3 Days Absence">Last 3 Days Absence</SelectItem>
+              <SelectItem value="Last 2 Weeks Absence">Last 2 Weeks Absence</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="lg:col-span-2">
-          <PrimaryButton 
-            onClick={onAddClick}
-            className="w-full h-14 tracking-[0.15em]"
-          >
-            <Icon name="person_add" className="text-lg" />
-            <span>ADD STUDENT</span>
-          </PrimaryButton>
+          {showAddButton && (
+            <PrimaryButton onClick={onAddClick} className="h-14 w-full tracking-[0.15em]">
+              <Icon name="person_add" className="text-lg" />
+              <span>ADD STUDENT</span>
+            </PrimaryButton>
+          )}
         </div>
       </div>
-      
-      <ActiveFilters 
+
+      <ActiveFilters
         filters={filters}
         onRemoveFilter={handleRemoveFilter}
         onClearAll={onClearFilters}

@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { Icon } from '@/constants';
+
 import { Badge, Card, CardContent, IconAvatar } from '@/components/ui';
-
-
 
 interface Stat {
   label: string;
@@ -13,31 +11,49 @@ interface Stat {
   color: 'primary' | 'red-500';
 }
 
-export const StatCards: React.FC = () => {
-  const stats: Stat[] = [
-    { label: 'Total Enrolled', value: 154, icon: 'groups', trend: '+12%', color: 'primary' },
-    { label: 'Present Today', value: 142, icon: 'how_to_reg', trend: '92%', color: 'primary' },
-    { label: 'Absent/Late', value: 12, icon: 'person_off', trend: 'Risk', color: 'red-500' },
-    { label: 'Avg Progress', value: '72%', icon: 'auto_graph', trend: '+4%', color: 'primary' }
-  ];
+import { useDashboardStats } from '@/api/hooks/analytics';
+ 
+ export const StatCards: React.FC = () => {
+   const { data: dashboardData } = useDashboardStats();
+   const statsData = dashboardData?.data;
+
+   // Default values
+   const totalStudents = statsData?.students?.totalStudents || 0;
+   const presentToday = statsData?.attendance?.presentToday || 0;
+   const absentToday = statsData?.attendance?.absentToday || 0;
+   const attendanceRate = statsData?.attendance?.attendanceRate || 0;
+
+   const stats: Stat[] = [
+     { label: 'Total Enrolled', value: totalStudents, icon: 'groups', trend: '', color: 'primary' },
+     { label: 'Present Today', value: presentToday, icon: 'how_to_reg', trend: '', color: 'primary' },
+     { label: 'Absent/Late', value: absentToday, icon: 'person_off', trend: '', color: 'red-500' },
+     { label: 'Avg Attendance', value: `${attendanceRate}%`, icon: 'auto_graph', trend: '', color: 'primary' },
+   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat, i) => (
-        <Card 
-          key={i} 
-          className={`bg-[#0c1611] rounded-[2rem] hover:border-${stat.color === 'primary' ? 'primary' : 'red-500'}/30 transition-all group`}
+        <Card
+          key={i}
+          className={`rounded-[2rem] bg-[#0c1611] hover:border-${stat.color === 'primary' ? 'primary' : 'red-500'}/30 group transition-all`}
         >
-          <CardContent className="p-6 pt-6 flex flex-col gap-4">
-            <div className="flex justify-between items-start">
-              <IconAvatar variant={stat.color === 'primary' ? 'primary' : 'danger'} size="md" bordered={false} className="group-hover:scale-110 transition-transform">
+          <CardContent className="flex flex-col gap-4 p-6 pt-6">
+            <div className="flex items-start justify-between">
+              <IconAvatar
+                variant={stat.color === 'primary' ? 'primary' : 'danger'}
+                size="md"
+                bordered={false}
+                className="transition-transform group-hover:scale-110"
+              >
                 <Icon name={stat.icon} className="text-2xl" />
               </IconAvatar>
               <Badge variant={stat.color === 'primary' ? 'primary' : 'danger'}>{stat.trend}</Badge>
             </div>
             <div>
-              <p className="text-text-secondary text-xs font-black uppercase tracking-[0.2em]">{stat.label}</p>
-              <h3 className="text-white text-4xl font-black mt-1 tracking-tighter">{stat.value}</h3>
+              <p className="text-text-secondary text-xs font-black tracking-[0.2em] uppercase">
+                {stat.label}
+              </p>
+              <h3 className="mt-1 text-4xl font-black tracking-tighter text-white">{stat.value}</h3>
             </div>
           </CardContent>
         </Card>

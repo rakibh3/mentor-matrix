@@ -1,9 +1,7 @@
-import * as VisuallyHiddenPrimitive from "@radix-ui/react-visually-hidden"
+import * as VisuallyHiddenPrimitive from '@radix-ui/react-visually-hidden';
 
-function VisuallyHidden({
-  ...props
-}: React.ComponentProps<typeof VisuallyHiddenPrimitive.Root>) {
-  return <VisuallyHiddenPrimitive.Root {...props} />
+function VisuallyHidden({ ...props }: React.ComponentProps<typeof VisuallyHiddenPrimitive.Root>) {
+  return <VisuallyHiddenPrimitive.Root {...props} />;
 }
 
-export { VisuallyHidden }
+export { VisuallyHidden };

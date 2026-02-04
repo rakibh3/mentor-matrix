@@ -1,13 +1,24 @@
 import { useEffect } from 'react';
-import { DatePicker, Dialog, DialogContent, DialogDescription, DialogTitle, IconAvatar, VisuallyHidden } from '@/components/ui';
-
 import { Icon } from '@/constants';
-
-
 import type { Task } from '@/types';
-import { type EditTaskInput, editTaskSchema, MISSION_NUMBERS, MODULE_NUMBERS } from '@/lib/validations';
-import { Form, FormSelect, FormTextarea, useZodForm } from '@/components/shared/Form';
+
 import { PrimaryButton, SecondaryButton } from '@/components/shared/Button';
+import { Form, FormSelect, FormTextarea, useZodForm } from '@/components/shared/Form';
+import {
+  DatePicker,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  IconAvatar,
+  VisuallyHidden,
+} from '@/components/ui';
+import {
+  editTaskSchema,
+  MISSION_NUMBERS,
+  MODULE_NUMBERS,
+  type EditTaskInput,
+} from '@/lib/validations';
 
 interface EditTaskModalProps {
   isOpen: boolean;
@@ -16,8 +27,11 @@ interface EditTaskModalProps {
   onSave: (updatedTask: Task) => void;
 }
 
-const MODULE_OPTIONS = MODULE_NUMBERS.map(n => ({ value: n.toString(), label: `Module ${n}` }));
-const MISSION_OPTIONS = MISSION_NUMBERS.map(n => ({ value: n.toString(), label: `Mission ${n}` }));
+const MODULE_OPTIONS = MODULE_NUMBERS.map((n) => ({ value: n.toString(), label: `Module ${n}` }));
+const MISSION_OPTIONS = MISSION_NUMBERS.map((n) => ({
+  value: n.toString(),
+  label: `Mission ${n}`,
+}));
 
 export const EditTaskModal: React.FC<EditTaskModalProps> = ({ isOpen, onClose, task, onSave }) => {
   const form = useZodForm<EditTaskInput>({
@@ -30,7 +44,11 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({ isOpen, onClose, t
     },
   });
 
-  const { register, control, formState: { errors, isSubmitting } } = form;
+  const {
+    register,
+    control,
+    formState: { errors, isSubmitting },
+  } = form;
 
   // Reset form with task data when task changes or modal opens
   useEffect(() => {
@@ -70,18 +88,26 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({ isOpen, onClose, t
           <DialogTitle>Edit Assignment</DialogTitle>
           <DialogDescription>Updating details for Mission {task.mission}</DialogDescription>
         </VisuallyHidden>
-        <div className="p-10 flex flex-col">
-          <div className="flex items-center gap-6 mb-10">
+        <div className="flex flex-col p-10">
+          <div className="mb-10 flex items-center gap-6">
             <IconAvatar size="xl">
               <Icon name="edit_document" className="text-4xl" />
             </IconAvatar>
             <div>
-              <h3 className="text-3xl font-black text-white uppercase tracking-tight">Edit Assignment</h3>
-              <p className="text-text-secondary text-base">Updating details for Mission {form.watch('mission')}</p>
+              <h3 className="text-3xl font-black tracking-tight text-white uppercase">
+                Edit Assignment
+              </h3>
+              <p className="text-text-secondary text-base">
+                Updating details for Mission {form.watch('mission')}
+              </p>
             </div>
           </div>
 
-          <Form form={form} onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Form
+            form={form}
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 gap-6 md:grid-cols-2"
+          >
             <FormSelect
               name="moduleNumber"
               control={control}
@@ -90,7 +116,7 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({ isOpen, onClose, t
               placeholder="Select module"
               error={errors.moduleNumber?.message}
             />
-            
+
             <FormSelect
               name="mission"
               control={control}
@@ -99,45 +125,37 @@ export const EditTaskModal: React.FC<EditTaskModalProps> = ({ isOpen, onClose, t
               placeholder="Select mission"
               error={errors.mission?.message}
             />
-            
+
             <FormTextarea
               label="Guideline"
               placeholder="Enter guidelines..."
-              className="h-32 text-text-secondary bg-white/5 border-gray-700"
+              className="text-text-secondary h-32 border-gray-700 bg-white/5"
               containerClassName="md:col-span-2"
               error={errors.guideline?.message}
               required
               {...register('guideline')}
             />
-            
-            <div className="flex flex-col gap-2 md:col-span-2 group/field">
-               <div className="flex items-center gap-2 px-1">
-                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest group-focus-within/field:text-primary transition-colors">
+
+            <div className="group/field flex flex-col gap-2 md:col-span-2">
+              <div className="flex items-center gap-2 px-1">
+                <span className="group-focus-within/field:text-primary text-[10px] font-black tracking-widest text-gray-500 uppercase transition-colors">
                   Due Date
                 </span>
               </div>
-              <DatePicker 
-                value={form.watch('dueDate')} 
-                onChange={(val) => form.setValue('dueDate', val, { shouldValidate: true })} 
+              <DatePicker
+                value={form.watch('dueDate')}
+                onChange={(val) => form.setValue('dueDate', val, { shouldValidate: true })}
               />
               {errors.dueDate && (
-                <p className="text-red-400 text-xs font-medium px-1">{errors.dueDate.message}</p>
+                <p className="px-1 text-xs font-medium text-red-400">{errors.dueDate.message}</p>
               )}
             </div>
 
-            <div className="md:col-span-2 flex gap-4 mt-6">
-              <PrimaryButton 
-                type="submit" 
-                loading={isSubmitting}
-                className="flex-1"
-              >
+            <div className="mt-6 flex gap-4 md:col-span-2">
+              <PrimaryButton type="submit" loading={isSubmitting} className="flex-1">
                 Save Changes
               </PrimaryButton>
-              <SecondaryButton 
-                type="button" 
-                onClick={handleClose} 
-                className="flex-1"
-              >
+              <SecondaryButton type="button" onClick={handleClose} className="flex-1">
                 Cancel
               </SecondaryButton>
             </div>

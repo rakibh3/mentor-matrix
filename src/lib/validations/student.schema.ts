@@ -1,11 +1,12 @@
 import { z } from 'zod';
-import { emailSchema, nameSchema, phoneSchema, discordTagSchema } from './common.schema';
+
+import { discordTagSchema, emailSchema, nameSchema, phoneSchema } from './common.schema';
 
 /**
  * Student status values
  */
 export const STUDENT_STATUSES = ['Active', 'Probation', 'Inactive'] as const;
-export type StudentStatus = typeof STUDENT_STATUSES[number];
+export type StudentStatus = (typeof STUDENT_STATUSES)[number];
 
 /**
  * Student status enum schema
@@ -18,7 +19,7 @@ export const studentStatusSchema = z.enum(STUDENT_STATUSES, {
  * Team member role values
  */
 export const TEAM_ROLES = ['Moderator', 'Curriculum Dev', 'Admin'] as const;
-export type TeamRole = typeof TEAM_ROLES[number];
+export type TeamRole = (typeof TEAM_ROLES)[number];
 
 /**
  * Team role enum schema

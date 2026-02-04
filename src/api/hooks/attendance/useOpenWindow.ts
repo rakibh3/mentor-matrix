@@ -1,5 +1,6 @@
 // useOpenWindow - Hook for opening attendance window
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { openAttendanceWindow } from '@/api/endpoints/attendance';
 
 export const useOpenWindow = () => {

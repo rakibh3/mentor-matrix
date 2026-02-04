@@ -1,8 +1,17 @@
 import React from 'react';
-import { Button, Dialog, DialogContent, DialogDescription, DialogTitle, IconAvatar, VisuallyHidden } from '@/components/ui';
 import { Icon } from '@/constants';
+
 import { SecondaryButton } from '@/components/shared/Button';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  IconAvatar,
+  VisuallyHidden,
+} from '@/components/ui';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -39,21 +48,21 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       <DialogContent size="md">
         <VisuallyHidden>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{typeof description === 'string' ? description : 'Confirmation required'}</DialogDescription>
+          <DialogDescription>
+            {typeof description === 'string' ? description : 'Confirmation required'}
+          </DialogDescription>
         </VisuallyHidden>
-        <div className="p-10 flex flex-col items-center text-center">
+        <div className="flex flex-col items-center p-10 text-center">
           <IconAvatar variant={variant} size="xl" className="mb-8 rounded-3xl">
             <Icon name={icon} className="text-5xl" />
           </IconAvatar>
-          <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4">
-            {title}
-          </h3>
-          <div className="text-text-secondary text-base font-medium mb-10 leading-relaxed">
+          <h3 className="mb-4 text-2xl font-black tracking-tight text-white uppercase">{title}</h3>
+          <div className="text-text-secondary mb-10 text-base leading-relaxed font-medium">
             {description}
           </div>
-          <div className="flex flex-col w-full gap-4">
-            <Button 
-              onClick={onConfirm} 
+          <div className="flex w-full flex-col gap-4">
+            <Button
+              onClick={onConfirm}
               size="lg"
               disabled={isLoading}
               className={`w-full ${buttonStyles[variant]}`}
@@ -63,12 +72,14 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
                   <LoadingSpinner size="sm" variant="dark" inline />
                   Processing...
                 </>
-              ) : confirmText}
+              ) : (
+                confirmText
+              )}
             </Button>
-            <SecondaryButton 
-              onClick={onClose} 
+            <SecondaryButton
+              onClick={onClose}
               size="lg"
-              className="w-full border-white/10 hover:bg-white/5 hover:border-white/20 text-white"
+              className="w-full border-white/10 text-white hover:border-white/20 hover:bg-white/5"
             >
               {cancelText}
             </SecondaryButton>
