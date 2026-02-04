@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@/constants';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 import {
   Button,
@@ -20,16 +21,26 @@ interface AdminSidebarProps {
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ onLogout, isCollapsed, onToggle }) => {
   const location = useLocation();
-  const navItems = [
-    { path: '/admin/dashboard', icon: 'dashboard', label: 'Dashboard' },
-    { path: '/admin/students', icon: 'group', label: 'Students' },
-    { path: '/admin/analytics', icon: 'analytics', label: 'Analytics' },
-    { path: '/admin/tasks', icon: 'edit_calendar', label: 'Daily Tasks' },
-    { path: '/admin/settings', icon: 'settings', label: 'Settings' },
-  ];
+  const { user } = useAuth();
+  
+  const isAdmin = user?.role === 'admin' || user?.role === 'superadmin' || user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN';
+  
+  const navItems = isAdmin 
+    ? [
+        { path: '/admin/dashboard', icon: 'dashboard', label: 'Dashboard' },
+        { path: '/admin/students', icon: 'group', label: 'Students' },
+        { path: '/admin/analytics', icon: 'analytics', label: 'Analytics' },
+        { path: '/admin/tasks', icon: 'edit_calendar', label: 'Daily Tasks' },
+        { path: '/admin/settings', icon: 'settings', label: 'Settings' },
+      ]
+    : [
+        { path: '/srm/dashboard', icon: 'dashboard', label: 'Dashboard' },
+        { path: '/srm/analytics', icon: 'analytics', label: 'Analytics' },
+        { path: '/srm/settings', icon: 'settings', label: 'Settings' },
+      ];
 
   const isActive = (path: string) => {
-    if (path === '/admin/settings') return location.pathname.startsWith('/admin/settings');
+    if (path.includes('/settings')) return location.pathname.startsWith(path);
     return location.pathname === path;
   };
 
@@ -67,7 +78,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onLogout, isCollapsed, onTo
                 DEVCAMP
               </h1>
               <p className="text-text-secondary mt-0.5 text-xs font-bold tracking-widest uppercase">
-                Admin Portal
+                {isAdmin ? 'Admin Portal' : 'SRM Portal'}
               </p>
             </div>
           )}
@@ -122,9 +133,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onLogout, isCollapsed, onTo
           </IconAvatar>
           {!isCollapsed && (
             <div className="animate-in fade-in slide-in-from-left-2 flex flex-col overflow-hidden duration-300">
-              <p className="mb-1 truncate text-xs leading-none font-black text-white">Admin</p>
+              <p className="mb-1 truncate text-xs leading-none font-black text-white">{user?.name || 'User'}</p>
               <p className="text-text-secondary truncate text-xs font-medium tracking-tighter uppercase">
-                Dev Ops
+                {isAdmin ? 'Admin' : 'SRM'}
               </p>
             </div>
           )}
@@ -155,6 +166,23 @@ interface AdminLayoutProps {
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onLogout }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'admin' || user?.role === 'superadmin' || user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN';
+
+  const navItems = isAdmin 
+    ? [
+        { path: '/admin/dashboard', icon: 'dashboard', label: 'Dashboard' },
+        { path: '/admin/students', icon: 'group', label: 'Students' },
+        { path: '/admin/analytics', icon: 'analytics', label: 'Analytics' },
+        { path: '/admin/tasks', icon: 'edit_calendar', label: 'Daily Tasks' },
+        { path: '/admin/settings', icon: 'settings', label: 'Settings' },
+      ]
+    : [
+        { path: '/srm/dashboard', icon: 'dashboard', label: 'Dashboard' },
+        { path: '/srm/analytics', icon: 'analytics', label: 'Analytics' },
+        { path: '/srm/settings', icon: 'settings', label: 'Settings' },
+      ];
 
   return (
     <TooltipProvider>
@@ -188,36 +216,15 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onLogout }) 
               </div>
 
               <nav className="flex flex-col gap-2">
-                <Link
-                  to="/admin/dashboard"
-                  className="text-text-secondary flex items-center gap-3 rounded-xl px-4 py-3 transition-all hover:bg-white/5 hover:text-white"
-                >
-                  <Icon name="dashboard" /> Dashboard
-                </Link>
-                <Link
-                  to="/admin/students"
-                  className="text-text-secondary flex items-center gap-3 rounded-xl px-4 py-3 transition-all hover:bg-white/5 hover:text-white"
-                >
-                  <Icon name="group" /> Students
-                </Link>
-                <Link
-                  to="/admin/analytics"
-                  className="text-text-secondary flex items-center gap-3 rounded-xl px-4 py-3 transition-all hover:bg-white/5 hover:text-white"
-                >
-                  <Icon name="analytics" /> Analytics
-                </Link>
-                <Link
-                  to="/admin/tasks"
-                  className="text-text-secondary flex items-center gap-3 rounded-xl px-4 py-3 transition-all hover:bg-white/5 hover:text-white"
-                >
-                  <Icon name="edit_calendar" /> Daily Tasks
-                </Link>
-                <Link
-                  to="/admin/settings"
-                  className="text-text-secondary flex items-center gap-3 rounded-xl px-4 py-3 transition-all hover:bg-white/5 hover:text-white"
-                >
-                  <Icon name="settings" /> Settings
-                </Link>
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className="text-text-secondary flex items-center gap-3 rounded-xl px-4 py-3 transition-all hover:bg-white/5 hover:text-white"
+                  >
+                    <Icon name={item.icon} /> {item.label}
+                  </Link>
+                ))}
               </nav>
 
               <Button

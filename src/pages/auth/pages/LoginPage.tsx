@@ -138,14 +138,19 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     }
   };
 
-  const handleQuickLogin = (type: 'admin' | 'student') => {
-    const demoEmail = type === 'admin' ? 'admin@devcamp.io' : 'alex@student.com';
+  const handleQuickLogin = (type: 'admin' | 'student' | 'srm') => {
+    const demoEmail =
+      type === 'admin'
+        ? 'admin@devcamp.io'
+        : type === 'srm'
+          ? 'srm@devcamp.io'
+          : 'alex@student.com';
 
     // Set demo cookie for development/testing if needed
     if (import.meta.env.DEV) {
       login('demo-token', {
-        id: type === 'admin' ? 'admin-id' : 'student-id',
-        name: type === 'admin' ? 'Admin User' : 'Alex Johnson',
+        id: type === 'admin' ? 'admin-id' : type === 'srm' ? 'srm-id' : 'student-id',
+        name: type === 'admin' ? 'Admin User' : type === 'srm' ? 'SRM Manager' : 'Alex Johnson',
         email: demoEmail,
         role: type,
         discord: type === 'student' ? 'alex#1234' : undefined,
@@ -296,22 +301,30 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         </span>
                       </div>
                     </div>
-                    <div className="mt-4 grid grid-cols-2 gap-4">
+                    <div className="mt-4 grid grid-cols-3 gap-4">
                       <Button
                         variant="outline"
                         onClick={() => handleQuickLogin('admin')}
-                        className="bg-surface-dark border-border-dark hover:border-primary/50 flex h-auto items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-bold text-white hover:bg-white/5"
+                        className="bg-surface-dark border-border-dark hover:border-primary/50 flex h-auto items-center justify-center gap-2 rounded-lg border px-2 py-2.5 text-sm font-bold text-white hover:bg-white/5"
                       >
                         <Icon name="admin_panel_settings" className="text-primary text-lg" />
-                        Admin Access
+                        Admin
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => handleQuickLogin('srm')}
+                        className="bg-surface-dark border-border-dark hover:border-primary/50 flex h-auto items-center justify-center gap-2 rounded-lg border px-2 py-2.5 text-sm font-bold text-white hover:bg-white/5"
+                      >
+                        <Icon name="support_agent" className="text-primary text-lg" />
+                        SRM
                       </Button>
                       <Button
                         variant="outline"
                         onClick={() => handleQuickLogin('student')}
-                        className="bg-surface-dark border-border-dark hover:border-primary/50 flex h-auto items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-bold text-white hover:bg-white/5"
+                        className="bg-surface-dark border-border-dark hover:border-primary/50 flex h-auto items-center justify-center gap-2 rounded-lg border px-2 py-2.5 text-sm font-bold text-white hover:bg-white/5"
                       >
                         <Icon name="person" className="text-primary text-lg" />
-                        Student Access
+                        Student
                       </Button>
                     </div>
                   </>

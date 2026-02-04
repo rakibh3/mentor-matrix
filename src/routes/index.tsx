@@ -27,7 +27,7 @@ const RootRoute = () => {
     if (user.role === 'admin' || user.role === 'superadmin' || user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
       return <Navigate to="/admin/dashboard" />;
     }
-    if (user.role === 'SRM') {
+    if (user.role === 'SRM' || user.role === 'srm') {
       return <Navigate to="/srm/dashboard" />;
     }
     return <Navigate to="/student/dashboard" />;
@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
   {
     path: '/srm',
     element: (
-      <ProtectedRoute allowedRoles={['SRM']}>
+      <ProtectedRoute allowedRoles={['SRM', 'srm']}>
         <AdminRootLayout />
       </ProtectedRoute>
     ),

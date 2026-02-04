@@ -3,7 +3,7 @@ import { Icon } from '@/constants';
 import { z } from 'zod';
 import { PrimaryButton } from '@/components/shared/Button';
 import { Form, FormInput, useZodForm } from '@/components/shared/Form';
-import { IconAvatar } from '@/components/ui';
+
 import { useAuth } from '@/hooks/useAuth';
 import { SettingsPageLayout } from '@/pages/admin/components/settings/SettingsPageLayout';
 import { useUpdateMyProfile } from '@/pages/admin/hooks/useSrmSettings';
@@ -39,61 +39,74 @@ const SrmSettings: React.FC = () => {
   };
 
   return (
-    <SettingsPageLayout>
-      <div className="grid gap-8">
-        <div className="flex items-center gap-4">
-          <IconAvatar variant="primary" size="md" bordered={false}>
-            <Icon name="mail" className="text-2xl" />
-          </IconAvatar>
-          <div>
-            <h3 className="text-2xl font-black tracking-tight text-white uppercase">
-              Email Configuration
-            </h3>
-            <p className="text-text-secondary text-sm font-medium">
-              Configure your reply-to email for outreach emails to students.
-            </p>
-          </div>
+    <SettingsPageLayout showNav={false}>
+      <div className="flex w-full flex-col gap-8">
+        <div className="flex flex-col gap-2">
+          <h3 className="text-2xl font-bold tracking-tight text-white">
+            Email Integration
+          </h3>
+          <p className="text-text-secondary text-base">
+            Connect your professional email account for direct student communication.
+          </p>
         </div>
 
-        <Form form={form} onSubmit={handleSubmit} className="grid gap-8 md:grid-cols-2">
-          <div className="flex flex-col space-y-3">
-            <FormInput
-              label="Gmail App Password"
-              id="app-password"
-              type="password"
-              placeholder="xxxx xxxx xxxx xxxx"
-              error={errors.appPassword?.message}
-              {...register('appPassword')}
-            />
-            <p className="text-text-secondary/60 mt-1 text-[10px]">
-              Use a Gmail App Password to enable outreach emails. You can generate one in your Google Account security settings.
-            </p>
-          </div>
+        <Form form={form} onSubmit={handleSubmit} className="flex flex-col gap-8">
+           <div className="bg-surface-dark w-full overflow-hidden rounded-xl border border-white/5 shadow-sm lg:grid lg:grid-cols-2">
+              {/* Left Side: Form */}
+              <div className="p-8 lg:p-10">
+                <div className="space-y-8">
+                  <div className="space-y-6">
+                      <div>
+                        <FormInput
+                          label="Gmail App Password"
+                          id="app-password"
+                          type="password"
+                          placeholder="Enter your 16-digit app password"
+                          error={errors.appPassword?.message}
+                          className="bg-background-dark border-white/10 h-12 w-full focus:border-primary/50"
+                          {...register('appPassword')}
+                        />
+                        <p className="text-text-secondary mt-3 text-xs leading-relaxed">
+                          You need to generate a specific <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">App Password</a> from your Google Account.
+                        </p>
+                      </div>
+                  </div>
+                </div>
+              </div>
 
-          <div className="pt-4 md:col-span-2">
-            <PrimaryButton
-              type="submit"
-              loading={updateProfileMutation.isPending}
-              className="h-12 w-full px-10 md:w-auto"
-            >
-              SAVE CONFIGURATION
-            </PrimaryButton>
-          </div>
+               {/* Right Side: Info Panel */}
+              <div className="bg-surface-dark/50 flex flex-col justify-center border-t border-white/5 p-8 lg:border-t-0 lg:border-l lg:bg-white/[0.02] lg:p-10">
+                  <div className="mb-6 flex items-center gap-3 text-primary">
+                    <Icon name="info" className="text-xl" />
+                    <h4 className="text-sm font-bold tracking-wide uppercase">How it works</h4>
+                  </div>
+                  <div className="space-y-5 text-sm leading-relaxed text-gray-400">
+                    <p>
+                      The system sends emails <strong className="text-white">directly</strong> using your Gmail credentials.
+                    </p>
+                    <div className="h-px w-full bg-white/5"></div>
+                    <p>
+                      This ensures that emails appear to come directly from you, and student replies will go straight to your inbox without any intermediaries.
+                    </p>
+                  </div>
+              </div>
+           </div>
+
+           <div className="flex items-center gap-4">
+              <PrimaryButton
+                type="submit"
+                loading={updateProfileMutation.isPending}
+                className="h-11 px-8 text-sm font-bold tracking-wide uppercase"
+              >
+                Save Changes
+              </PrimaryButton>
+              {updateProfileMutation.isSuccess && (
+                <span className="animate-in fade-in slide-in-from-left-2 flex items-center gap-2 text-sm font-medium text-emerald-400">
+                  <Icon name="check_circle" /> Saved
+                </span>
+              )}
+            </div>
         </Form>
-      </div>
-
-      <div className="bg-primary/5 border-primary/10 mt-12 rounded-2xl border p-6">
-        <div className="flex gap-4">
-          <Icon name="info" className="text-primary flex-shrink-0 text-2xl" />
-          <div className="space-y-2">
-            <h4 className="text-sm font-bold tracking-wider text-white uppercase">How it works</h4>
-            <p className="text-text-secondary text-xs">
-              Outreach emails are sent from the system email, but your configured email address will
-              be set as the "Reply-To" address. This means when students reply, their responses will
-              go directly to your inbox.
-            </p>
-          </div>
-        </div>
       </div>
     </SettingsPageLayout>
   );

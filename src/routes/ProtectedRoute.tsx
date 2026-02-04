@@ -39,6 +39,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       fallbackPath = '/admin/dashboard';
     } else if (user.role === 'student') {
       fallbackPath = '/student/dashboard';
+    } else if (user.role === 'srm' || user.role === 'SRM') {
+      fallbackPath = '/srm/dashboard';
     }
     return <Navigate to={fallbackPath} replace />;
   }

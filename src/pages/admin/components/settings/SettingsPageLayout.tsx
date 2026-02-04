@@ -9,6 +9,7 @@ interface SettingsPageLayoutProps {
   showFooter?: boolean;
   onSave?: () => void | Promise<void>;
   saveLabel?: string;
+  showNav?: boolean;
 }
 
 export const SettingsPageLayout: React.FC<SettingsPageLayoutProps> = ({
@@ -16,6 +17,7 @@ export const SettingsPageLayout: React.FC<SettingsPageLayoutProps> = ({
   showFooter = true,
   onSave,
   saveLabel = 'Save Changes',
+  showNav = true,
 }) => {
   const { addToast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
@@ -43,38 +45,52 @@ export const SettingsPageLayout: React.FC<SettingsPageLayoutProps> = ({
   };
 
   return (
-    <div className="animate-fade-in-up flex w-full flex-col gap-8">
-      <div className="border-card-border flex flex-col gap-2 border-b pb-8">
-        <h2 className="text-4xl leading-tight font-black tracking-tighter text-white uppercase">
-          System Settings
+    <div className="animate-fade-in-up flex w-full flex-col gap-6 lg:gap-10">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-3xl font-bold tracking-tight text-white">
+          Settings
         </h2>
-        <p className="text-text-secondary text-base font-medium">
-          Manage global configuration for attendance tracking and portal access.
+        <p className="text-text-secondary text-sm">
+          Manage configuration and preferences.
         </p>
       </div>
-      <div className="flex flex-col">
-        <SettingsNav />
-        <Card className="grid gap-10 rounded-3xl p-10 shadow-2xl md:p-12">
-          {children}
 
-          {showFooter && (
-            <div className="border-card-border/50 flex items-center justify-end gap-6 border-t pt-10">
-              <Button variant="outline" size="lg">
-                Cancel
-              </Button>
-              <Button size="lg" onClick={handleSave} disabled={isSaving}>
-                {isSaving ? (
-                  <>
-                    <LoadingSpinner size="xs" variant="dark" inline />
-                    Saving...
-                  </>
-                ) : (
-                  saveLabel
-                )}
-              </Button>
-            </div>
-          )}
-        </Card>
+      <div className="flex flex-col">
+        {showNav && <SettingsNav />}
+        
+        {/* Render children directly without heavy card wrapper if clean mode */}
+        {!showNav ? (
+          <div className="mt-2">
+            {children}
+          </div>
+        ) : (
+          <Card className="bg-surface-dark border-white/5 relative grid gap-10 overflow-hidden rounded-3xl p-8 shadow-2xl ring-1 ring-white/5 md:p-10">
+             {/* Gradient Accent */}
+             <div className="pointer-events-none absolute top-0 right-0 -mt-20 -mr-20 h-[300px] w-[300px] rounded-full bg-primary/5 blur-[100px]"></div>
+             
+             <div className="relative">
+              {children}
+
+              {showFooter && (
+                <div className="border-white/5 mt-10 flex items-center justify-end gap-4 border-t pt-8">
+                  <Button variant="ghost" className="text-text-secondary hover:text-white">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSave} disabled={isSaving} className="px-8">
+                    {isSaving ? (
+                      <>
+                        <LoadingSpinner size="xs" variant="dark" inline />
+                        Saving...
+                      </>
+                    ) : (
+                      saveLabel
+                    )}
+                  </Button>
+                </div>
+              )}
+             </div>
+          </Card>
+        )}
       </div>
     </div>
   );
