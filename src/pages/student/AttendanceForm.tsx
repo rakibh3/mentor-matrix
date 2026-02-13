@@ -59,15 +59,13 @@ export const AttendanceForm: React.FC<AttendanceFormProps> = ({ isLoaded, userId
 
     // Prepare the request payload based on API spec
     const attendanceData = {
-      studentID: userId,
+      studentId: userId,
       status: 'ATTENDED' as const,
-      mission: 1, // Default mission, adjust as needed
+      mission: parseInt(data.videoNumber) || 1,
       module: moduleNumber,
-      moduleVideo: parseInt(data.videoNumber),
       note: data.note,
+      verificationCode: data.verificationCode,
     };
-
-    console.log(attendanceData);
 
     markAttendance(attendanceData, {
       onSuccess: (response) => {

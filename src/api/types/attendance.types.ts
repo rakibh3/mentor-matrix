@@ -10,28 +10,29 @@ export interface AttendanceRecord {
 
 export interface BackendAttendanceRecord {
   _id: string;
-  student: string;
+  studentId: string;
   status: 'ATTENDED' | 'ABSENT';
   mission: number;
   module: number;
-  moduleVideo: number;
   date: string;
   note?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface MarkAttendanceRequest {
-  studentID?: string;
+  studentId: string;
   status: 'ATTENDED' | 'ABSENT';
   mission: number;
   module: number;
-  moduleVideo: number;
   note?: string;
+  verificationCode?: string;
 }
 
 export interface MarkAttendanceResponse {
   success: boolean;
   message: string;
-  data?: AttendanceRecord;
+  data?: BackendAttendanceRecord;
 }
 
 export interface StudentAttendanceData {

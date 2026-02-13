@@ -5,7 +5,6 @@ export interface Task {
   _id?: string;
   mission: number;
   moduleNumber: number;
-  videoNumber?: string;
   guideline: string;
   dueDate: string;
   createdBy: string;
@@ -16,7 +15,6 @@ export interface Task {
 export interface CreateTaskRequest {
   mission: number;
   moduleNumber: number;
-  videoNumber?: string;
   guideline: string;
   dueDate: string;
   createdBy: string;
@@ -25,7 +23,6 @@ export interface CreateTaskRequest {
 export interface UpdateTaskRequest {
   mission?: number;
   moduleNumber?: number;
-  videoNumber?: string;
   guideline?: string;
   dueDate?: string;
 }

@@ -16,6 +16,8 @@ export const markAttendance = async (
   return response.data;
 };
 
+export const createAttendance = markAttendance;
+
 /**
  * Get all attendance records (GET /get-attendance)
  * Based on postman_collection.json line 265-279

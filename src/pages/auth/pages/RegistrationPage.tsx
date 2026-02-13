@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Icon } from '@/constants';
 import { Link, useNavigate } from 'react-router-dom';
 
-import * as auth from '@/api/endpoints/auth';
+import { createStudent } from '@/api/endpoints/students';
 import { PrimaryButton } from '@/components/shared/Button';
 import { Form, FormInput, useZodForm } from '@/components/shared/Form';
 import { BackgroundGlow, Card, IconAvatar, Progress, StatusDot, useToast } from '@/components/ui';
@@ -29,7 +29,7 @@ const RegistrationPage: React.FC = () => {
   const handleSubmit = async (data: StudentRegistrationInput) => {
     setIsSubmitting(true);
     try {
-      await auth.registerUser({
+      await createStudent({
         name: data.name,
         email: data.email,
         phone: data.phone,

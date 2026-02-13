@@ -94,7 +94,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ user, onLogout }) =
           })
         : '',
       module: record.module !== undefined ? `Module ${record.module}` : 'N/A',
-      topic: `Mission ${record.mission || 0}, Video ${record.moduleVideo || 0}`,
+      topic: `Mission ${record.mission || 0}`,
       status: (record.status === 'ATTENDED' || record.status === 'Present'
         ? 'Present'
         : 'Absent') as 'Present' | 'Absent',

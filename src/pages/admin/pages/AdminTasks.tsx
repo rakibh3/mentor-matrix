@@ -85,6 +85,7 @@ const AdminTasks: React.FC = () => {
   // Modal selection states
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+  const [taskPlannerKey, setTaskPlannerKey] = useState(0);
 
   const totalPages = Math.ceil(tasks.length / rowsPerPage);
   const currentTasks = useMemo(() => {
@@ -104,17 +105,28 @@ const AdminTasks: React.FC = () => {
   const handleBroadcastTask = (data: { module: string; mission: string; guideline: string }) => {
     if (!user) return;
 
+    const createdBy = user._id || user.id;
+    if (!createdBy) {
+      addToast({
+        type: 'error',
+        title: 'Unable to Create Task',
+        message: 'Admin user ID is missing. Please log in again.',
+      });
+      return;
+    }
+
     createTask(
       {
         mission: parseInt(data.mission.split(' ')[1]),
         moduleNumber: parseInt(data.module.split(' ')[1]),
         guideline: data.guideline,
         dueDate: new Date().toISOString(),
-        createdBy: user.name || user.email,
+        createdBy,
       },
       {
         onSuccess: (res) => {
           setCurrentPage(1);
+          setTaskPlannerKey((prev) => prev + 1);
           addToast({
             type: 'success',
             title: 'Task Broadcasted',
@@ -225,7 +237,11 @@ const AdminTasks: React.FC = () => {
         {/* Task Management Section */}
         <div className="flex justify-center">
           <div className="w-full">
-            <TaskPlanner onBroadcast={handleBroadcastTask} isSubmitting={isCreatingTask} />
+            <TaskPlanner
+              key={taskPlannerKey}
+              onBroadcast={handleBroadcastTask}
+              isSubmitting={isCreatingTask}
+            />
           </div>
         </div>
 

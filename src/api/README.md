@@ -69,10 +69,10 @@ function AttendanceForm() {
 
   const handleSubmit = (data) => {
     markAttendance({
+      studentId: user._id,
       status: 'ATTENDED',
       mission: 1,
       module: 4,
-      moduleVideo: 12,
       note: 'Completed React patterns exercise'
     }, {
       onSuccess: (response) => {

@@ -4,9 +4,20 @@ import type {
   AssignSrmResponse,
   BlockStudentRequest,
   BlockStudentResponse,
+  CreateStudentRequest,
+  CreateStudentResponse,
   GetStudentByUserIdResponse,
   GetStudentsResponse,
 } from '@/api/types/student.types';
+
+/**
+ * Create student (POST /students)
+ * Public integrated flow that creates User + Student profile.
+ */
+export const createStudent = async (data: CreateStudentRequest): Promise<CreateStudentResponse> => {
+  const response = await apiClient.post<CreateStudentResponse>('/students', data);
+  return response.data;
+};
 
 /**
  * Get all students (GET /users/students)
@@ -54,9 +65,10 @@ export const blockStudent = async (
  * Bulk assign SRM to students (PATCH /students/assign-srm)
  * Requires ADMIN or SUPER_ADMIN role
  */
-export const assignStudentsToSrm = async (
-  data: { srmId: string; studentIds: string[] }
-): Promise<any> => {
+export const assignStudentsToSrm = async (data: {
+  srmId: string;
+  studentIds: string[];
+}): Promise<any> => {
   const response = await apiClient.patch<any>('/students/assign-srm', data);
   return response.data;
 };

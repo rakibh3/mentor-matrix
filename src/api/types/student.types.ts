@@ -11,6 +11,22 @@ export interface Student {
   updatedAt?: string;
 }
 
+export interface CreateStudentRequest {
+  name: string;
+  email: string;
+  phone: string;
+  discordUsername: string;
+  enrollmentDate?: string;
+  status?: 'ACTIVE' | 'INACTIVE';
+  notes?: string;
+}
+
+export interface CreateStudentResponse {
+  success: boolean;
+  message: string;
+  data?: Student;
+}
+
 export interface StudentWithUser extends Student {
   user: {
     _id: string;
