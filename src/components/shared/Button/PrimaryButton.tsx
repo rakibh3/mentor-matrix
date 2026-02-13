@@ -20,13 +20,13 @@ export const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonPr
         ref={ref}
         variant="default"
         disabled={disabled || loading}
-        className={className}
+        className={`inline-flex items-center justify-center gap-2 ${className}`}
         {...props}
       >
         {loading ? (
           <>
-            <LoadingSpinner size="sm" variant="dark" inline />
-            {loadingText || children}
+            <LoadingSpinner size="xs" variant="dark" inline />
+            <span className="truncate">{loadingText || children}</span>
           </>
         ) : (
           children

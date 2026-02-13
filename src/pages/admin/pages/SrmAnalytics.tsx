@@ -105,7 +105,38 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
           rawAttendance: sortedAttendance,
           risk: s.riskLevel || 'Low',
           status: s.isBlocked ? 'Blocked' : s.riskLevel === 'High' ? 'Probation' : 'Active',
-          callHistory: s.callHistory || [],
+          callHistory: (s.callHistory || []).map((call: any) => {
+            // Map backend status to frontend outcome if needed
+            let outcome = call.outcome;
+            if (outcome === 'COMPLETED') outcome = 'Received';
+            else if (outcome === 'NO_ANSWER') outcome = 'Not Received';
+            else if (outcome === 'BUSY') outcome = 'Busy';
+            else if (outcome === 'FAILED') outcome = 'Not Received';
+            else if (outcome === 'SCHEDULED') outcome = 'Not Received';
+
+            // Normalize date format
+            let dateStr = call.date;
+            if (dateStr && dateStr.includes('T')) {
+              const d = new Date(dateStr);
+              const months = [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+              ];
+              dateStr = `${d.getDate()} ${months[d.getMonth()]}`;
+            }
+
+            return { date: dateStr, outcome, note: call.note };
+          }),
         };
       });
     }
@@ -303,7 +334,11 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
             )}
             <div>
               <h2 className="text-3xl font-black tracking-tight text-white uppercase">
-                {srmId ? (srmName ? `SRM: ${srmName}` : `SRM Analysis: ${srmId}`) : 'Personal Analytics'}
+                {srmId
+                  ? srmName
+                    ? `SRM: ${srmName}`
+                    : `SRM Analysis: ${srmId}`
+                  : 'Personal Analytics'}
               </h2>
               <p className="text-text-secondary text-base">
                 Performance overview and student tracking
@@ -506,10 +541,22 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
                 {
                   student: studentId,
                   calledBy: (user as any)?._id || (user as any)?.id,
-                  outcome: outcome,
-                  note: note,
                   callType: 'FOLLOW_UP',
-                  status: outcome === 'Received' ? 'COMPLETED' : 'NO_ANSWER',
+                  status: (() => {
+                    switch (outcome) {
+                      case 'Received':
+                        return 'COMPLETED';
+                      case 'Busy':
+                        return 'BUSY';
+                      case 'Wrong Number':
+                        return 'FAILED';
+                      case 'Not Received':
+                      case 'Left Voicemail':
+                      default:
+                        return 'NO_ANSWER';
+                    }
+                  })(),
+                  notes: note,
                 } as any,
                 {
                   onSuccess: () => {

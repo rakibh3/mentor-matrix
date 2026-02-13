@@ -200,7 +200,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="bg-background-dark font-display relative flex min-h-screen w-full flex-col overflow-hidden text-white antialiased transition-colors duration-200">
+    <div className="bg-background-dark font-display relative flex min-h-screen w-full flex-col overflow-x-hidden text-white antialiased transition-colors duration-200">
       <header className="absolute top-0 z-10 flex w-full items-center justify-between px-4 py-3 whitespace-nowrap md:px-6 md:py-4 lg:px-10 lg:py-6">
         <div className="flex items-center gap-2 md:gap-3">
           <IconAvatar variant="primary" size="sm" bordered={false} className="rounded-lg">
@@ -219,8 +219,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </Button>
         </div>
       </header>
-      <main className="flex flex-1 flex-col items-center justify-center p-4">
-        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      <main className="flex flex-1 flex-col items-center justify-center overflow-y-auto p-4 pt-20 pb-16">
+        <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
           <BackgroundGlow position="top-left" size="md" blur="xl" />
           <BackgroundGlow
             variant="primary-strong"

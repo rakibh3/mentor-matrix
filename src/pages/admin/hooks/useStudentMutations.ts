@@ -1,17 +1,19 @@
 import type { CallOutcome } from '@/types';
-import { logCall } from '@/api/endpoints/call-history';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useAuth } from '@/hooks/useAuth';
+import { logCall } from '@/api/endpoints/call-history';
 import { useToast } from '@/components/ui';
-import { formatDateTimeDisplay } from '@/utils/dateUtils';
+import { useAuth } from '@/hooks/useAuth';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type StudentRecord = Record<string, any>;
 
 // Helper to update student data whether it's an array or a response object
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const updateStudentData = (oldData: any, updateFn: (students: StudentRecord[]) => StudentRecord[]) => {
+const updateStudentData = (
+  oldData: any,
+  updateFn: (students: StudentRecord[]) => StudentRecord[]
+) => {
   if (!oldData) return oldData;
   if (Array.isArray(oldData)) {
     return updateFn(oldData);
@@ -111,7 +113,7 @@ export function useLogCall(queryKey: string, idField: 'id' | 'email' | '_id' = '
     }) => {
       // Map frontend outcome to backend status
       let status: 'COMPLETED' | 'NO_ANSWER' | 'BUSY' | 'FAILED' | 'SCHEDULED' = 'COMPLETED';
-      
+
       switch (outcome) {
         case 'Received':
           status = 'COMPLETED';
@@ -135,26 +137,40 @@ export function useLogCall(queryKey: string, idField: 'id' | 'email' | '_id' = '
       }
 
       // Use the real API endpoint with corrected payload
-      const response = await logCall({ 
-        student: studentId, 
+      const response = await logCall({
+        student: studentId,
         calledBy: user._id,
         callType: 'FOLLOW_UP', // Defaulting to FOLLOW_UP as per current UI context
-        status, 
-        notes: note 
+        status,
+        notes: note,
       });
 
-      return { 
-        studentId, 
-        outcome, 
-        note, 
-        callData: response.data 
+      return {
+        studentId,
+        outcome,
+        note,
+        callData: response.data,
       };
     },
     onSuccess: (data) => {
       const now = new Date();
       // If we have real data from server, use its date, otherwise fallback to local time
       const dateToDisplay = data.callData?.createdAt ? new Date(data.callData.createdAt) : now;
-      const formattedDate = formatDateTimeDisplay(dateToDisplay);
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ];
+      const formattedDate = `${dateToDisplay.getDate()} ${months[dateToDisplay.getMonth()]}`;
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       queryClient.setQueryData([queryKey], (old: any) => {
@@ -168,10 +184,10 @@ export function useLogCall(queryKey: string, idField: 'id' | 'email' | '_id' = '
                 ...s,
                 callCount: currentCount + 1,
                 callHistory: [
-                  { 
-                    date: formattedDate, 
-                    outcome: data.outcome, 
-                    note: data.note 
+                  {
+                    date: formattedDate,
+                    outcome: data.outcome,
+                    note: data.note,
                   },
                   ...currentHistory,
                 ],

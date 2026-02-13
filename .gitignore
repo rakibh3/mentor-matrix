@@ -42,3 +42,4 @@ pnpm-workspace.yaml
 /.vuepress/dist
 /.serverless
 /.vercel/output
+.vercel

@@ -561,12 +561,43 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                                 e.stopPropagation();
                                 onViewHistory(s);
                               }}
-                              className="size-9 rounded-xl border border-white/10 bg-white/5 text-gray-400 transition-all duration-300 hover:scale-110 hover:border-amber-500/40 hover:bg-amber-500/10 hover:text-amber-500 hover:shadow-amber-500/20 active:scale-90"
+                              className={cn(
+                                "size-9 rounded-xl border transition-all duration-300 hover:scale-110 active:scale-90",
+                                (() => {
+                                  if (!s.callHistory || s.callHistory.length === 0) {
+                                    return "border-white/10 bg-white/5 text-gray-400 hover:border-amber-500/40 hover:bg-amber-500/10 hover:text-amber-500 hover:shadow-amber-500/20";
+                                  }
+                                  
+                                  const lastCall = s.callHistory[0]; // Assuming sorted newest first
+                                  
+                                  if (lastCall.outcome === 'Received') {
+                                    return "border-green-500/40 bg-green-500/10 text-green-500 shadow-green-500/20 hover:bg-green-500/20 hover:shadow-green-500/30";
+                                  }
+                                  
+                                  if (['Not Received', 'Busy', 'Wrong Number'].includes(lastCall.outcome)) {
+                                    return "border-red-500/40 bg-red-500/10 text-red-500 shadow-red-500/20 hover:bg-red-500/20 hover:shadow-red-500/30";
+                                  }
+                                  
+                                  if (lastCall.outcome === 'Left Voicemail') {
+                                    return "border-amber-500/40 bg-amber-500/10 text-amber-500 shadow-amber-500/20 hover:bg-amber-500/20 hover:shadow-amber-500/30";
+                                  }
+                                  
+                                  if (lastCall.outcome === 'Discord Action') {
+                                    return "border-blue-500/40 bg-blue-500/10 text-blue-500 shadow-blue-500/20 hover:bg-blue-500/20 hover:shadow-blue-500/30";
+                                  }
+                                  
+                                  return "border-white/10 bg-white/5 text-gray-400 hover:border-amber-500/40 hover:bg-amber-500/10 hover:text-amber-500 hover:shadow-amber-500/20";
+                                })()
+                              )}
                             >
                               <Icon name="history" className="text-lg" />
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent>Review History</TooltipContent>
+                          <TooltipContent>
+                            {s.callHistory && s.callHistory.length > 0 
+                              ? `Last Call: ${s.callHistory[0].outcome} (${s.callHistory[0].date})` 
+                              : 'No Call History'}
+                          </TooltipContent>
                         </Tooltip>
 
                         {/* View Details Button */}

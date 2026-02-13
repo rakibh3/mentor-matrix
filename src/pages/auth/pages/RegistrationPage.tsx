@@ -69,9 +69,9 @@ const RegistrationPage: React.FC = () => {
             Registration Sent
           </h1>
           <p className="text-text-secondary mb-10 text-base leading-relaxed font-medium">
-            Your application for <span className="font-bold text-white">Cohort 12</span> has been
-            received. Our admins will review your details and send a login code to{' '}
-            <span className="text-primary font-bold">{submittedEmail}</span> soon.
+            Your application for <span className="font-bold text-white">Catch Async Bootcamp</span>{' '}
+            has been received. You can login using{' '}
+            <span className="text-primary font-bold">{submittedEmail}</span>
           </p>
           <PrimaryButton
             onClick={() => navigate('/')}
@@ -85,7 +85,7 @@ const RegistrationPage: React.FC = () => {
   }
 
   return (
-    <div className="bg-background-dark font-display relative flex min-h-screen w-full flex-col overflow-x-hidden text-white antialiased transition-colors duration-200">
+    <div className="bg-background-dark font-display relative flex min-h-screen w-full flex-col overflow-x-hidden overflow-y-auto text-white antialiased transition-colors duration-200">
       <header className="absolute top-0 z-10 flex w-full items-center justify-between px-4 py-3 whitespace-nowrap md:px-6 md:py-4 lg:px-10 lg:py-6">
         <Link to="/" className="group flex items-center gap-2 md:gap-3">
           <IconAvatar
