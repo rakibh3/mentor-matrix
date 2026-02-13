@@ -67,21 +67,21 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-background-dark/30 border-card-border/50 relative grid grid-cols-1 items-center gap-4 rounded-2xl border p-4 lg:grid-cols-12">
-        <div className="group relative lg:col-span-6">
+        <div className={`group relative ${showAddButton ? 'lg:col-span-4' : 'lg:col-span-6'}`}>
           <Icon
             name="search"
-            className="text-text-secondary group-focus-within:text-primary absolute top-1/2 left-4 -translate-y-1/2 text-xl transition-colors"
+            className="text-text-secondary group-focus-within:text-primary absolute top-1/2 left-5 -translate-y-1/2 text-xl transition-colors"
           />
           <Input
             variant="search"
             hasIcon="left"
-            className="border-card-border bg-card-dark focus:border-primary focus:ring-primary/40 h-14 w-full rounded-xl border pr-4 pl-12 placeholder:text-gray-600 focus:ring-1"
+            className="border-card-border/60 bg-surface-dark/40 focus:border-primary focus:ring-primary/30 h-14 w-full rounded-xl border pr-5 pl-[3.25rem] text-white placeholder:text-gray-600 focus:ring-1"
             placeholder="Search by name or email..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
-        <div className="relative lg:col-span-2">
+        <div className="relative lg:col-span-3">
           <Select value={assignmentFilter} onValueChange={onAssignmentChange}>
             <SelectTrigger icon="pending_actions">
               <SelectValue placeholder="Assignments" />
@@ -95,7 +95,7 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
             </SelectContent>
           </Select>
         </div>
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <Select value={progressFilter} onValueChange={onProgressChange}>
             <SelectTrigger icon="filter_list">
               <SelectValue placeholder="All Progress" />

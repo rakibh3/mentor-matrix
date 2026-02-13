@@ -216,6 +216,7 @@ const SrmDashboard: React.FC = () => {
         assignmentCriteria: manualCampaigns[email || s._id]
           ? `Campaign: ${manualCampaigns[email || s._id].replace('-', ' ')}`
           : s.assignmentCriteria,
+        callHistory: s.callHistory || [],
       };
     });
   }, [attendanceResponse, user, manualCampaigns]);
@@ -396,7 +397,7 @@ const SrmDashboard: React.FC = () => {
         }}
       />
 
-      {/* Bulk Action Bar - Inline */}
+        {/* Bulk Action Bar - Inline */}
       {(selectedIds.length > 0 || hasActiveFilters) && (
         <BulkActionBar
           selectedCount={selectedIds.length}
@@ -405,6 +406,7 @@ const SrmDashboard: React.FC = () => {
           onExport={handleExport}
           onClearSelection={() => setSelectedIds([])}
           isVisible={selectedIds.length > 0 || hasActiveFilters}
+          showAssignSRM={false}
         />
       )}
 
@@ -417,7 +419,7 @@ const SrmDashboard: React.FC = () => {
           totalPages={totalPages}
           onPageChange={setCurrentPage}
           onToggleAssignment={() => {}}
-          onViewDetails={(s) => setSelectedStudent(s as any)}
+          // onViewDetails is removed to hide the eye button
           onToggleBlock={() => {}}
           onLogCall={(s) => setLoggingCallStudent(s as any)}
           onViewHistory={(s) => setViewingHistoryStudent(s as any)}

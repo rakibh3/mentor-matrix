@@ -10,6 +10,7 @@ interface BulkActionBarProps {
   onSendEmail: () => void;
   onExport: () => void;
   isVisible: boolean;
+  showAssignSRM?: boolean;
 }
 
 export const BulkActionBar: React.FC<BulkActionBarProps> = ({
@@ -19,6 +20,7 @@ export const BulkActionBar: React.FC<BulkActionBarProps> = ({
   onSendEmail,
   onExport,
   isVisible,
+  showAssignSRM = true,
 }) => {
   return (
     <div
@@ -37,15 +39,17 @@ export const BulkActionBar: React.FC<BulkActionBarProps> = ({
       </div>
 
       <div className="flex items-center gap-3">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onAssignSRM}
-          className="hover:bg-primary/10 hover:text-primary border-white/10 bg-white/5 font-bold tracking-widest text-white uppercase"
-        >
-          <Icon name="person_add" className="mr-2 text-base" />
-          Assign SRM
-        </Button>
+        {showAssignSRM && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onAssignSRM}
+            className="hover:bg-primary/10 hover:text-primary border-white/10 bg-white/5 font-bold tracking-widest text-white uppercase"
+          >
+            <Icon name="person_add" className="mr-2 text-base" />
+            Assign SRM
+          </Button>
+        )}
         <Button
           variant="outline"
           size="sm"

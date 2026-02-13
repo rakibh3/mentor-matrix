@@ -11,7 +11,7 @@ interface StudentTableProps {
   onPageChange: (page: number) => void;
   onToggleAssignment: (email: string, assignment: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onViewDetails: (student: any) => void;
+  onViewDetails?: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onEditClick?: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,6 +55,7 @@ export const StudentTable: React.FC<StudentTableProps> = ({
   sortConfig,
   selectedIds,
   onSelectionChange,
+  showSrmColumn,
 }) => {
   return (
     <StudentDataGrid
@@ -78,6 +79,7 @@ export const StudentTable: React.FC<StudentTableProps> = ({
       selectedIds={selectedIds}
       onSelectionChange={onSelectionChange}
       idField="email"
+      showSrmColumn={showSrmColumn}
     />
   );
 };

@@ -1,11 +1,29 @@
 import type { CallOutcome } from '@/types';
+import { logCall } from '@/api/endpoints/call-history';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui';
 import { formatDateTimeDisplay } from '@/utils/dateUtils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type StudentRecord = Record<string, any>;
+
+// Helper to update student data whether it's an array or a response object
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateStudentData = (oldData: any, updateFn: (students: StudentRecord[]) => StudentRecord[]) => {
+  if (!oldData) return oldData;
+  if (Array.isArray(oldData)) {
+    return updateFn(oldData);
+  }
+  if (oldData.data && Array.isArray(oldData.data)) {
+    return {
+      ...oldData,
+      data: updateFn(oldData.data),
+    };
+  }
+  return oldData;
+};
 
 /**
  * Custom hook for toggling student block status
@@ -20,13 +38,16 @@ export function useToggleBlock(queryKey: string, idField: 'id' | 'email' | '_id'
     mutationFn: async (identifier: string) => identifier,
     onSuccess: (identifier) => {
       let isNowBlocked = false;
-      queryClient.setQueryData([queryKey], (old: StudentRecord[] | undefined) => {
-        return old?.map((s) => {
-          if (s[idField] === identifier) {
-            isNowBlocked = !s.isBlocked;
-            return { ...s, isBlocked: isNowBlocked };
-          }
-          return s;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      queryClient.setQueryData([queryKey], (old: any) => {
+        return updateStudentData(old, (students) => {
+          return students.map((s) => {
+            if (s[idField] === identifier) {
+              isNowBlocked = !s.isBlocked;
+              return { ...s, isBlocked: isNowBlocked };
+            }
+            return s;
+          });
         });
       });
       addToast({
@@ -51,15 +72,18 @@ export function useToggleAssignment(queryKey: string, idField: 'id' | 'email' | 
       return { identifier, assignment };
     },
     onSuccess: ({ identifier, assignment }) => {
-      queryClient.setQueryData([queryKey], (old: StudentRecord[] | undefined) => {
-        return old?.map((s) => {
-          if (s[idField] !== identifier) return s;
-          const completedAssignments = s.completedAssignments as string[] | undefined;
-          const isAlreadyCompleted = completedAssignments?.includes(assignment);
-          const newCompletions = isAlreadyCompleted
-            ? (completedAssignments ?? []).filter((a: string) => a !== assignment)
-            : [...(completedAssignments || []), assignment];
-          return { ...s, completedAssignments: newCompletions };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      queryClient.setQueryData([queryKey], (old: any) => {
+        return updateStudentData(old, (students) => {
+          return students.map((s) => {
+            if (s[idField] !== identifier) return s;
+            const completedAssignments = s.completedAssignments as string[] | undefined;
+            const isAlreadyCompleted = completedAssignments?.includes(assignment);
+            const newCompletions = isAlreadyCompleted
+              ? (completedAssignments ?? []).filter((a: string) => a !== assignment)
+              : [...(completedAssignments || []), assignment];
+            return { ...s, completedAssignments: newCompletions };
+          });
         });
       });
     },
@@ -73,6 +97,7 @@ export function useToggleAssignment(queryKey: string, idField: 'id' | 'email' | 
  */
 export function useLogCall(queryKey: string, idField: 'id' | 'email' | '_id' = 'id') {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
 
   return useMutation({
     mutationFn: async ({
@@ -84,27 +109,76 @@ export function useLogCall(queryKey: string, idField: 'id' | 'email' | '_id' = '
       outcome: CallOutcome;
       note?: string;
     }) => {
-      return { studentId, outcome, note };
+      // Map frontend outcome to backend status
+      let status: 'COMPLETED' | 'NO_ANSWER' | 'BUSY' | 'FAILED' | 'SCHEDULED' = 'COMPLETED';
+      
+      switch (outcome) {
+        case 'Received':
+          status = 'COMPLETED';
+          break;
+        case 'Not Received':
+          status = 'NO_ANSWER';
+          break;
+        case 'Busy':
+          status = 'BUSY';
+          break;
+        case 'Left Voicemail':
+        case 'Wrong Number':
+          status = outcome === 'Left Voicemail' ? 'NO_ANSWER' : 'FAILED';
+          break;
+        default:
+          status = 'COMPLETED';
+      }
+
+      if (!user?._id) {
+        throw new Error('User not authenticated');
+      }
+
+      // Use the real API endpoint with corrected payload
+      const response = await logCall({ 
+        student: studentId, 
+        calledBy: user._id,
+        callType: 'FOLLOW_UP', // Defaulting to FOLLOW_UP as per current UI context
+        status, 
+        notes: note 
+      });
+
+      return { 
+        studentId, 
+        outcome, 
+        note, 
+        callData: response.data 
+      };
     },
     onSuccess: (data) => {
       const now = new Date();
-      const formattedDate = formatDateTimeDisplay(now);
+      // If we have real data from server, use its date, otherwise fallback to local time
+      const dateToDisplay = data.callData?.createdAt ? new Date(data.callData.createdAt) : now;
+      const formattedDate = formatDateTimeDisplay(dateToDisplay);
 
-      queryClient.setQueryData([queryKey], (old: StudentRecord[] | undefined) => {
-        return old?.map((s) => {
-          if (s[idField] === data.studentId) {
-            const currentHistory = (s.callHistory as unknown[]) || [];
-            const currentCount = (s.callCount as number) || 0;
-            return {
-              ...s,
-              callCount: currentCount + 1,
-              callHistory: [
-                { date: formattedDate, outcome: data.outcome, note: data.note },
-                ...currentHistory,
-              ],
-            };
-          }
-          return s;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      queryClient.setQueryData([queryKey], (old: any) => {
+        return updateStudentData(old, (students) => {
+          return students.map((s) => {
+            // Check against both idField and _id to be safe
+            if (s[idField] === data.studentId || s._id === data.studentId) {
+              const currentHistory = (s.callHistory as unknown[]) || [];
+              const currentCount = (s.callCount as number) || 0;
+              return {
+                ...s,
+                callCount: currentCount + 1,
+                callHistory: [
+                  { 
+                    date: formattedDate, 
+                    outcome: data.outcome, 
+                    note: data.note 
+                  },
+                  ...currentHistory,
+                ],
+              };
+            }
+            return s;
+          });
         });
       });
     },
@@ -126,8 +200,12 @@ export function useEditStudent<T extends StudentRecord = StudentRecord>(
   return useMutation({
     mutationFn: async (updated: T) => updated,
     onSuccess: (data) => {
-      queryClient.setQueryData([queryKey], (old: T[] | undefined) => {
-        return old?.map((s) => (s[idField] === data[idField] ? { ...s, ...data } : s));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      queryClient.setQueryData([queryKey], (old: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return updateStudentData(old, (students: any[]) => {
+          return students.map((s) => (s[idField] === data[idField] ? { ...s, ...data } : s));
+        });
       });
       addToast({
         type: 'success',
@@ -150,8 +228,12 @@ export function useDeleteStudent(queryKey: string, idField: 'id' | 'email' | '_i
   return useMutation({
     mutationFn: async (identifier: string) => identifier,
     onSuccess: (identifier) => {
-      queryClient.setQueryData([queryKey], (old: StudentRecord[] | undefined) => {
-        return old?.filter((s) => s[idField] !== identifier);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      queryClient.setQueryData([queryKey], (old: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return updateStudentData(old, (students: any[]) => {
+          return students.filter((s) => s[idField] !== identifier);
+        });
       });
       addToast({
         type: 'info',

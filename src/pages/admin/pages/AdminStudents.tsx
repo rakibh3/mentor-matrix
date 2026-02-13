@@ -98,7 +98,7 @@ const AdminStudents: React.FC = () => {
         completedAssignments: [],
         recentAttendance,
         callCount: 0,
-        callHistory: [],
+        callHistory: user.callHistory || [],
         isBlocked: false,
         assignedSrmId: user.assignedSrmId, // Include SRM assignment info
       } as AdminStudent;

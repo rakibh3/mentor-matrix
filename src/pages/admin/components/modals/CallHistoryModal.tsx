@@ -53,14 +53,14 @@ export const CallHistoryModal = <T extends CallHistoryStudent>({
           </div>
 
           <div className="scrollbar-thin scrollbar-thumb-border-dark scrollbar-track-transparent flex-1 overflow-y-auto pr-4">
-            {student.callHistory.length === 0 ? (
+            {(student.callHistory || []).length === 0 ? (
               <div className="flex h-full flex-col items-center justify-center gap-4 opacity-30">
                 <Icon name="call_end" className="text-6xl" />
                 <p className="text-sm font-black tracking-widest uppercase">No history recorded</p>
               </div>
             ) : (
               <div className="border-card-border/50 relative ml-4 flex flex-col gap-10 border-l pl-10">
-                {student.callHistory.map((call, idx) => (
+                {(student.callHistory || []).map((call, idx) => (
                   <div key={idx} className="group relative">
                     <TimelineDot
                       variant={call.outcome === 'Received' ? 'primary' : 'danger'}

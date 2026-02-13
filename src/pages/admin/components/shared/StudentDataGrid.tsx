@@ -31,7 +31,7 @@ export interface StudentDataGridProps {
   onPageChange: (page: number) => void;
   onToggleAssignment: (studentIdOrEmail: string, assignment: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onViewDetails: (student: any) => void;
+  onViewDetails?: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onEditClick?: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,6 +62,7 @@ export interface StudentDataGridProps {
   selectedIds?: string[];
   onSelectionChange?: (ids: string[]) => void;
   showSelection?: boolean;
+  showSrmColumn?: boolean;
 }
 
 export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
@@ -86,6 +87,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
   selectedIds = [],
   onSelectionChange,
   showSelection = true,
+  showSrmColumn = true,
 }) => {
   const [internalCopiedText, setInternalCopiedText] = useState<string | null>(null);
 
@@ -159,7 +161,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                   )}
                 </TableHead>
                 <TableHead className="py-5 tracking-widest">Contact Details</TableHead>
-                <TableHead className="py-5 tracking-widest">Assigned To</TableHead>
+                {showSrmColumn && <TableHead className="py-5 tracking-widest">Assigned To</TableHead>}
                 <TableHead className="py-5 tracking-widest">Assignments</TableHead>
                 <TableHead className="py-5 tracking-widest">Attendance</TableHead>
                 <TableHead className="py-5 tracking-widest">Status</TableHead>
@@ -207,7 +209,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
 
                       <div
                         className="group/student flex cursor-pointer items-center gap-2"
-                        onClick={() => onViewDetails(s)}
+                        onClick={() => onViewDetails?.(s)}
                       >
                         <Avatar
                           className={`size-10 rounded-xl border-2 shadow-lg transition-all duration-500 ${
@@ -295,40 +297,42 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                     </TableCell>
 
                     {/* Assigned To Column */}
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        {s.assignedSrmId ? (
-                          <>
-                            <Icon
-                              name="person"
-                              className="text-primary text-sm"
-                            />
-                            <div className="flex flex-col">
-                              <span className="text-sm font-bold text-white">
-                                {typeof s.assignedSrmId === 'object' && s.assignedSrmId?.name
-                                  ? s.assignedSrmId.name
-                                  : 'SRM'}
-                              </span>
-                              {typeof s.assignedSrmId === 'object' && s.assignedSrmId?.email && (
-                                <span className="text-[10px] text-text-secondary/70">
-                                  {s.assignedSrmId.email}
+                    {showSrmColumn && (
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          {s.assignedSrmId ? (
+                            <>
+                              <Icon
+                                name="person"
+                                className="text-primary text-sm"
+                              />
+                              <div className="flex flex-col">
+                                <span className="text-sm font-bold text-white">
+                                  {typeof s.assignedSrmId === 'object' && s.assignedSrmId?.name
+                                    ? s.assignedSrmId.name
+                                    : 'SRM'}
                                 </span>
-                              )}
+                                {typeof s.assignedSrmId === 'object' && s.assignedSrmId?.email && (
+                                  <span className="text-[10px] text-text-secondary/70">
+                                    {s.assignedSrmId.email}
+                                  </span>
+                                )}
+                              </div>
+                            </>
+                          ) : (
+                            <div className="flex items-center gap-2">
+                              <Icon
+                                name="person_off"
+                                className="text-gray-500 text-sm"
+                              />
+                              <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Unassigned
+                              </span>
                             </div>
-                          </>
-                        ) : (
-                          <div className="flex items-center gap-2">
-                            <Icon
-                              name="person_off"
-                              className="text-gray-500 text-sm"
-                            />
-                            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Unassigned
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </TableCell>
+                          )}
+                        </div>
+                      </TableCell>
+                    )}
 
                     {/* Submissions Column */}
                     <TableCell>
@@ -566,22 +570,24 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                         </Tooltip>
 
                         {/* View Details Button */}
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="icon"
-                              size="icon"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onViewDetails(s);
-                              }}
-                              className="bg-primary/20 text-primary border-primary/40 hover:bg-primary/30 hover:border-primary/60 shadow-primary/10 size-9 rounded-xl border shadow-xl transition-all duration-300 hover:scale-110 active:scale-90"
-                            >
-                              <Icon name="visibility" className="text-lg" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>Full Profile</TooltipContent>
-                        </Tooltip>
+                        {onViewDetails && (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="icon"
+                                size="icon"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onViewDetails(s);
+                                }}
+                                className="bg-primary/20 text-primary border-primary/40 hover:bg-primary/30 hover:border-primary/60 shadow-primary/10 size-9 rounded-xl border shadow-xl transition-all duration-300 hover:scale-110 active:scale-90"
+                              >
+                                <Icon name="visibility" className="text-lg" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Full Profile</TooltipContent>
+                          </Tooltip>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>

@@ -32,9 +32,14 @@ export interface CallHistoryWithDetails extends CallHistory {
 
 // Request types
 export interface LogCallRequest {
-  studentId: string;
-  outcome: CallOutcome;
-  note?: string;
+  student: string;
+  calledBy: string;
+  callType: 'FOLLOW_UP' | 'REMINDER' | 'SUPPORT' | 'FEEDBACK';
+  status: 'COMPLETED' | 'NO_ANSWER' | 'BUSY' | 'FAILED' | 'SCHEDULED';
+  notes?: string;
+  duration?: number;
+  scheduledAt?: Date;
+  calledAt?: Date;
 }
 
 // Response types
