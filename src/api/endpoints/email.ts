@@ -1,7 +1,7 @@
 import apiClient from '@/api/client/axios';
 
 export interface SendEmailRequest {
-  to: string;
+  to: string | string[];
   subject: string;
   body: string;
 }

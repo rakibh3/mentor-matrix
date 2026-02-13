@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Icon } from '@/constants';
 import { useQuery } from '@tanstack/react-query';
 
-import { getAttendance } from '@/api/endpoints/attendance';
+import { getSrmAttendance } from '@/api/endpoints/attendance';
 import { useSrmPerformance } from '@/api/hooks/analytics';
 import { useLogCall } from '@/api/hooks/call-history';
 import { LoadingScreen } from '@/components/shared/LoadingScreen';
@@ -47,10 +47,10 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
   );
   const logCallMutation = useLogCall();
 
-  // We can fallback to getAttendance for calculations if needed, but the primary list comes from SrmPerformance
+  // We can fallback to getSrmAttendance for calculations if needed, but the primary list comes from SrmPerformance
   const { data: attendanceResponse, isLoading: isAttendanceLoading } = useQuery({
     queryKey: ['attendance-list'],
-    queryFn: getAttendance,
+    queryFn: getSrmAttendance,
   });
 
   const isLoading = isSrmLoading || isAttendanceLoading;

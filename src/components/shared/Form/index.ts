@@ -11,4 +11,5 @@ export {
   FormProvider,
   type UseFormReturn,
   type FieldValues,
+  type FieldErrors,
 } from 'react-hook-form';

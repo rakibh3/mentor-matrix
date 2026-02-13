@@ -3,6 +3,7 @@ import { Icon } from '@/constants';
 
 import { ActiveFilters, type FilterItem } from '@/components/shared/ActiveFilters';
 import { PrimaryButton } from '@/components/shared/Button';
+import { cn } from '@/lib/utils';
 import {
   Input,
   Select,
@@ -67,7 +68,7 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-background-dark/30 border-card-border/50 relative grid grid-cols-1 items-center gap-4 rounded-2xl border p-4 lg:grid-cols-12">
-        <div className={`group relative ${showAddButton ? 'lg:col-span-4' : 'lg:col-span-6'}`}>
+        <div className={`group relative ${showAddButton ? 'lg:col-span-4' : 'lg:col-span-4'}`}>
           <Icon
             name="search"
             className="text-text-secondary group-focus-within:text-primary absolute top-1/2 left-5 -translate-y-1/2 text-xl transition-colors"
@@ -81,7 +82,7 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
-        <div className="relative lg:col-span-3">
+        <div className={cn('relative', showAddButton ? 'lg:col-span-3' : 'lg:col-span-4')}>
           <Select value={assignmentFilter} onValueChange={onAssignmentChange}>
             <SelectTrigger icon="pending_actions">
               <SelectValue placeholder="Assignments" />
@@ -95,7 +96,7 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
             </SelectContent>
           </Select>
         </div>
-        <div className="lg:col-span-3">
+        <div className={cn(showAddButton ? 'lg:col-span-3' : 'lg:col-span-4')}>
           <Select value={progressFilter} onValueChange={onProgressChange}>
             <SelectTrigger icon="filter_list">
               <SelectValue placeholder="All Progress" />
@@ -111,14 +112,14 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
             </SelectContent>
           </Select>
         </div>
-        <div className="lg:col-span-2">
-          {showAddButton && (
+        {showAddButton && (
+          <div className="lg:col-span-2">
             <PrimaryButton onClick={onAddClick} className="h-14 w-full tracking-[0.15em]">
               <Icon name="person_add" className="text-lg" />
               <span>ADD STUDENT</span>
             </PrimaryButton>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       <ActiveFilters

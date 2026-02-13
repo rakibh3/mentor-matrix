@@ -38,7 +38,7 @@ export const BulkActionBar: React.FC<BulkActionBarProps> = ({
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="ml-auto flex items-center gap-3">
         {showAssignSRM && (
           <Button
             variant="outline"

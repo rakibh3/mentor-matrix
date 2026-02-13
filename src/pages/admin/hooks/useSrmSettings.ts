@@ -4,7 +4,7 @@ import {
   sendOutreachEmail,
   type SendEmailRequest,
 } from '@/api/endpoints/email';
-import { updateMyProfile } from '@/api/endpoints/users';
+import { updateSmtpConfig } from '@/api/endpoints/users';
 import type { UpdateUserDataRequest } from '@/api/types/user.types';
 import { useToast } from '@/components/ui';
 import { useAuth } from '@/hooks/useAuth';
@@ -15,7 +15,7 @@ export function useUpdateMyProfile() {
   const { updateUser } = useAuth();
 
   return useMutation({
-    mutationFn: (data: UpdateUserDataRequest) => updateMyProfile(data),
+    mutationFn: (data: UpdateUserDataRequest) => updateSmtpConfig(data),
     onSuccess: (response) => {
       if (response.data) {
         updateUser(response.data);

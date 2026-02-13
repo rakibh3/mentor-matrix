@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Icon } from '@/constants';
+import { Link } from 'react-router-dom';
 import type { CallOutcome } from '@/pages/admin/types/call';
 import { useQuery } from '@tanstack/react-query';
 import { getSrmAttendance } from '@/api/endpoints/attendance';
@@ -74,17 +75,18 @@ const SrmDashboard: React.FC = () => {
   const handleSendEmail = async (subject: string, body: string) => {
     if (emailingStudents.length === 0) return;
 
-    // In a real app we'd want a bulk endpoint, but for now we loop
-    const promises = emailingStudents.map((student) =>
-      sendEmailMutation.mutateAsync({
-        to: student.email,
-        subject,
-        body,
-      })
-    );
+    const emails = emailingStudents
+      .map((student) => student.email)
+      .filter((email): email is string => !!email);
+
+    if (emails.length === 0) return;
 
     try {
-      await Promise.all(promises);
+      await sendEmailMutation.mutateAsync({
+        to: emails,
+        subject,
+        body,
+      });
       setEmailingStudents([]);
     } catch (error) {
       // Error is handled by mutation's onError (toast)
@@ -298,6 +300,28 @@ const SrmDashboard: React.FC = () => {
 
   return (
     <div className="selection:bg-primary/30 animate-fade-in-up flex w-full flex-col gap-6 pb-20">
+      {/* SMTP Configuration Warning */}
+      {!user?.smtpConfig?.appPassword && (
+        <div className="bg-amber-500/10 border-amber-500/20 flex flex-col items-center justify-between gap-4 rounded-2xl border p-4 backdrop-blur-md md:flex-row md:px-6">
+          <div className="flex items-center gap-4">
+            <div className="bg-amber-500/20 flex h-10 w-10 items-center justify-center rounded-full text-amber-500">
+              <Icon name="warning" className="text-xl" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white">Email Integration Required</p>
+              <p className="text-text-secondary text-xs">
+                You haven't configured your Gmail App Password. Outreach emails will not be sent.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/srm/settings"
+            className="bg-amber-500 hover:bg-amber-600 w-full rounded-xl px-6 py-2.5 text-center text-xs font-black uppercase tracking-widest text-black transition-all md:w-auto"
+          >
+            Configure Now
+          </Link>
+        </div>
+      )}
       {/* Header Section */}
       <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
         <div className="flex items-center gap-5">
@@ -314,6 +338,13 @@ const SrmDashboard: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center gap-3">
+          <Link
+            to="/srm/settings"
+            className="hover:bg-white/5 flex h-12 items-center gap-3 rounded-xl border border-white/5 px-5 text-sm font-bold tracking-wide text-white transition-all"
+          >
+            <Icon name="settings" className="text-xl text-gray-400" />
+            SETTINGS
+          </Link>
           <Badge
             variant="primary"
             size="lg"

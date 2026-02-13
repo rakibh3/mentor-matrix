@@ -564,6 +564,12 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                               className={cn(
                                 "size-9 rounded-xl border transition-all duration-300 hover:scale-110 active:scale-90",
                                 (() => {
+                                  const hasCallToday = s.callHistory && s.callHistory.some((c: any) => c.isToday);
+                                  
+                                  if (hasCallToday) {
+                                    return "border-primary bg-primary/20 text-primary shadow-[0_0_15px_rgba(19,236,106,0.3)] hover:bg-primary/30";
+                                  }
+
                                   if (!s.callHistory || s.callHistory.length === 0) {
                                     return "border-white/10 bg-white/5 text-gray-400 hover:border-amber-500/40 hover:bg-amber-500/10 hover:text-amber-500 hover:shadow-amber-500/20";
                                   }
@@ -591,12 +597,25 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                               )}
                             >
                               <Icon name="history" className="text-lg" />
+                              {s.callHistory && s.callHistory.some((c: any) => c.isToday) && (
+                                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                                </span>
+                              )}
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            {s.callHistory && s.callHistory.length > 0 
-                              ? `Last Call: ${s.callHistory[0].outcome} (${s.callHistory[0].date})` 
-                              : 'No Call History'}
+                            <div className="flex flex-col gap-1">
+                              {s.callHistory && s.callHistory.some((c: any) => c.isToday) && (
+                                <span className="text-primary font-black text-[10px] tracking-widest uppercase mb-1">Contacted Today</span>
+                              )}
+                              <span>
+                                {s.callHistory && s.callHistory.length > 0 
+                                  ? `Last Call: ${s.callHistory[0].outcome} (${s.callHistory[0].date})` 
+                                  : 'No Call History'}
+                              </span>
+                            </div>
                           </TooltipContent>
                         </Tooltip>
 

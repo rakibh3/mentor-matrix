@@ -100,11 +100,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         const userRole = (decoded.role || 'student').toLowerCase() as any;
 
         login(accessToken, {
-          _id: userData._id,
-          name: userData.name,
-          email: userData.email,
-          discord: userData.discordUsername,
-          role: userData.role || userRole,
+          ...userData,
+          discord: userData.discordUsername || userData.discord,
+          role: (userData.role || userRole) as any,
         });
 
         addToast({
