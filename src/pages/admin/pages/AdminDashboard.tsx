@@ -17,6 +17,7 @@ import {
   SessionMonitor,
   StatCards,
 } from '@/pages/admin/components/overview';
+import { formatDhakaDate, getDhakaDisplayDate, getDhakaDisplayTime } from '@/lib/dhakaTime';
 
 const AdminDashboard: React.FC = () => {
   const { addToast } = useToast();
@@ -70,7 +71,7 @@ const AdminDashboard: React.FC = () => {
 
   const handleBulkAbsentConfirm = () => {
     markAbsent(
-      { date: new Date().toISOString() },
+      { date: formatDhakaDate() },
       {
         onSuccess: (response) => {
           setIsBulkAbsentModalOpen(false);
@@ -105,12 +106,12 @@ const AdminDashboard: React.FC = () => {
             </h2>
             <p className="text-text-secondary flex items-center gap-2 text-base font-medium">
               <StatusDot variant="primary" pulse glow />
-              System Live • Fall 2023 Session Monitoring
+              System Live • {getDhakaDisplayTime()}
             </p>
           </div>
           <div className="text-text-secondary bg-surface-dark border-border-dark flex h-[60px] items-center gap-3 rounded-2xl border px-5 py-3 text-sm font-black tracking-widest uppercase shadow-inner">
             <Icon name="calendar_today" className="text-primary text-xl" />
-            <span>09:42 AM • Oct 24</span>
+            <span>{getDhakaDisplayTime()} • {getDhakaDisplayDate()}</span>
           </div>
         </div>
 

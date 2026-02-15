@@ -12,6 +12,7 @@ import {
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useToast } from '@/components/ui';
 import { useAuth } from '@/hooks/useAuth';
+import { formatDhakaDate, getDhakaNow } from '@/lib/dhakaTime';
 // Modals
 import { DeleteTaskModal, EditTaskModal } from '@/pages/admin/components/modals';
 import { TaskLogTable } from '@/pages/admin/components/tasks/TaskLogTable';
@@ -120,7 +121,7 @@ const AdminTasks: React.FC = () => {
         mission: parseInt(data.mission.split(' ')[1]),
         moduleNumber: parseInt(data.module.split(' ')[1]),
         guideline: data.guideline,
-        dueDate: new Date().toISOString(),
+        dueDate: formatDhakaDate(),
         createdBy,
       },
       {
@@ -225,7 +226,7 @@ const AdminTasks: React.FC = () => {
           <div className="text-text-secondary bg-surface-dark border-border-dark flex items-center gap-3 rounded-xl border px-5 py-3 text-sm font-black tracking-widest uppercase shadow-inner">
             <Icon name="calendar_today" className="text-primary text-xl" />
             <span>
-              {new Date().toLocaleDateString('en-US', {
+              {getDhakaNow().toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
                 year: 'numeric',

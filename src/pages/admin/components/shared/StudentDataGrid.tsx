@@ -567,7 +567,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                                   const hasCallToday = s.callHistory && s.callHistory.some((c: any) => c.isToday);
                                   
                                   if (hasCallToday) {
-                                    return "border-primary bg-primary/20 text-primary shadow-[0_0_15px_rgba(19,236,106,0.3)] hover:bg-primary/30";
+                                    return "border-primary bg-primary/20 text-primary hover:bg-primary/30";
                                   }
 
                                   if (!s.callHistory || s.callHistory.length === 0) {
@@ -597,12 +597,6 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                               )}
                             >
                               <Icon name="history" className="text-lg" />
-                              {s.callHistory && s.callHistory.some((c: any) => c.isToday) && (
-                                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-                                </span>
-                              )}
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>

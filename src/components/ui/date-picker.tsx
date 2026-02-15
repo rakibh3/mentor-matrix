@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Icon } from '@/constants';
-import { format, isValid, parse, startOfDay } from 'date-fns';
+import { format, isValid, parse } from 'date-fns';
+import { getDhakaToday } from '@/lib/dhakaTime';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { Icon } from '@/constants';
 
 interface DatePickerProps {
   value: string;
@@ -24,7 +25,7 @@ function DatePicker({
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
 
-  const today = startOfDay(new Date());
+  const today = getDhakaToday();
 
   // Parse the value string to Date object
   const selectedDate = React.useMemo(() => {

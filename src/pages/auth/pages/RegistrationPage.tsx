@@ -183,7 +183,7 @@ const RegistrationPage: React.FC = () => {
                 />
 
                 <FormInput
-                  label="Discord Tag"
+                  label="Discord Username"
                   placeholder="user#1234"
                   autoComplete="off"
                   variant="filled"

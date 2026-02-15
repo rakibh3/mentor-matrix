@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Icon } from '@/constants';
 import type { AdminStudent, CallOutcome } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -177,6 +177,11 @@ const AdminStudents: React.FC = () => {
       return matchSearch && matchProgress && matchAssignment;
     });
   }, [students, progressFilter, assignmentFilter, searchQuery]);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, progressFilter, assignmentFilter]);
 
   const totalPages = Math.ceil(filteredStudents.length / rowsPerPage);
   const currentStudents = useMemo(() => {

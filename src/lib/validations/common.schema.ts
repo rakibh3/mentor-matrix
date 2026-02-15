@@ -50,8 +50,8 @@ export const urlSchema = z.string().url('Please enter a valid URL').optional().o
 // Discord tag validation
 export const discordTagSchema = z
   .string()
-  .min(1, 'Discord tag is required')
+  .min(1, 'Discord username is required')
   .regex(
     /^.{2,32}(#\d{4})?$/,
-    'Please enter a valid Discord tag (e.g., username or username#1234)'
+    'Please enter a valid Discord username (e.g., username or username#1234)'
   );

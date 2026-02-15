@@ -9,6 +9,7 @@ import { LoadingScreen } from '@/components/shared/LoadingScreen';
 import { StudentDataGrid } from '@/components/shared/StudentDataGrid';
 import { useToast } from '@/components/ui';
 import { useAuth } from '@/hooks/useAuth';
+import { formatDhakaDate } from '@/lib/dhakaTime';
 import { CallHistoryModal } from '@/pages/admin/components/modals/CallHistoryModal';
 import { LogCallModal } from '@/pages/admin/components/modals/LogCallModal';
 import { SrmStatCards } from '@/pages/admin/components/students/SrmStatCards';
@@ -72,20 +73,7 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
           .slice(0, 6)
           .map((a: any) => {
             const d = new Date(a.date);
-            const months = [
-              'Jan',
-              'Feb',
-              'Mar',
-              'Apr',
-              'May',
-              'Jun',
-              'Jul',
-              'Aug',
-              'Sep',
-              'Oct',
-              'Nov',
-              'Dec',
-            ];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             const dateStr = `${d.getDate()}${months[d.getMonth()]}`;
             return { present: a.status === 'ATTENDED' || a.status === 'Present', date: dateStr };
           })
@@ -118,20 +106,7 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
             let dateStr = call.date;
             if (dateStr && dateStr.includes('T')) {
               const d = new Date(dateStr);
-              const months = [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec',
-              ];
+              const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
               dateStr = `${d.getDate()} ${months[d.getMonth()]}`;
             }
 
@@ -164,8 +139,8 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
 
   const stats = useMemo(() => {
     const history = srmAssignedStudents.flatMap((s: any) => s.callHistory || []);
-    const today = new Date().toISOString().split('T')[0];
-    const todayCalls = history.filter((c: any) => c.date?.startsWith(today));
+    const today = formatDhakaDate();
+    const todayCalls = history.filter((c: any) => c.date === today || c.date?.startsWith(today));
 
     return {
       toCall: srmAssignedStudents.filter((s: any) => s.status === 'Probation').length,
@@ -219,7 +194,7 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
     ).length;
     const avgProgress =
       totalAssigned > 0
-        ? Math.round(
+          ? Math.round(
             srmAssignedStudents.reduce((acc: number, s: any) => acc + (s.progress || 0), 0) /
               totalAssigned
           )

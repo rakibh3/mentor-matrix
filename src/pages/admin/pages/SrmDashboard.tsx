@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Icon } from '@/constants';
 import { Link } from 'react-router-dom';
 import type { CallOutcome } from '@/pages/admin/types/call';
@@ -20,6 +20,7 @@ import { StudentActionBar } from '@/pages/admin/components/students/StudentActio
 import { StudentTable } from '@/pages/admin/components/students/StudentTable';
 import { useSendOutreachEmail } from '@/pages/admin/hooks/useSrmSettings';
 import { useLogCall } from '@/pages/admin/hooks/useStudentMutations';
+import { formatDhakaDate } from '@/lib/dhakaTime';
 import type { AdminStudent } from '@/pages/admin/types/student';
 
 const SrmDashboard: React.FC = () => {
@@ -40,7 +41,7 @@ const SrmDashboard: React.FC = () => {
   const [assignmentFilter, setAssignmentFilter] = useState('Assignments');
   const [progressFilter, setProgressFilter] = useState('All Progress');
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 20;
+  const rowsPerPage = 10;
 
   // Campaign and Sorting State
   const [activeCampaign, setActiveCampaign] = useState<
@@ -155,7 +156,7 @@ const SrmDashboard: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `srm_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `srm_export_${formatDhakaDate()}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -285,6 +286,11 @@ const SrmDashboard: React.FC = () => {
     return results;
   }, [campaignFilteredStudents, searchQuery, assignmentFilter, progressFilter, sortConfig]);
 
+  // Reset to first page when search or filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, assignmentFilter, progressFilter]);
+
   const totalPages = Math.ceil(finalFilteredStudents.length / rowsPerPage);
   const currentStudents = useMemo(
     () => finalFilteredStudents.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage),
@@ -396,7 +402,7 @@ const SrmDashboard: React.FC = () => {
                 />
                 <span className="text-xs tracking-widest uppercase">{tab.label}</span>
                 {activeCampaign === tab.id && (
-                  <div className="bg-primary animate-fade-in absolute right-0 bottom-0 left-0 h-1 rounded-full shadow-[0_0_10px_rgba(19,236,106,0.5)]" />
+                  <div className="bg-primary animate-fade-in absolute right-0 bottom-0 left-0 h-0.5" />
                 )}
               </button>
             ))}
