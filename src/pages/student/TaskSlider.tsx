@@ -137,14 +137,14 @@ export const TaskSlider: React.FC<TaskSliderProps> = ({
               {/* Module & Mission */}
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1">
-                  <span className="text-[8px] font-black text-gray-500 uppercase">M</span>
+                  <span className="text-[8px] font-black text-gray-500 uppercase">Module</span>
                   <span className="text-sm font-black text-white">
                     {card.task.moduleNumber.toString().padStart(2, '0')}
                   </span>
                 </div>
                 <div className="h-4 w-px bg-white/10" />
                 <div className="flex items-center gap-1">
-                  <span className="text-[8px] font-black text-gray-500 uppercase">M</span>
+                  <span className="text-[8px] font-black text-gray-500 uppercase">Mission</span>
                   <span className="text-sm font-black text-white">
                     {card.task.mission.toString().padStart(2, '0')}
                   </span>

@@ -70,8 +70,7 @@ export interface WindowStatusResponse {
 }
 
 export interface AttendanceFormData {
-  videoNumber: string;
-  verificationCode: string;
-  selectedModule: string;
+  module: number;
+  mission: number;
   note?: string;
 }

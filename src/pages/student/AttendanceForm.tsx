@@ -29,9 +29,8 @@ export const AttendanceForm: React.FC<AttendanceFormProps> = ({ isLoaded, userId
   const form = useForm<AttendanceFormData>({
     resolver: zodResolver(attendanceFormSchema),
     defaultValues: {
-      videoNumber: '',
-      verificationCode: '',
-      selectedModule: 'Module 4: React Patterns',
+      module: '',
+      mission: '',
       note: '',
     },
   });
@@ -44,10 +43,6 @@ export const AttendanceForm: React.FC<AttendanceFormProps> = ({ isLoaded, userId
   } = form;
 
   const onSubmit = (data: AttendanceFormData) => {
-    // Parse module and mission from selectedModule (e.g., "Module 4: React Patterns")
-    const moduleMatch = data.selectedModule.match(/Module (\d+)/);
-    const moduleNumber = moduleMatch ? parseInt(moduleMatch[1]) : 4;
-
     if (!userId) {
       addToast({
         type: 'error',
@@ -61,10 +56,9 @@ export const AttendanceForm: React.FC<AttendanceFormProps> = ({ isLoaded, userId
     const attendanceData = {
       studentId: userId,
       status: 'ATTENDED' as const,
-      mission: parseInt(data.videoNumber) || 1,
-      module: moduleNumber,
+      mission: Number(data.mission),
+      module: Number(data.module),
       note: data.note,
-      verificationCode: data.verificationCode,
     };
 
     markAttendance(attendanceData, {
@@ -74,7 +68,7 @@ export const AttendanceForm: React.FC<AttendanceFormProps> = ({ isLoaded, userId
           title: 'Attendance Recorded',
           message:
             response.message ||
-            `Successfully checked in for ${data.selectedModule}, Video #${data.videoNumber}.${data.note ? ` Note: ${data.note}` : ''}`,
+            `Successfully checked in for Module ${data.module}, Mission ${data.mission}.${data.note ? ` Note: ${data.note}` : ''}`,
         });
         reset();
       },
@@ -120,42 +114,38 @@ export const AttendanceForm: React.FC<AttendanceFormProps> = ({ isLoaded, userId
           onSubmit={onSubmit}
           className="flex flex-1 flex-col gap-6 md:gap-8"
         >
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
-            {/* Video Number Field */}
-            <FormInput
-              label="Video Number"
-              icon="play_circle"
-              placeholder="e.g. 12"
-              className="focus:border-primary/50 h-14 rounded-2xl border-white/10 bg-white/[0.02] text-lg font-black tracking-tight text-white shadow-inner transition-all focus:bg-white/[0.05]"
-              error={errors.videoNumber?.message}
-              {...register('videoNumber')}
-            />
 
-            {/* Verification Code Field */}
-            <FormInput
-              label="Session Code"
-              icon="verified_user"
-              placeholder="4-digit code"
-              className="focus:border-primary/50 h-14 rounded-2xl border-white/10 bg-white/[0.02] text-lg font-black tracking-[0.3em] text-white shadow-inner transition-all focus:bg-white/[0.05]"
-              error={errors.verificationCode?.message}
-              {...register('verificationCode')}
-            />
-          </div>
-
-          {/* Active Module Field */}
+          {/* Mission Dropdown Field */}
           <FormSelect
-            name="selectedModule"
+            name="mission"
             control={control}
-            label="Current Module"
-            icon="layers"
+            label="Module Mission"
+            icon="rocket_launch"
             className="focus:border-primary/50 h-auto min-h-[3.5rem] rounded-2xl border-white/10 bg-white/[0.02] py-2 text-sm font-black text-white shadow-inner transition-all focus:bg-white/[0.05] md:text-base"
-            placeholder="Select Module"
+            placeholder="Select Mission"
             options={[
-              { value: 'Module 4: React Patterns', label: 'Module 4: React Patterns' },
-              { value: 'Module 5: Backend & API', label: 'Module 5: Backend & API' },
+              { value: '1', label: 'Mission 1' },
+              { value: '2', label: 'Mission 2' },
+              { value: '3', label: 'Mission 3' },
+              { value: '4', label: 'Mission 4' },
+              { value: '5', label: 'Mission 5' },
+              { value: '6', label: 'Mission 6' },
+              { value: '7', label: 'Mission 7' },
+              { value: '8', label: 'Mission 8' },
             ]}
-            error={errors.selectedModule?.message}
+            error={errors.mission?.message}
           />
+
+          {/* Module Number Field */}
+          <FormInput
+            label="Module Number"
+            icon="layers"
+            placeholder="e.g. 4"
+            className="focus:border-primary/50 h-14 rounded-2xl border-white/10 bg-white/[0.02] text-lg font-black tracking-tight text-white shadow-inner transition-all focus:bg-white/[0.05]"
+            error={errors.module?.message}
+            {...register('module')}
+          />
+
 
           {/* Note Field */}
           <FormTextarea
