@@ -19,7 +19,7 @@ import { useAttendanceTrends } from '@/api/hooks/analytics';
 import { useDashboardStats } from '@/api/hooks/analytics';
 
 export const AnalyticsSnapshot: React.FC<AnalyticsSnapshotProps> = () => {
-    const { data: trendData } = useAttendanceTrends(3);
+    const { data: trendData } = useAttendanceTrends(6);
     const { data: dashboardData } = useDashboardStats();
     
     // Format trends
@@ -32,6 +32,9 @@ export const AnalyticsSnapshot: React.FC<AnalyticsSnapshotProps> = () => {
         { date: 'Today', percentage: 0, count: 0 },
         { date: 'Yesterday', percentage: 0, count: 0 },
         { date: '2 Days Ago', percentage: 0, count: 0 },
+        { date: '3 Days Ago', percentage: 0, count: 0 },
+        { date: '4 Days Ago', percentage: 0, count: 0 },
+        { date: '5 Days Ago', percentage: 0, count: 0 },
     ];
 
     const todayRate = dashboardData?.data?.attendance?.attendanceRate || 0;
@@ -88,7 +91,7 @@ export const AnalyticsSnapshot: React.FC<AnalyticsSnapshotProps> = () => {
         <div className="from-primary/50 absolute top-0 right-0 h-1 w-full bg-gradient-to-l to-transparent"></div>
         <CardHeader className="flex flex-row items-center justify-between p-10 pb-0">
           <div>
-            <CardTitle>Last 3 Days Attendance</CardTitle>
+            <CardTitle>Last 6 Days Attendance</CardTitle>
             <CardDescription className="mt-1 tracking-widest uppercase">
               Recent participation trends
             </CardDescription>
@@ -98,7 +101,7 @@ export const AnalyticsSnapshot: React.FC<AnalyticsSnapshotProps> = () => {
           </IconAvatar>
         </CardHeader>
         <CardContent className="flex flex-col gap-8 p-10 pt-8">
-          {trends.slice(0,3).map((day, i) => (
+          {trends.slice(0,6).map((day, i) => (
             <div key={i} className="group flex flex-col gap-3">
               <div className="flex items-end justify-between">
                 <div className="flex items-center gap-3">
