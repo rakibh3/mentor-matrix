@@ -137,7 +137,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
   {
     id: '1',
     name: 'Casey Smith',
-    email: 'casey.s@devcamp.io',
+    email: 'casey.s@catchasync.com',
     phone: '+1 555-0102',
     discord: 'casey_s#1234',
     status: 'Probation',
@@ -155,7 +155,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
   {
     id: '2',
     name: 'Jordan Lee',
-    email: 'jordan.l@devcamp.io',
+    email: 'jordan.l@catchasync.com',
     phone: '+1 555-0199',
     discord: 'jlee_dev',
     status: 'Active',
@@ -170,7 +170,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
   {
     id: '3',
     name: 'Taylor Reed',
-    email: 'taylor.r@devcamp.io',
+    email: 'taylor.r@catchasync.com',
     phone: '+1 555-0245',
     discord: 'tayreed_99',
     status: 'Probation',
@@ -180,7 +180,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
     callHistory: [
       { date: '2023-10-20 10:00', outcome: 'Received' },
       { date: '2023-10-21 12:00', outcome: 'Not Received' },
-      { date: '2023-10-22 15:00', outcome: 'Left Voicemail' },
+      { date: '2023-10-22 15:00', outcome: 'Foreign Number' },
       { date: '2023-10-23 16:00', outcome: 'Busy' },
     ],
     recentAttendance: [false, false, false, true, false, false],
@@ -190,7 +190,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
   {
     id: '4',
     name: 'Morgan Vane',
-    email: 'm.vane@devcamp.io',
+    email: 'm.vane@catchasync.com',
     phone: '+1 555-0311',
     discord: 'mvane_rocks',
     status: 'Active',
@@ -205,7 +205,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
   {
     id: '5',
     name: 'Riley Chase',
-    email: 'rchase@devcamp.io',
+    email: 'rchase@catchasync.com',
     phone: '+1 555-0488',
     discord: 'rchase_hq',
     status: 'Probation',
@@ -215,7 +215,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
     callHistory: [
       { date: '2023-10-22 08:45', outcome: 'Not Received' },
       { date: '2023-10-22 13:10', outcome: 'Not Received' },
-      { date: '2023-10-23 09:20', outcome: 'Left Voicemail' },
+      { date: '2023-10-23 09:20', outcome: 'Foreign Number' },
     ],
     recentAttendance: [false, false, true, false, false, false],
     completedAssignments: ['A1'],
@@ -224,7 +224,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
   {
     id: '6',
     name: 'Sam Rivera',
-    email: 's.rivera@devcamp.io',
+    email: 's.rivera@catchasync.com',
     phone: '+1 555-0900',
     discord: 'srivera_dev',
     status: 'Active',
@@ -239,7 +239,7 @@ export const FLAGGED_STUDENTS: FlaggedStudent[] = [
   {
     id: '21',
     name: 'Olive Green',
-    email: 'o.green@devcamp.io',
+    email: 'o.green@catchasync.com',
     phone: '+1 555-0909',
     discord: 'ogreen#55',
     status: 'Inactive',

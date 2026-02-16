@@ -145,7 +145,7 @@ Authentication: Bearer token in `Authorization` header
 - _id: ObjectId
 - studentId: ObjectId (ref: Student)
 - srmId: ObjectId (ref: User)
-- outcome: Enum['Received', 'Not Received', 'Busy', 'Left Voicemail', 'Wrong Number', 'Discord Action']
+- outcome: Enum['Received', 'Not Received', 'Busy', 'Foreign Number', 'Wrong Number', 'Discord Action']
 - note: String
 - date: Date
 - createdAt: Date

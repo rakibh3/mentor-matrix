@@ -139,7 +139,7 @@ const RegistrationPage: React.FC = () => {
                 <Icon name="assignment_ind" className="text-[32px]" />
               </IconAvatar>
               <h1 className="mb-3 text-3xl leading-tight font-black tracking-tight text-white uppercase">
-                Join DevCamp
+                Join catchAsync
               </h1>
               <p className="text-sm font-medium tracking-wide text-gray-500">
                 Enter your details to register for the next cohort.

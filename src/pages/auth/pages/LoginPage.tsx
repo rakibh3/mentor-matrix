@@ -137,9 +137,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const handleQuickLogin = (type: 'admin' | 'student' | 'srm') => {
     const demoEmail =
       type === 'admin'
-        ? 'admin@devcamp.io'
+        ? 'admin@catchasync.com'
         : type === 'srm'
-          ? 'srm@devcamp.io'
+          ? 'srm@catchasync.com'
           : 'alex@student.com';
 
     // Set demo cookie for development/testing if needed

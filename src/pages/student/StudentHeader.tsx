@@ -37,7 +37,7 @@ export const StudentHeader: React.FC<StudentHeaderProps> = ({ user, onLogout }) 
           <Icon name="school" className="text-xl md:text-3xl" />
         </IconAvatar>
         <h2 className="group-hover:text-primary text-sm leading-tight font-black tracking-tight text-white uppercase transition-colors md:text-xl">
-          DevCamp Portal
+          catchAsync Portal
         </h2>
       </div>
       <div className="flex flex-1 items-center justify-end gap-3 md:gap-8">

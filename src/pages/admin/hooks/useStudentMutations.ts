@@ -112,7 +112,7 @@ export function useLogCall(queryKey: string, idField: 'id' | 'email' | '_id' = '
       note?: string;
     }) => {
       // Map frontend outcome to backend status
-      let status: 'COMPLETED' | 'NO_ANSWER' | 'BUSY' | 'FAILED' | 'SCHEDULED' = 'COMPLETED';
+      let status: 'COMPLETED' | 'NO_ANSWER' | 'BUSY' | 'FAILED' | 'SCHEDULED' | 'FOREIGN_NUMBER' = 'COMPLETED';
 
       switch (outcome) {
         case 'Received':
@@ -124,9 +124,9 @@ export function useLogCall(queryKey: string, idField: 'id' | 'email' | '_id' = '
         case 'Busy':
           status = 'BUSY';
           break;
-        case 'Left Voicemail':
+        case 'Foreign Number':
         case 'Wrong Number':
-          status = outcome === 'Left Voicemail' ? 'NO_ANSWER' : 'FAILED';
+          status = outcome === 'Foreign Number' ? 'FOREIGN_NUMBER' : 'FAILED';
           break;
         default:
           status = 'COMPLETED';

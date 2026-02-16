@@ -10,7 +10,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import {
   CallHistoryModal,
-  DiscordActionModal,
   LogCallModal,
   OutreachEmailModal,
   StudentDetailModal,
@@ -59,8 +58,6 @@ const SrmDashboard: React.FC = () => {
   const [loggingCallStudent, setLoggingCallStudent] = useState<AdminStudent | null>(null);
   const [viewingHistoryStudent, setViewingHistoryStudent] = useState<AdminStudent | null>(null);
   const [emailingStudents, setEmailingStudents] = useState<AdminStudent[]>([]);
-  const [discordActionStudent, setDiscordActionStudent] = useState<AdminStudent | null>(null);
-  const [discordActionType, setDiscordActionType] = useState<'kick' | 'ban' | null>(null);
 
   // Mutations
   const logCallMutation = useLogCall('attendance-list', '_id');
@@ -101,19 +98,6 @@ const SrmDashboard: React.FC = () => {
     setSortConfig({ key, direction });
   };
 
-  const handleDiscordModeration = (reason: string, details: string, preventRejoin?: boolean) => {
-    if (!discordActionStudent || !discordActionType) return;
-
-    // Log the action to history
-    logCallMutation.mutate({
-      studentId: discordActionStudent._id || (discordActionStudent as any)._id,
-      outcome: 'Discord Action',
-      note: `Discord ${discordActionType.toUpperCase()}: ${reason}. ${details}${preventRejoin ? ' (Prevent Re-join Active)' : ''}`,
-    });
-
-    setDiscordActionStudent(null);
-    setDiscordActionType(null);
-  };
 
   const handleAllocateToCampaign = (campaignId: string) => {
     const newAllocations = { ...manualCampaigns };
@@ -249,11 +233,30 @@ const SrmDashboard: React.FC = () => {
 
       let matchesProgress = true;
       if (progressFilter !== 'All Progress') {
-        const progress = s.progress || 0;
-        if (progressFilter === 'At Risk (< 50%)') matchesProgress = progress < 50;
-        else if (progressFilter === 'Average (50-80%)')
-          matchesProgress = progress >= 50 && progress <= 80;
-        else if (progressFilter === 'Excelling (> 80%)') matchesProgress = progress > 80;
+        const studentAttendance = (s as any).attendance || [];
+        const now = new Date();
+
+        if (progressFilter === 'today') {
+          const todayStr = formatDhakaDate(now);
+          // Check if there is an attendance record for today
+          const todayRecord = studentAttendance.find(
+            (a: any) => formatDhakaDate(new Date(a.date)) === todayStr
+          );
+          // If no record exists for today, or it's 'ABSENT', they match the filter
+          matchesProgress = !todayRecord || todayRecord.status === 'ABSENT';
+        } else if (progressFilter === 'last2days' || progressFilter === 'last3days') {
+          const days = progressFilter === 'last2days' ? 2 : 3;
+          // Look at the last N records
+          const records = studentAttendance.slice(0, days);
+          matchesProgress = records.length === 0 || records.every((a: any) => a.status === 'ABSENT');
+        } else {
+          // Fallback for any other existing filters if they somehow persist
+          const progress = s.progress || 0;
+          if (progressFilter === 'At Risk (< 50%)') matchesProgress = progress < 50;
+          else if (progressFilter === 'Average (50-80%)')
+            matchesProgress = progress >= 50 && progress <= 80;
+          else if (progressFilter === 'Excelling (> 80%)') matchesProgress = progress > 80;
+        }
       }
 
       return matchesSearch && matchesAssignment && matchesProgress;
@@ -432,6 +435,12 @@ const SrmDashboard: React.FC = () => {
           setAssignmentFilter('Assignments');
           setProgressFilter('All Progress');
         }}
+        allFiltersLabel="Attendance Miss"
+        filterOptions={[
+          { label: "Today's Absence", value: 'today' },
+          { label: 'Last 2 Days Miss', value: 'last2days' },
+          { label: 'Last 3 Days Miss', value: 'last3days' },
+        ]}
       />
 
         {/* Bulk Action Bar - Inline */}
@@ -457,18 +466,9 @@ const SrmDashboard: React.FC = () => {
           onPageChange={setCurrentPage}
           onToggleAssignment={() => {}}
           // onViewDetails is removed to hide the eye button
-          onToggleBlock={() => {}}
           onLogCall={(s) => setLoggingCallStudent(s as any)}
           onViewHistory={(s) => setViewingHistoryStudent(s as any)}
           onSendEmail={(s) => setEmailingStudents([s as any])}
-          onDiscordKick={(s) => {
-            setDiscordActionStudent(s as any);
-            setDiscordActionType('kick');
-          }}
-          onDiscordBan={(s) => {
-            setDiscordActionStudent(s as any);
-            setDiscordActionType('ban');
-          }}
           onSort={handleSort}
           sortConfig={sortConfig}
           showSrmColumn={false}
@@ -507,17 +507,6 @@ const SrmDashboard: React.FC = () => {
         isOpen={emailingStudents.length > 0}
         onClose={() => setEmailingStudents([])}
         onSend={handleSendEmail}
-      />
-
-      <DiscordActionModal
-        student={discordActionStudent}
-        isOpen={!!discordActionStudent}
-        type={discordActionType}
-        onClose={() => {
-          setDiscordActionStudent(null);
-          setDiscordActionType(null);
-        }}
-        onConfirm={handleDiscordModeration}
       />
     </div>
   );

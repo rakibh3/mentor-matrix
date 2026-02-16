@@ -199,7 +199,7 @@ interface CallHistory {
   _id: string;
   studentId: string;    // Reference to Student
   srmId: string;        // Reference to User (SRM)
-  outcome: 'Received' | 'Not Received' | 'Busy' | 'Left Voicemail' | 'Wrong Number' | 'Discord Action';
+  outcome: 'Received' | 'Not Received' | 'Busy' | 'Foreign Number' | 'Wrong Number' | 'Discord Action';
   note?: string;
   date: string;
   createdAt: string;

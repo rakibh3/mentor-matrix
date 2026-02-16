@@ -17,6 +17,7 @@ import {
   OutreachEmailModal,
   StudentDetailModal,
   BulkAssignSrmModal,
+  DiscordActionModal,
 } from '@/pages/admin/components/modals';
 // Sub-components
 import { StudentActionBar } from '@/pages/admin/components/students/StudentActionBar';
@@ -115,6 +116,8 @@ const AdminStudents: React.FC = () => {
   const [loggingCallStudent, setLoggingCallStudent] = useState<AdminStudent | null>(null);
   const [viewingHistoryStudent, setViewingHistoryStudent] = useState<AdminStudent | null>(null);
   const [emailingStudent, setEmailingStudent] = useState<AdminStudent | null>(null);
+  const [discordActionStudent, setDiscordActionStudent] = useState<AdminStudent | null>(null);
+  const [discordActionType, setDiscordActionType] = useState<'kick' | 'ban' | null>(null);
 
   // Filter States
   const [currentPage, setCurrentPage] = useState(1);
@@ -217,6 +220,20 @@ const AdminStudents: React.FC = () => {
     const studentId = loggingCallStudent.id! || loggingCallStudent._id!;
     logCallMutation.mutate({ studentId, outcome, note });
     setLoggingCallStudent(null);
+  };
+
+  const handleDiscordModeration = (reason: string, details: string, preventRejoin?: boolean) => {
+    if (!discordActionStudent || !discordActionType) return;
+
+    // Log the action to history
+    logCallMutation.mutate({
+      studentId: discordActionStudent.id! || discordActionStudent._id!,
+      outcome: 'Discord Action',
+      note: `Discord ${discordActionType.toUpperCase()}: ${reason}. ${details}${preventRejoin ? ' (Prevent Re-join Active)' : ''}`,
+    });
+
+    setDiscordActionStudent(null);
+    setDiscordActionType(null);
   };
 
   const handleEditSave = (updatedStudent: AdminStudent) => {
@@ -457,6 +474,14 @@ const AdminStudents: React.FC = () => {
           onToggleBlock={handleToggleBlock}
           onLogCall={setLoggingCallStudent}
           onViewHistory={setViewingHistoryStudent}
+          onDiscordKick={(s) => {
+            setDiscordActionStudent(s);
+            setDiscordActionType('kick');
+          }}
+          onDiscordBan={(s) => {
+            setDiscordActionStudent(s);
+            setDiscordActionType('ban');
+          }}
           selectedIds={selectedIds}
           onSelectionChange={setSelectedIds}
         />
@@ -535,6 +560,17 @@ const AdminStudents: React.FC = () => {
         student={viewingHistoryStudent}
         isOpen={!!viewingHistoryStudent}
         onClose={() => setViewingHistoryStudent(null)}
+      />
+
+      <DiscordActionModal
+        student={discordActionStudent}
+        isOpen={!!discordActionStudent}
+        type={discordActionType}
+        onClose={() => {
+          setDiscordActionStudent(null);
+          setDiscordActionType(null);
+        }}
+        onConfirm={handleDiscordModeration}
       />
     </>
   );

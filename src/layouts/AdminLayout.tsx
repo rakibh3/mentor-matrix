@@ -75,7 +75,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onLogout, isCollapsed, onTo
           {!isCollapsed && (
             <div className="animate-in fade-in slide-in-from-left-2 flex flex-col duration-300">
               <h1 className="text-base leading-none font-black tracking-tight text-white">
-                DEVCAMP
+                catchAsync
               </h1>
               <p className="text-text-secondary mt-0.5 text-xs font-bold tracking-widest uppercase">
                 {isAdmin ? 'Admin Portal' : 'SRM Portal'}
@@ -203,7 +203,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onLogout }) 
               <div className="mb-10 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Icon name="code" className="text-primary text-2xl" />
-                  <span className="font-black tracking-tighter text-white uppercase">DEVCAMP</span>
+                  <span className="font-black tracking-tighter text-white uppercase">catchAsync</span>
                 </div>
                 <Button
                   variant="ghost"
@@ -242,7 +242,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, onLogout }) 
           <header className="bg-background-dark border-border-dark z-50 flex items-center justify-between border-b px-6 py-4 md:hidden">
             <div className="flex items-center gap-3">
               <Icon name="code" className="text-primary text-2xl" />
-              <span className="font-black tracking-tighter text-white uppercase">DEVCAMP</span>
+              <span className="font-black tracking-tighter text-white uppercase">catchAsync</span>
             </div>
             <div className="flex items-center gap-4">
               <Button

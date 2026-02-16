@@ -598,7 +598,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                                     return 'border-red-500/40 bg-red-500/10 text-red-500 shadow-red-500/20 hover:bg-red-500/20 hover:shadow-red-500/30';
                                   }
 
-                                  if (lastCall.outcome === 'Left Voicemail') {
+                                  if (lastCall.outcome === 'Foreign Number') {
                                     return 'border-amber-500/40 bg-amber-500/10 text-amber-500 shadow-amber-500/20 hover:bg-amber-500/20 hover:shadow-amber-500/30';
                                   }
 

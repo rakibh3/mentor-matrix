@@ -36,7 +36,7 @@ export interface StudentDataGridProps {
   onEditClick?: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onDeleteClick?: (student: any) => void;
-  onToggleBlock: (studentIdOrEmail: string) => void;
+  onToggleBlock?: (studentIdOrEmail: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onLogCall: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -466,32 +466,34 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         {/* Block Icon Button */}
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="icon"
-                              size="icon"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onToggleBlock(identifier);
-                              }}
-                              className={cn(
-                                'size-9 rounded-xl border shadow-lg transition-all duration-300 hover:scale-110 active:scale-90',
-                                s.isBlocked
-                                  ? 'border-red-500 bg-red-500 text-white shadow-red-500/30 hover:bg-red-600'
-                                  : 'border-white/10 bg-white/5 text-gray-400 hover:border-red-500/40 hover:bg-red-500/5 hover:text-red-500 hover:shadow-red-500/10'
-                              )}
-                            >
-                              <Icon
-                                name={s.isBlocked ? 'lock_open' : 'block'}
-                                className="text-base"
-                              />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            {s.isBlocked ? 'Unblock Access' : 'Restrict Access'}
-                          </TooltipContent>
-                        </Tooltip>
+                        {onToggleBlock && (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="icon"
+                                size="icon"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onToggleBlock(identifier);
+                                }}
+                                className={cn(
+                                  'size-9 rounded-xl border shadow-lg transition-all duration-300 hover:scale-110 active:scale-90',
+                                  s.isBlocked
+                                    ? 'border-red-500 bg-red-500 text-white shadow-red-500/30 hover:bg-red-600'
+                                    : 'border-white/10 bg-white/5 text-gray-400 hover:border-red-500/40 hover:bg-red-500/5 hover:text-red-500 hover:shadow-red-500/10'
+                                )}
+                              >
+                                <Icon
+                                  name={s.isBlocked ? 'lock_open' : 'block'}
+                                  className="text-base"
+                                />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              {s.isBlocked ? 'Unblock Access' : 'Restrict Access'}
+                            </TooltipContent>
+                          </Tooltip>
+                        )}
 
                         {/* Log Call Button */}
                         <Tooltip>
@@ -584,7 +586,7 @@ export const StudentDataGrid: React.FC<StudentDataGridProps> = ({
                                     return "border-red-500/40 bg-red-500/10 text-red-500 shadow-red-500/20 hover:bg-red-500/20 hover:shadow-red-500/30";
                                   }
                                   
-                                  if (lastCall.outcome === 'Left Voicemail') {
+                                  if (lastCall.outcome === 'Foreign Number') {
                                     return "border-amber-500/40 bg-amber-500/10 text-amber-500 shadow-amber-500/20 hover:bg-amber-500/20 hover:shadow-amber-500/30";
                                   }
                                   

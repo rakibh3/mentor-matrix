@@ -4,7 +4,7 @@ export type CallOutcome =
   | 'Received'
   | 'Not Received'
   | 'Busy'
-  | 'Left Voicemail'
+  | 'Foreign Number'
   | 'Wrong Number'
   | 'Discord Action';
 
@@ -35,7 +35,7 @@ export interface LogCallRequest {
   student: string;
   calledBy: string;
   callType: 'FOLLOW_UP' | 'REMINDER' | 'SUPPORT' | 'FEEDBACK';
-  status: 'COMPLETED' | 'NO_ANSWER' | 'BUSY' | 'FAILED' | 'SCHEDULED';
+  status: 'COMPLETED' | 'NO_ANSWER' | 'BUSY' | 'FAILED' | 'SCHEDULED' | 'FOREIGN_NUMBER';
   notes?: string;
   duration?: number;
   scheduledAt?: Date;

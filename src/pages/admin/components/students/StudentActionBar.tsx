@@ -24,6 +24,8 @@ interface StudentActionBarProps {
   showAddButton?: boolean;
   hasActiveFilters: boolean;
   onClearFilters: () => void;
+  filterOptions?: { label: string; value: string }[];
+  allFiltersLabel?: string;
 }
 
 export const StudentActionBar: React.FC<StudentActionBarProps> = ({
@@ -36,6 +38,8 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
   onAddClick,
   showAddButton = true,
   onClearFilters,
+  filterOptions,
+  allFiltersLabel = 'All Progress',
 }) => {
   const filters: FilterItem[] = useMemo(
     () => [
@@ -99,16 +103,26 @@ export const StudentActionBar: React.FC<StudentActionBarProps> = ({
         <div className={cn(showAddButton ? 'lg:col-span-3' : 'lg:col-span-4')}>
           <Select value={progressFilter} onValueChange={onProgressChange}>
             <SelectTrigger icon="filter_list">
-              <SelectValue placeholder="All Progress" />
+              <SelectValue placeholder={allFiltersLabel} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All Progress">All Filters</SelectItem>
-              <SelectItem value="At Risk (< 50%)">At Risk (&lt; 50%)</SelectItem>
-              <SelectItem value="Average (50-80%)">Average (50-80%)</SelectItem>
-              <SelectItem value="Excelling (> 80%)">Excelling (&gt; 80%)</SelectItem>
-              <SelectItem value="Last 2 Days Absence">Last 2 Days Absence</SelectItem>
-              <SelectItem value="Last 3 Days Absence">Last 3 Days Absence</SelectItem>
-              <SelectItem value="Last 2 Weeks Absence">Last 2 Weeks Absence</SelectItem>
+              <SelectItem value="All Progress">{allFiltersLabel}</SelectItem>
+              {filterOptions ? (
+                filterOptions.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))
+              ) : (
+                <>
+                  <SelectItem value="At Risk (< 50%)">At Risk (&lt; 50%)</SelectItem>
+                  <SelectItem value="Average (50-80%)">Average (50-80%)</SelectItem>
+                  <SelectItem value="Excelling (> 80%)">Excelling (&gt; 80%)</SelectItem>
+                  <SelectItem value="Last 2 Days Absence">Last 2 Days Absence</SelectItem>
+                  <SelectItem value="Last 3 Days Absence">Last 3 Days Absence</SelectItem>
+                  <SelectItem value="Last 2 Weeks Absence">Last 2 Weeks Absence</SelectItem>
+                </>
+              )}
             </SelectContent>
           </Select>
         </div>

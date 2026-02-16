@@ -48,7 +48,7 @@ export const LogCallModal = <T extends LogCallStudent>({
     'Received',
     'Not Received',
     'Busy',
-    'Left Voicemail',
+    'Foreign Number',
     'Wrong Number',
   ];
 

@@ -144,7 +144,7 @@ Based on postman_collection.json - excludes existing endpoints, adds missing one
 | _id | ObjectId | PK |
 | studentId | ObjectId | Ref: students |
 | srmId | ObjectId | Ref: users |
-| outcome | String | Received, Not Received, Busy, Left Voicemail, Wrong Number, Discord Action |
+| outcome | String | Received, Not Received, Busy, Foreign Number, Wrong Number, Discord Action |
 | note | String | Call notes |
 | date | Date | When call made |
 | createdAt | Date | Auto |

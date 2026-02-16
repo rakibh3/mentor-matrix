@@ -101,6 +101,7 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
             else if (outcome === 'BUSY') outcome = 'Busy';
             else if (outcome === 'FAILED') outcome = 'Not Received';
             else if (outcome === 'SCHEDULED') outcome = 'Not Received';
+            else if (outcome === 'FOREIGN_NUMBER') outcome = 'Foreign Number';
 
             // Normalize date format
             let dateStr = call.date;
@@ -526,7 +527,8 @@ const SrmAnalytics: React.FC<SrmAnalyticsProps> = ({ srmId, srmName, onBack }) =
                       case 'Wrong Number':
                         return 'FAILED';
                       case 'Not Received':
-                      case 'Left Voicemail':
+                      case 'Foreign Number':
+                        return 'FOREIGN_NUMBER';
                       default:
                         return 'NO_ANSWER';
                     }

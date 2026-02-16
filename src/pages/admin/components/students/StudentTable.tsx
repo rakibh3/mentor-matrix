@@ -16,7 +16,7 @@ interface StudentTableProps {
   onEditClick?: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onDeleteClick?: (student: any) => void;
-  onToggleBlock: (email: string) => void;
+  onToggleBlock?: (email: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onLogCall: (student: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -70,10 +70,14 @@ export const StudentTable: React.FC<StudentTableProps> = ({
       onLogCall={onLogCall}
       onViewHistory={onViewHistory}
       onSendEmail={onSendEmail}
-      onDiscordAction={(student, type) => {
-        if (type === 'kick') onDiscordKick?.(student);
-        if (type === 'ban') onDiscordBan?.(student);
-      }}
+      onDiscordAction={
+        onDiscordKick || onDiscordBan
+          ? (student, type) => {
+              if (type === 'kick') onDiscordKick?.(student);
+              if (type === 'ban') onDiscordBan?.(student);
+            }
+          : undefined
+      }
       onSort={onSort}
       sortConfig={sortConfig}
       selectedIds={selectedIds}

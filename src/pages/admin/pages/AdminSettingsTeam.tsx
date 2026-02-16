@@ -28,9 +28,9 @@ interface AdminSettingsTeamProps {}
 const AdminSettingsTeam: React.FC<AdminSettingsTeamProps> = () => {
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [teamMembers, setTeamMembers] = useState([
-    { name: 'Admin User', email: 'admin@devcamp.io', role: 'Super Admin', status: 'Active' },
-    { name: 'Sarah Connor', email: 'sarah@devcamp.io', role: 'Moderator', status: 'Active' },
-    { name: 'James Doe', email: 'james@devcamp.io', role: 'Curriculum Dev', status: 'Inactive' },
+    { name: 'Admin User', email: 'admin@catchasync.com', role: 'Super Admin', status: 'Active' },
+    { name: 'Sarah Connor', email: 'sarah@catchasync.com', role: 'Moderator', status: 'Active' },
+    { name: 'James Doe', email: 'james@catchasync.com', role: 'Curriculum Dev', status: 'Inactive' },
   ]);
 
   const form = useZodForm<InviteTeamMemberInput>({
@@ -123,7 +123,7 @@ const AdminSettingsTeam: React.FC<AdminSettingsTeamProps> = () => {
                     </Badge>
                   </TableCell>
                   <TableCell className="py-6 text-right">
-                    {u.email === 'admin@devcamp.io' ? (
+                    {u.email === 'admin@catchasync.com' ? (
                       <span className="text-primary animate-pulse text-xs font-black tracking-widest uppercase">
                         Session Active
                       </span>
@@ -180,7 +180,7 @@ const AdminSettingsTeam: React.FC<AdminSettingsTeamProps> = () => {
               />
               <FormInput
                 label="Email Address"
-                placeholder="admin@devcamp.io"
+                placeholder="admin@catchasync.com"
                 autoComplete="email"
                 type="email"
                 error={errors.email?.message}
