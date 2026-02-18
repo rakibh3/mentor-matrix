@@ -140,10 +140,22 @@ export const AttendanceForm: React.FC<AttendanceFormProps> = ({ isLoaded, userId
           <FormInput
             label="Module Number"
             icon="layers"
+            type="text"
+            inputMode="numeric"
+            onKeyDown={(e) => {
+              if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
             placeholder="e.g. 4"
             className="focus:border-primary/50 h-14 rounded-2xl border-white/10 bg-white/[0.02] text-lg font-black tracking-tight text-white shadow-inner transition-all focus:bg-white/[0.05]"
             error={errors.module?.message}
-            {...register('module')}
+            {...register('module', {
+              onChange: (e) => {
+                // Strip non-digits and leading zeros
+                e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/^0+/, '');
+              },
+            })}
           />
 
 

@@ -14,6 +14,7 @@ import {
 } from '@/components/ui';
 
 import type { DataTableProps } from './types';
+import { getPageRange } from '@/utils/paginationUtils';
 
 /**
  * DataTable - Reusable data table with pagination and sorting
@@ -134,20 +135,26 @@ export function DataTable<T>({
           </Button>
 
           <div className="flex items-center gap-3">
-            {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((p) => (
-              <Button
-                key={p}
-                variant="ghost"
-                onClick={() => pagination.onPageChange(p)}
-                className={`flex h-12 w-12 items-center justify-center rounded-xl border-2 p-0 text-sm font-black active:scale-90 ${
-                  pagination.currentPage === p
-                    ? 'bg-primary text-background-dark border-primary hover:bg-primary hover:text-background-dark z-10 scale-110 shadow-lg'
-                    : 'text-text-secondary bg-background-dark/40 border-card-border hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                {p}
-              </Button>
-            ))}
+            {getPageRange(pagination.currentPage, pagination.totalPages).map((p, i) =>
+              p === '...' ? (
+                <span key={`dots-${i}`} className="text-gray-600 px-2 font-black">
+                  ...
+                </span>
+              ) : (
+                <Button
+                  key={p}
+                  variant="ghost"
+                  onClick={() => pagination.onPageChange(p as number)}
+                  className={`flex h-12 w-12 items-center justify-center rounded-xl border-2 p-0 text-sm font-black active:scale-90 ${
+                    pagination.currentPage === p
+                      ? 'bg-primary text-background-dark border-primary hover:bg-primary hover:text-background-dark z-10 scale-110 shadow-lg'
+                      : 'text-text-secondary bg-background-dark/40 border-card-border hover:bg-white/5 hover:text-white'
+                  }`}
+                >
+                  {p}
+                </Button>
+              )
+            )}
           </div>
 
           <Button

@@ -11,6 +11,16 @@ interface PaginationProps {
   variant?: 'default' | 'compact';
 }
 
+import { getPageRange } from '@/utils/paginationUtils';
+
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  footerText?: string;
+  variant?: 'default' | 'compact';
+}
+
 export const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
@@ -20,6 +30,8 @@ export const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPages || totalPages === 0;
+
+  const pages = getPageRange(currentPage, totalPages);
 
   if (variant === 'compact') {
     return (
@@ -33,17 +45,22 @@ export const Pagination: React.FC<PaginationProps> = ({
           <Icon name="arrow_back_ios" className="text-sm" /> Prev
         </Button>
         <div className="flex items-center gap-2">
-          {totalPages > 0 &&
-            Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          {pages.map((p, i) =>
+            p === '...' ? (
+              <span key={`dots-${i}`} className="text-gray-600 px-2 font-black">
+                ...
+              </span>
+            ) : (
               <Button
                 key={p}
                 variant="ghost"
-                onClick={() => onPageChange(p)}
+                onClick={() => onPageChange(p as number)}
                 className={`flex size-10 items-center justify-center rounded-lg border-2 p-0 text-sm font-black transition-all active:scale-90 ${currentPage === p ? 'bg-primary text-background-dark border-primary hover:bg-primary hover:text-background-dark z-10 scale-110 shadow-[0_0_15px_rgba(19,236,106,0.2)]' : 'text-text-secondary bg-background-dark/40 border-card-border hover:bg-white/5 hover:text-white'}`}
               >
                 {p}
               </Button>
-            ))}
+            )
+          )}
         </div>
         <Button
           variant="outline"
@@ -75,17 +92,22 @@ export const Pagination: React.FC<PaginationProps> = ({
           <Icon name="chevron_left" className="text-xl" />
         </Button>
         <div className="flex items-center gap-2">
-          {totalPages > 0 &&
-            Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          {pages.map((p, i) =>
+            p === '...' ? (
+              <span key={`dots-${i}`} className="text-gray-600 px-2 font-black">
+                ...
+              </span>
+            ) : (
               <Button
                 key={p}
                 variant="ghost"
-                onClick={() => onPageChange(p)}
+                onClick={() => onPageChange(p as number)}
                 className={`flex size-10 items-center justify-center rounded-lg p-0 text-sm font-black transition-all ${currentPage === p ? 'bg-primary text-background-dark border-primary hover:bg-primary hover:text-background-dark z-10 scale-110 shadow-lg' : 'border-card-border bg-background-dark/30 border text-gray-500 hover:text-white'}`}
               >
                 {p}
               </Button>
-            ))}
+            )
+          )}
         </div>
         <Button
           variant="outline"
@@ -100,3 +122,4 @@ export const Pagination: React.FC<PaginationProps> = ({
     </div>
   );
 };
+
